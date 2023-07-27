@@ -11,7 +11,7 @@ public class UnauthorizedException extends BaseException {
     String message;
 
     public UnauthorizedException(String message) {
-        super(ErrorCode._UNAUTHORIZED);
+        super(ErrorCode._UNAUTHORIZED, message);
         this.message = message;
     }
 
