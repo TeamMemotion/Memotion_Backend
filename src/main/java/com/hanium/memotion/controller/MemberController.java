@@ -7,11 +7,15 @@ import com.hanium.memotion.dto.auth.response.LoginResDto;
 import com.hanium.memotion.dto.auth.response.SignupResDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.BaseResponse;
+import com.hanium.memotion.exception.custom.UnauthorizedException;
 import com.hanium.memotion.service.MailService;
 import com.hanium.memotion.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,10 +40,13 @@ public class MemberController {
 
     // 액세스 토큰 발급
     @PostMapping("/regenerate-token")
-    public BaseResponse<LoginResDto> regenerateAccessToken(@RequestHeader(value = "X-REFRESH-TOKEN", required = true) String refreshToken) throws BaseException {
-        // refreshToken 디코딩 + 유효성 검사
-        LoginResDto loginResDto = memberService.regenerateAccessToken(refreshToken);
-        return BaseResponse.onSuccess(loginResDto);
+    public BaseResponse<LoginResDto> regenerateAccessToken(HttpServletRequest request) throws BaseException {
+        String refreshToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(refreshToken) && refreshToken.startsWith("Bearer ")) {
+            LoginResDto result = memberService.regenerateAccessToken(refreshToken.substring(7));
+            return BaseResponse.onSuccess(result);
+        } else
+            throw new UnauthorizedException("유효하지 않거나 만료된 토큰입니다.");
     }
 
     // 이메일로 비밀번호 찾기 (랜덤하게 생성한 임시 비밀번호 전송)
@@ -47,5 +54,16 @@ public class MemberController {
     public BaseResponse<String> checkPassword(@RequestBody EmailDto emailDto) throws BaseException {
         String password = mailService.sendMail(emailDto.getEmail());
         return BaseResponse.onSuccess(password);
+    }
+
+    // 로그아웃 -> 토큰 만료 (헤더로 refreshToken)
+    @PostMapping("/logout")
+    public BaseResponse<String> logout(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+            String result = memberService.logout(token.substring(7));
+            return BaseResponse.onSuccess(result);
+        } else
+            throw new UnauthorizedException("유효하지 않거나 만료된 토큰입니다.");
     }
 }

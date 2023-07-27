@@ -2,6 +2,7 @@ package com.hanium.memotion.security;
 
 import com.hanium.memotion.dto.auth.TokenDto;
 import com.hanium.memotion.exception.custom.BadRequestException;
+import com.hanium.memotion.exception.custom.TokenExpiredException;
 import com.hanium.memotion.exception.custom.UnauthorizedException;
 import com.hanium.memotion.repository.MemberRepository;
 import com.hanium.memotion.service.UserDetailServiceImpl;
@@ -91,8 +92,14 @@ public class JwtProvider {
             Long memberId = claims.getBody().get("memberId", Long.class);
             log.info("validateToken ------- memberId : " + memberId);
             return true;
-        } catch (Exception e) {
-            throw new UnauthorizedException("만료된 토큰입니다.");
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            throw new UnauthorizedException("잘못된 JWT 서명입니다.");
+        } catch (TokenExpiredException e) {
+            throw new TokenExpiredException("만료된 JWT 토큰입니다.");
+        } catch (UnsupportedJwtException e) {
+            throw new UnsupportedJwtException("지원되지 않는 JWT 토큰입니다.");
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("JWT 토큰이 잘못되었습니다.");
         }
     }
 
@@ -109,8 +116,8 @@ public class JwtProvider {
     }
 
     // 토큰 유효 시간 확인
-    public Long getExpiration(String accessToken) {
-        Date expiration = Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(accessToken).getBody().getExpiration();
+    public Long getExpiration(String token) {
+        Date expiration = Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody().getExpiration();
         Long now = new Date().getTime();
 
         return (expiration.getTime() - now);

@@ -12,9 +12,11 @@ import com.hanium.memotion.exception.base.ErrorCode;
 import com.hanium.memotion.exception.custom.BadRequestException;
 import com.hanium.memotion.exception.custom.InvalidTokenException;
 
+import com.hanium.memotion.exception.custom.UnauthorizedException;
 import com.hanium.memotion.repository.MemberRepository;
 import com.hanium.memotion.security.JwtProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,10 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
+import static com.hanium.memotion.exception.base.ErrorCode.ALREADY_LOGOUT;
+import static com.hanium.memotion.exception.base.ErrorCode.MEMBER_NOT_FOUND;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -79,12 +84,15 @@ public class MemberService {
     @Transactional
     public LoginResDto regenerateAccessToken(String refreshToken) {
         Long memberId = jwtService.getMemberIdFromJwtToken(refreshToken);
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("해당되는 member_id를 찾을 수 없습니다."));
+        log.info("memberId : " + memberId);
 
-        // 리프레시 토큰 유효성 검증
-        if(!refreshToken.equals(member.getRefreshToken()) || !jwtService.validateToken(refreshToken))
-            throw new InvalidTokenException("유효하지 않은 Refresh Token입니다.");
+        Optional<Member> getMember = memberRepository.findById(memberId);
+        if(getMember.isEmpty())
+            throw new BaseException(MEMBER_NOT_FOUND);
+
+        Member member = getMember.get();
+        if(!refreshToken.equals(member.getRefreshToken()))
+            throw new InvalidTokenException("유효하지 않은 Refresh Token입니다");
 
         String newRefreshToken = jwtService.encodeJwtRefreshToken(memberId);
         String newAccessToken = jwtService.encodeJwtToken(new TokenDto(memberId));
@@ -97,15 +105,23 @@ public class MemberService {
 
     // 로그아웃
     @Transactional
-    public void logout(String email) {
-        Optional<Member> getMember = memberRepository.findByEmail(email);
+    public String logout(String accessToken) {
+        if(!jwtService.validateToken(accessToken))
+            throw new UnauthorizedException("유효하지 않거나 만료된 토큰입니다.");
 
+        Long memberId = jwtService.getMemberIdFromJwtToken(accessToken);
+        Optional<Member> getMember = memberRepository.findById(memberId);
         if(getMember.isEmpty())
-            throw new BadRequestException("잘못된 이메일 입니다.");
+            throw new BaseException(MEMBER_NOT_FOUND);
 
         Member member = getMember.get();
+        if(member.getRefreshToken().equals(""))
+            throw new BaseException(ALREADY_LOGOUT);
+
         member.refreshTokenExpires();
         memberRepository.save(member);
+
+        return "로그아웃 성공";
     }
 
     public Long getMemberId(String username) {
