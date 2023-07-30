@@ -52,7 +52,7 @@ public class MemberController {
     // 이메일로 비밀번호 찾기 (랜덤하게 생성한 임시 비밀번호 전송)
     @PostMapping("/check-password")
     public BaseResponse<String> checkPassword(@RequestBody EmailDto emailDto) throws BaseException {
-        String password = mailService.sendMail(emailDto.getEmail());
+        String password = mailService.sendPasswordMail(emailDto.getEmail());
         return BaseResponse.onSuccess(password);
     }
 
@@ -65,5 +65,11 @@ public class MemberController {
             return BaseResponse.onSuccess(result);
         } else
             throw new UnauthorizedException("유효하지 않거나 만료된 토큰입니다.");
+    }
+
+    // 이메일 인증
+    public BaseResponse<String> checkEmail(@RequestBody EmailDto emailDto) throws BaseException {
+        String code = mailService.sendCodeMail(emailDto.getEmail());
+        return BaseResponse.onSuccess(code);
     }
 }
