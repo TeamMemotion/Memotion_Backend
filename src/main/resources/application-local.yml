@@ -7,6 +7,9 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+    # Connection Pool 설정 추가
+    hikari:
+      maximum-pool-size: 20
   jpa:
     hibernate:
       ddl-auto: create
