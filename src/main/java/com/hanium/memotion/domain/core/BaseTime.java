@@ -1,4 +1,4 @@
-package com.hanium.memotion.domain;
+package com.hanium.memotion.domain.core;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

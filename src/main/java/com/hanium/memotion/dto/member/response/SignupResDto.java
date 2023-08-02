@@ -1,6 +1,6 @@
-package com.hanium.memotion.dto.auth.response;
+package com.hanium.memotion.dto.member.response;
 
-import com.hanium.memotion.domain.Member;
+import com.hanium.memotion.domain.member.Member;
 import lombok.Data;
 
 @Data

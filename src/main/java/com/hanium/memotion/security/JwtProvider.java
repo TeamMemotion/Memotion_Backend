@@ -1,11 +1,11 @@
 package com.hanium.memotion.security;
 
-import com.hanium.memotion.dto.auth.TokenDto;
+import com.hanium.memotion.dto.member.TokenDto;
 import com.hanium.memotion.exception.custom.BadRequestException;
 import com.hanium.memotion.exception.custom.TokenExpiredException;
 import com.hanium.memotion.exception.custom.UnauthorizedException;
 import com.hanium.memotion.repository.MemberRepository;
-import com.hanium.memotion.service.UserDetailServiceImpl;
+import com.hanium.memotion.service.member.UserDetailServiceImpl;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

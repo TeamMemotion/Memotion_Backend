@@ -1,15 +1,15 @@
-package com.hanium.memotion.controller;
+package com.hanium.memotion.controller.member;
 
-import com.hanium.memotion.dto.auth.request.EmailDto;
-import com.hanium.memotion.dto.auth.request.LoginReqDto;
-import com.hanium.memotion.dto.auth.request.SignupReqDto;
-import com.hanium.memotion.dto.auth.response.LoginResDto;
-import com.hanium.memotion.dto.auth.response.SignupResDto;
+import com.hanium.memotion.dto.member.request.EmailDto;
+import com.hanium.memotion.dto.member.request.LoginReqDto;
+import com.hanium.memotion.dto.member.request.SignupReqDto;
+import com.hanium.memotion.dto.member.response.LoginResDto;
+import com.hanium.memotion.dto.member.response.SignupResDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.BaseResponse;
 import com.hanium.memotion.exception.custom.UnauthorizedException;
-import com.hanium.memotion.service.MailService;
-import com.hanium.memotion.service.MemberService;
+import com.hanium.memotion.service.member.MailService;
+import com.hanium.memotion.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;

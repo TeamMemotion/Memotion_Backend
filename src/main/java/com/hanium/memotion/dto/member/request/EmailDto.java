@@ -1,4 +1,4 @@
-package com.hanium.memotion.dto.auth.request;
+package com.hanium.memotion.dto.member.request;
 
 import lombok.AccessLevel;
 import lombok.Getter;

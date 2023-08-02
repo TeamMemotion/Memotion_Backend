@@ -1,5 +1,6 @@
-package com.hanium.memotion.domain;
+package com.hanium.memotion.domain.member;
 
+import com.hanium.memotion.domain.core.BaseTime;
 import io.jsonwebtoken.lang.Assert;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,9 +38,6 @@ public class Member extends BaseTime implements UserDetails {
     @Column(name = "password", nullable = true)
     private String password;
 
-    @Column(name = "phone", nullable = false)
-    private String phone;
-
     @Column(name = "provider", nullable = false)
     @ColumnDefault("'APP'")
     @Enumerated(EnumType.STRING)
@@ -55,11 +53,10 @@ public class Member extends BaseTime implements UserDetails {
     private LocalDateTime refreshTokenExpiresAt;
 
     @Builder
-    public Member(String email, String username, String password, String phone, String image) {
+    public Member(String email, String username, String password, String image) {
         this.email = email;
         this.username = username;
         this.password = password;
-        this.phone = phone;
         this.image = image;
         this.refreshToken = "";
         this.refreshTokenExpiresAt = LocalDateTime.now();
