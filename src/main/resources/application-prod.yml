@@ -7,8 +7,6 @@ spring:
     url: jdbc:mysql://memotiondb.c9xq9wterpoj.ap-northeast-2.rds.amazonaws.com:3306/memotionDB?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: admin
     password: rootroot
-    hikari:
-      maximum-pool-size: 20
 
   config:
     activate:
