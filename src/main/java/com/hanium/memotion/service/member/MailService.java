@@ -115,11 +115,6 @@ public class MailService {
 
     // 메일로 인증번호 발송
     public String sendCodeMail(String email) throws BaseException {
-        //이메일 중복 확인
-        Optional<Member> getMember = memberRepository.findByEmail(email);
-        if(getMember.isEmpty())
-            throw new BadRequestException("해당하는 회원을 찾을 수 없습니다.");
-
         String code = createCode();
         try{
             MimeMessage mimeMessage = createPasswordMessage(code, email);
