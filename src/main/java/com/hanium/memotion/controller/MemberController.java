@@ -68,6 +68,7 @@ public class MemberController {
     }
 
     // 이메일 인증
+    @PostMapping("/check-email")
     public BaseResponse<String> checkEmail(@RequestBody EmailDto emailDto) throws BaseException {
         String code = mailService.sendCodeMail(emailDto.getEmail());
         return BaseResponse.onSuccess(code);
