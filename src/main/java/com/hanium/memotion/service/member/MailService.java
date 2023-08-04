@@ -1,7 +1,7 @@
-package com.hanium.memotion.service;
+package com.hanium.memotion.service.member;
 
 
-import com.hanium.memotion.domain.Member;
+import com.hanium.memotion.domain.member.Member;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.ErrorCode;
 import com.hanium.memotion.exception.custom.BadRequestException;

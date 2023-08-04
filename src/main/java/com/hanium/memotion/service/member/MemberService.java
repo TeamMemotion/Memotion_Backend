@@ -1,12 +1,12 @@
-package com.hanium.memotion.service;
+package com.hanium.memotion.service.member;
 
-import com.hanium.memotion.domain.Member;
+import com.hanium.memotion.domain.member.Member;
 
-import com.hanium.memotion.dto.auth.TokenDto;
-import com.hanium.memotion.dto.auth.request.LoginReqDto;
-import com.hanium.memotion.dto.auth.request.SignupReqDto;
-import com.hanium.memotion.dto.auth.response.LoginResDto;
-import com.hanium.memotion.dto.auth.response.SignupResDto;
+import com.hanium.memotion.dto.member.TokenDto;
+import com.hanium.memotion.dto.member.request.LoginReqDto;
+import com.hanium.memotion.dto.member.request.SignupReqDto;
+import com.hanium.memotion.dto.member.response.LoginResDto;
+import com.hanium.memotion.dto.member.response.SignupResDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.ErrorCode;
 import com.hanium.memotion.exception.custom.BadRequestException;
@@ -45,7 +45,6 @@ public class MemberService {
                 .email(signupReqDto.getEmail())
                 .username(signupReqDto.getUsername())
                 .password(passwordEncoder.encode(signupReqDto.getPassword()))
-                .phone(signupReqDto.getPhone())
                 .image(signupReqDto.getImage())
                 .build();
 
