@@ -1,5 +1,6 @@
 package com.hanium.memotion.domain;
 
+import com.hanium.memotion.domain.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

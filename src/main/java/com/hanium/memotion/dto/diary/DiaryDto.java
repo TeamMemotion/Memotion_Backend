@@ -1,13 +1,10 @@
 package com.hanium.memotion.dto.diary;
 
 import com.hanium.memotion.domain.Diary;
-import com.hanium.memotion.domain.Member;
+import com.hanium.memotion.domain.member.Member;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.*;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.Date;

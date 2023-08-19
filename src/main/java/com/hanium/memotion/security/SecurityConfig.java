@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         // 로그인 개발 끝나면 "/**" 경로에서 삭제
-        web.ignoring().antMatchers("/member/**", "/h2-console/**", "/sample/**", "/sentiment");
+        web.ignoring().antMatchers("/member/**", "/h2-console/**", "/sample/**", "/sentiment", "/gpt-sentiment");
     }
 
     // 스프링시큐리티 설정
@@ -45,12 +45,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 세션을 사용하지 않기 때문에 STATELESS 로 설정
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtService))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtProvider))
                 .authorizeRequests()
                 .antMatchers("/member/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/sample").permitAll()
                 .antMatchers("/sentiment").permitAll()
+                .antMatchers("/gpt-sentiment").permitAll()
                 //.antMatchers("/**").permitAll()     // 로그인 개발 끝나면 삭제
                 .anyRequest().authenticated()
                 .and()
@@ -74,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowedMethods(Arrays.asList("*")); // 모든 get,post,patch,put,delete 요청 허용
         configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 ip 응답을 허용
         configuration.setAllowCredentials(true); // 내 서버가 응답할 때 json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
-        configuration.setMaxAge(3600L);
+        configuration.setMaxAge(7200L);
 
         return configuration;
     }
