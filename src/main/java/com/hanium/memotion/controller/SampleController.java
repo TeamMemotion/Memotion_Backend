@@ -15,12 +15,6 @@ public class SampleController {
     public String sample() {
         return "sample";
     }
-
-    @GetMapping("/deployTest")
-    public String deployTest() {
-        return "This is deploy test.";
-    }
-    
     @GetMapping("/loginTest")
     public String loginTest(@AuthenticationPrincipal Member member) {
         return "현재 로그인한 유저의 memberId = " + member.getId();

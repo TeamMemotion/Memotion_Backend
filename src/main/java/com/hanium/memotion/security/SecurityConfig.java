@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         // 로그인 개발 끝나면 "/**" 경로에서 삭제
-        web.ignoring().antMatchers("/member/**", "/h2-console/**", "/sample/**");
+        web.ignoring().antMatchers("/member/**", "/h2-console/**", "/sample/**", "/sentiment");
     }
 
     // 스프링시큐리티 설정
@@ -45,11 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 세션을 사용하지 않기 때문에 STATELESS 로 설정
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtProvider))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtService))
                 .authorizeRequests()
                 .antMatchers("/member/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/sample/**").permitAll()
+                .antMatchers("/sample").permitAll()
+                .antMatchers("/sentiment").permitAll()
                 //.antMatchers("/**").permitAll()     // 로그인 개발 끝나면 삭제
                 .anyRequest().authenticated()
                 .and()
