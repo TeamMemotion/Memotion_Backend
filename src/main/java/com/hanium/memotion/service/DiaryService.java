@@ -1,7 +1,7 @@
 package com.hanium.memotion.service;
 
 import com.hanium.memotion.domain.Diary;
-import com.hanium.memotion.domain.Member;
+import com.hanium.memotion.domain.member.Member;
 import com.hanium.memotion.dto.diary.DiaryDto;
 import com.hanium.memotion.repository.DiaryRepository;
 import com.hanium.memotion.repository.MemberRepository;

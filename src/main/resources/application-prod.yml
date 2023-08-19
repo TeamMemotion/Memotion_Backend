@@ -47,3 +47,10 @@ spring:
 
 jwt:
   secret: a2FrYW9jbG91ZHNjaG9vbGxvY2Fsa2FrYW9jbG91ZGMK
+
+sentiment:
+  clientId: 12t89dsiye
+  clientSecret: 0gdTZDA6vUITTg2HXPIgPWCsMV53lb8PaYAVfJFQ
+
+chatgpt:
+  key: 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

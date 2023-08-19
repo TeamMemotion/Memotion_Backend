@@ -1,6 +1,8 @@
 package com.hanium.memotion.controller;
 
 
+import com.hanium.memotion.service.EmotionAnalyzeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import java.io.BufferedReader;
@@ -13,9 +15,11 @@ import java.net.URLEncoder;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class EmotionAnalyzeController {
 
     @Value("${sentiment.clientId}")
@@ -24,6 +28,7 @@ public class EmotionAnalyzeController {
     @Value("${sentiment.clientSecret}")
     private String clientSecret;
 
+    private final EmotionAnalyzeService emotionAnalyzeService;
 
     @GetMapping("/sentiment")
     public String sentiment() {
@@ -80,6 +85,8 @@ public class EmotionAnalyzeController {
         return response.toString();
     }
 
-
-
+    @GetMapping("/gpt-sentiment")
+    public String createGptComment(@RequestBody String content) {
+        return emotionAnalyzeService.createGptComment(content);
+    }
 }
