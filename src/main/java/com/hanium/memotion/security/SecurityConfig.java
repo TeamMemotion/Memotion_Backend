@@ -22,17 +22,17 @@ import java.util.Arrays;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity  // 스프링 시큐리티 필터가 필터 체인에 등록
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtProvider jwtService;
+    private final JwtProvider jwtProvider;
     private final JwtExceptionFilter jwtExceptionFilter;
 
     // 스프링시큐리티 앞단 설정
     @Override
     public void configure(WebSecurity web) {
         // 로그인 개발 끝나면 "/**" 경로에서 삭제
-        web.ignoring().antMatchers("/member/**", "/h2-console/**", "/sample", "/sentiment");
+        web.ignoring().antMatchers("/member/**", "/h2-console/**", "/sample/**", "/sentiment");
     }
 
     // 스프링시큐리티 설정

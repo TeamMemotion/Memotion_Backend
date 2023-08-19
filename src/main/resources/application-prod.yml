@@ -1,0 +1,49 @@
+server:
+  port: 9000
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://memotiondb.c9xq9wterpoj.ap-northeast-2.rds.amazonaws.com:3306/memotionDB?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: rootroot
+
+  config:
+    activate:
+      on-profile: prod
+  #    import: application-secret.yml
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    database: mysql
+    # Initial Data config
+    defer-datasource-initialization: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: memotion0721@gmail.com
+    password: sqiwauedghkheybi
+
+    properties:
+      debug: true
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            trust: smtp.gmail.com
+          starttls:
+            enable: true
+
+#  redis:
+#    host: localhost
+#    port: 6379
+
+jwt:
+  secret: a2FrYW9jbG91ZHNjaG9vbGxvY2Fsa2FrYW9jbG91ZGMK
