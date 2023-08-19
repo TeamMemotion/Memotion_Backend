@@ -32,6 +32,10 @@ spring:
 jwt:
   secret: ${JWT_SECRET}
 
+sentiment:
+  clientId: ${NAVER_CLIENT_ID}
+  clientSecret: ${NAVER_CLIENT_SECRET}
+
 
 
 
