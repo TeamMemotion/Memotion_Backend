@@ -41,4 +41,8 @@ public class DiaryService {
     public List<Diary> findByDate(Date date, Long memberId) {
         return diaryRepository.findDiaryByCreatedDateAndMemberId(date,memberId);
     }
+
+    public DiaryContent findByContentDate(Date date, Long memberId) {
+        return diaryContentRepository.findDiaryByCreatedDateAndMemberId(date,memberId);
+    }
 }

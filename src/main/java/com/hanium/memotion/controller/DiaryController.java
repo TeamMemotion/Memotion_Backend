@@ -1,6 +1,7 @@
 package com.hanium.memotion.controller;
 
 import com.hanium.memotion.domain.Diary;
+import com.hanium.memotion.domain.DiaryContent;
 import com.hanium.memotion.dto.diary.DiaryContentDto;
 import com.hanium.memotion.dto.diary.DiaryDto;
 import com.hanium.memotion.service.DiaryService;
@@ -33,6 +34,8 @@ public class DiaryController {
 
         return diaryService.saveContent(diaryContentDto);
     }
+
+
     //전제조회
     @GetMapping("/list")
     public List<DiaryDto.Response> postList()throws Exception{
@@ -52,12 +55,21 @@ public class DiaryController {
 
         List<Diary> diaryList = diaryService.findByDate(date,memberId);
 
+        DiaryContent diaryContentList = diaryService.findByContentDate(date,memberId);
+
         List<DiaryDto.Response> diaryListResponse = null;
         for(Diary diary : diaryList){
             diaryListResponse.add(new DiaryDto.Response(diary));
         }
         return diaryListResponse;
     }
+
+    @PostMapping("/date/content/{memberId}")
+    public DiaryContentDto.Response localDateContentList (@RequestParam("Date") Date date, @PathVariable("memberId") Long memberId) {
+        DiaryContent diaryContent = diaryService.findByContentDate(date,memberId);
+        return new DiaryContentDto.Response(diaryContent);
+    }
+
     @PostMapping("/update")
     public Long updatePost(@RequestPart("diaryDto") DiaryDto.Request diaryDto)throws Exception{
         System.out.println(diaryDto);
