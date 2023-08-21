@@ -1,6 +1,7 @@
 package com.hanium.memotion.controller;
 
 import com.hanium.memotion.domain.Diary;
+import com.hanium.memotion.dto.diary.DiaryContentDto;
 import com.hanium.memotion.dto.diary.DiaryDto;
 import com.hanium.memotion.service.DiaryService;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +20,18 @@ public class DiaryController {
 
     private final DiaryService diaryService;
 
-    @PostMapping("/save")
-    public Long post(@RequestPart("diaryDto") DiaryDto.Request diaryDto)throws Exception{
+    @PostMapping("/saveEmotion")
+    public Long postEmotion(@RequestPart("diaryDto") DiaryDto.Request diaryDto)throws Exception{
         System.out.println(diaryDto);
 
         return diaryService.save(diaryDto);
+    }
+
+    @PostMapping("/saveContent")
+    public Long postContent(@RequestPart("diaryContentDto") DiaryContentDto.Request diaryContentDto)throws Exception{
+        System.out.println(diaryContentDto);
+
+        return diaryService.saveContent(diaryContentDto);
     }
     //전제조회
     @GetMapping("/list")
@@ -56,4 +64,5 @@ public class DiaryController {
 
         return diaryService.save(diaryDto);
     }
+
 }
