@@ -13,7 +13,9 @@ public class DiaryDto {
     @NoArgsConstructor
     @Data
     public static class Request{
-        private Point place;
+        private Double longitude;
+
+        private Double latitude;
 
         private String emotion;
 
@@ -21,11 +23,12 @@ public class DiaryDto {
 
         private boolean share;
 
-        private Member memberId;
+        private Long memberId;
 
         public Diary toEntity(Member memberId) {
             return Diary.builder()
-                    .place(place)
+                    .latitude(latitude)
+                    .longitude(longitude)
                     .emotion(emotion)
                     .keyWord(keyWord)
                     .share(share)
@@ -34,11 +37,12 @@ public class DiaryDto {
         }
 
         public Request(Diary diary) {
-            this.place= diary.getPlace();
+            this.latitude= diary.getLatitude();
+            this.longitude= diary.getLongitude();
             this.emotion = diary.getEmotion();
             this.keyWord = diary.getKeyWord();
             this.share = diary.isShare();
-            this.memberId = diary.getMemberId();
+            //this.memberId = diary.getMemberId();
         }
     }
 
@@ -47,7 +51,9 @@ public class DiaryDto {
     public static class Response{
 
         private Long diaryId;
-        private Point place;
+        private Double longitude;
+
+        private Double latitude;
         private String emotion;
         private String keyWord;
         private Date createdDate;
@@ -57,7 +63,8 @@ public class DiaryDto {
 
         public Response(Diary diary) {
             this.diaryId = diary.getDiaryId();
-            this.place= diary.getPlace();
+            this.latitude= diary.getLatitude();
+            this.longitude= diary.getLongitude();
             this.emotion = diary.getEmotion();
             this.keyWord = diary.getKeyWord();
             this.createdDate = diary.getCreatedDate();

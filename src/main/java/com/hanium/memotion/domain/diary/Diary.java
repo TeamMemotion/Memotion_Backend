@@ -27,9 +27,10 @@ public class Diary {
     @Column(name = "diary_id")
     private Long diaryId;
 
-    @Column(columnDefinition = "GEOMETRY")
-    private Point place;
-
+    @Column
+    private Double longitude;
+    @Column
+    private Double latitude;
     @Column
     private String emotion;
 

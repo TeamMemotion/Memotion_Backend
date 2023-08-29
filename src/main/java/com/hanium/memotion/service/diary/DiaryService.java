@@ -24,8 +24,12 @@ public class DiaryService {
     private final DiaryContentRepository diaryContentRepository;
     @Transactional
     public Long save(DiaryDto.Request diaryDto) {
-        Member user = memberRepository.findById(diaryDto.getMemberId().getId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryDto.getMemberId().getId()));
+        System.out.println(diaryDto.getMemberId());
+        Long a = 1L;
+        System.out.println(memberRepository.findById(1L));
+        Member user = memberRepository.findById(diaryDto.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryDto.getMemberId()));
+        System.out.println(diaryDto.getMemberId());
         return diaryRepository.save(diaryDto.toEntity(user)).getDiaryId();
     }
 
