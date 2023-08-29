@@ -29,6 +29,8 @@ public enum ErrorCode { // BaseResponseStatus와 같은 역할
     TOKEN_EXPIRED(2011, "토큰 유효시간이 만료되었습니다.", BAD_REQUEST),
     ALREADY_LOGOUT(2012, "이미 로그아웃 되었습니다.", BAD_REQUEST),
 
+    EMPTY_DIARY(2013, "다이어리 내용이 없습니다.", BAD_REQUEST),
+
     /**
      * 3000 : Response 오류
      */
