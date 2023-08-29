@@ -4,12 +4,8 @@ import com.hanium.memotion.domain.diary.Diary;
 import com.hanium.memotion.domain.diary.DiaryContent;
 import com.hanium.memotion.dto.diary.DiaryContentDto;
 import com.hanium.memotion.dto.diary.DiaryDto;
-<<<<<<< HEAD:src/main/java/com/hanium/memotion/controller/diary/DiaryController.java
 import com.hanium.memotion.service.diary.DiaryService;
-=======
 import com.hanium.memotion.exception.base.BaseResponse;
-import com.hanium.memotion.service.DiaryService;
->>>>>>> 02b28d5 (feat : content CRU):src/main/java/com/hanium/memotion/controller/DiaryController.java
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
