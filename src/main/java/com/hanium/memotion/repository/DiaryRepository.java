@@ -1,7 +1,7 @@
 package com.hanium.memotion.repository;
 
 
-import com.hanium.memotion.domain.Diary;
+import com.hanium.memotion.domain.diary.Diary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

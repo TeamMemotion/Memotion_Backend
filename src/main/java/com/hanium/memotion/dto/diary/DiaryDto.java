@@ -1,6 +1,6 @@
 package com.hanium.memotion.dto.diary;
 
-import com.hanium.memotion.domain.Diary;
+import com.hanium.memotion.domain.diary.Diary;
 import com.hanium.memotion.domain.member.Member;
 import lombok.Data;
 import lombok.NoArgsConstructor;

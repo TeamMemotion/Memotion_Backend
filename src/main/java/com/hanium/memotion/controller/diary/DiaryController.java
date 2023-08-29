@@ -1,21 +1,18 @@
-package com.hanium.memotion.controller;
+package com.hanium.memotion.controller.diary;
 
-import com.hanium.memotion.domain.Diary;
-import com.hanium.memotion.domain.DiaryContent;
+import com.hanium.memotion.domain.diary.Diary;
+import com.hanium.memotion.domain.diary.DiaryContent;
 import com.hanium.memotion.dto.diary.DiaryContentDto;
 import com.hanium.memotion.dto.diary.DiaryDto;
-import com.hanium.memotion.service.DiaryService;
+import com.hanium.memotion.service.diary.DiaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("diary")
+@RequestMapping("/diary")
 @RequiredArgsConstructor
 public class DiaryController {
 

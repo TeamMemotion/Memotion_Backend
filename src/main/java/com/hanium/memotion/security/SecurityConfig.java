@@ -49,10 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/member/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/sample").permitAll()
+                .antMatchers("/sample/**").permitAll()
                 .antMatchers("/sentiment").permitAll()
                 .antMatchers("/gpt-sentiment").permitAll()
-                //.antMatchers("/**").permitAll()     // 로그인 개발 끝나면 삭제
                 .anyRequest().authenticated()
                 .and()
                 // JwtAuthenticationFilter 보다 jwtExceptionFilter를 먼저 실행
