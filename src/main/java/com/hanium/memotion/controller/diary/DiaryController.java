@@ -7,10 +7,13 @@ import com.hanium.memotion.dto.diary.DiaryDto;
 import com.hanium.memotion.service.diary.DiaryService;
 import com.hanium.memotion.exception.base.BaseResponse;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/diary")
@@ -18,6 +21,7 @@ import java.util.List;
 public class DiaryController {
 
     private final DiaryService diaryService;
+    private final ModelMapper modelMapper;
 
     @PostMapping("/saveEmotion")
     public BaseResponse<Long> postEmotion(@RequestPart("diaryDto") DiaryDto.Request diaryDto)throws Exception{
@@ -36,13 +40,17 @@ public class DiaryController {
 
     //전제조회
     @GetMapping("/list")
-    public List<Diary> postList()throws Exception{
+    public List<DiaryDto.Response> postList()throws Exception{
         List<Diary> diaryList = diaryService.findByAll();
-        List<DiaryDto.Response> diaryListResponse = null;
-        for(Diary diary : diaryList){
-            diaryListResponse.add(new DiaryDto.Response(diary));
-        }
-        return diaryList;
+        List<DiaryDto.Response> resultDto = diaryList.stream()
+                                            .map(data-> modelMapper.map(data, DiaryDto.Response.class))
+                                            .collect(Collectors.toList());
+//        List<DiaryDto.Response> diaryListResponse = (List<DiaryDto.Response>) new DiaryDto.Response();
+//        for(Diary diary : diaryList){
+//            System.out.println(diary.getDiaryId());
+//            diaryListResponse.add(diary);
+//        }
+        return resultDto;
     }
 
     //날짜별 조회
