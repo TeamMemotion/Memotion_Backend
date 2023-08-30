@@ -1,5 +1,6 @@
 package com.hanium.memotion.domain.diary;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hanium.memotion.domain.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.awt.*;
@@ -39,7 +41,10 @@ public class Diary {
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    //@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
     private Date createdDate;
+
     @LastModifiedDate
     @Column
     private LocalDateTime updatedDate;

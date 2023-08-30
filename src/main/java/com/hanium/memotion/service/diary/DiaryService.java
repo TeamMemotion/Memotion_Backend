@@ -24,26 +24,32 @@ public class DiaryService {
     private final DiaryContentRepository diaryContentRepository;
     @Transactional
     public Long save(DiaryDto.Request diaryDto) {
-        System.out.println(diaryDto.getMemberId());
-        Long a = 1L;
-        System.out.println(memberRepository.findById(1L));
+        //System.out.println(diaryDto.getMemberId());
+        //Long a = 1L;
+
         Member user = memberRepository.findById(diaryDto.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryDto.getMemberId()));
         System.out.println(diaryDto.getMemberId());
+
+        //System.out.println(diaryRepository.save(diaryDto.toEntity(user)).getCreatedDate());
+
         return diaryRepository.save(diaryDto.toEntity(user)).getDiaryId();
     }
 
     @Transactional
     public Long saveContent(DiaryContentDto.Request diaryDto) {
-        Member user = memberRepository.findById(diaryDto.getMemberId().getId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryDto.getMemberId().getId()));
+        Member user = memberRepository.findById(diaryDto.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryDto.getMemberId()));
         return diaryContentRepository.save(diaryDto.toEntity(user)).getDiaryContentId();
     }
     public List<Diary> findByAll() {
         return diaryRepository.findAll();
     }
     public List<Diary> findByDate(Date date, Long memberId) {
-        return diaryRepository.findDiaryByCreatedDateAndMemberId(date,memberId);
+        System.out.println(date + " "+ memberId);
+        Member user = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + memberId));
+        return diaryRepository.findDiaryByCreatedDateAndMemberId(date,user);
     }
 
     public DiaryContent findByContentDate(Date date, Long memberId) {
