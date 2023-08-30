@@ -2,13 +2,15 @@ package com.hanium.memotion.dto.diary;
 
 import com.hanium.memotion.domain.diary.Diary;
 import com.hanium.memotion.domain.member.Member;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.Date;
-
+@Builder
 public class DiaryDto {
     @NoArgsConstructor
     @Data
@@ -45,7 +47,7 @@ public class DiaryDto {
             //this.memberId = diary.getMemberId();
         }
     }
-
+    @AllArgsConstructor
     @NoArgsConstructor
     @Data
     public static class Response{
@@ -59,8 +61,9 @@ public class DiaryDto {
         private Date createdDate;
         private LocalDateTime updatedDate;
         private boolean share;
-        private Member memberId;
+        private Long memberId;
 
+        @Builder
         public Response(Diary diary) {
             this.diaryId = diary.getDiaryId();
             this.latitude= diary.getLatitude();
@@ -70,7 +73,8 @@ public class DiaryDto {
             this.createdDate = diary.getCreatedDate();
             this.updatedDate = diary.getUpdatedDate();
             this.share = diary.isShare();
-            this.memberId = diary.getMemberId();
+            this.memberId = diary.getMemberId().getId();
         }
+
     }
 }

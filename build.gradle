@@ -60,6 +60,8 @@ dependencies {
 	// Gson 라이브러리로1 Json 파싱
 	implementation 'org.jsoup:jsoup:1.14.2'
 	implementation 'com.google.code.gson:gson:2.8.7'
+    // Model mapper
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
 }
 
 
