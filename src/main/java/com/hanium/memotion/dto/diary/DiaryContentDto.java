@@ -16,7 +16,7 @@ public class DiaryContentDto {
 
         private String content;
 
-        private Member memberId;
+        private Long memberId;
 
         public DiaryContent toEntity(Member memberId) {
             return DiaryContent.builder()
@@ -29,7 +29,7 @@ public class DiaryContentDto {
         public Request(DiaryContent diarycontent) {
             this.title= diarycontent.getTitle();
             this.content = diarycontent.getContent();
-            this.memberId = diarycontent.getMemberId();
+            this.memberId = diarycontent.getMemberId().getId();
         }
     }
 

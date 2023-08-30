@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -23,24 +26,24 @@ public class DiaryController {
     private final DiaryService diaryService;
     private final ModelMapper modelMapper;
 
-    @PostMapping("/saveEmotion")
+    @PostMapping("/save-emotion")
     public BaseResponse<Long> postEmotion(@RequestPart("diaryDto") DiaryDto.Request diaryDto)throws Exception{
         System.out.println(diaryDto);
         Long result = diaryService.save(diaryDto);
         return BaseResponse.onSuccess(result);
     }
 
-    @PostMapping("/saveContent")
-    public Long postContent(@RequestPart("diaryContentDto") DiaryContentDto.Request diaryContentDto)throws Exception{
+    @PostMapping("/save-content")
+    public BaseResponse<Long> postContent(@RequestPart("diaryContentDto") DiaryContentDto.Request diaryContentDto)throws Exception{
         System.out.println(diaryContentDto);
-
-        return diaryService.saveContent(diaryContentDto);
+        Long result = diaryService.saveContent(diaryContentDto);
+        return BaseResponse.onSuccess(result);
     }
 
 
     //전제조회
     @GetMapping("/list")
-    public List<DiaryDto.Response> postList()throws Exception{
+    public BaseResponse<List<DiaryDto.Response>> postList()throws Exception{
         List<Diary> diaryList = diaryService.findByAll();
         List<DiaryDto.Response> resultDto = diaryList.stream()
                                             .map(data-> modelMapper.map(data, DiaryDto.Response.class))
@@ -50,18 +53,22 @@ public class DiaryController {
 //            System.out.println(diary.getDiaryId());
 //            diaryListResponse.add(diary);
 //        }
-        return resultDto;
+        return BaseResponse.onSuccess(resultDto);
     }
 
     //날짜별 조회
     @PostMapping("/date/{memberId}")
-    public List<DiaryDto.Response> localDateList (@RequestParam("Date") Date date, @PathVariable("memberId") Long memberId) {
+    public List<DiaryDto.Response> localDateList (@RequestParam("Date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
 
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        //Date date1 = (Date) formatter.parse(date);
 
-        List<Diary> diaryList = diaryService.findByDate(date,memberId);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1 = format.parse(date);
+        System.out.println(date1);
+        List<Diary> diaryList = diaryService.findByDate(date1,memberId);
 
-        DiaryContent diaryContentList = diaryService.findByContentDate(date,memberId);
+        DiaryContent diaryContentList = diaryService.findByContentDate(date1,memberId);
 
         List<DiaryDto.Response> diaryListResponse = null;
         for(Diary diary : diaryList){
