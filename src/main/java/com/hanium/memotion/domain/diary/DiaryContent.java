@@ -37,4 +37,10 @@ public class DiaryContent {
     @JoinColumn(name = "member_Id")
     private Member memberId;
 
+    public void update(String title,String content){
+        this.title=title;
+        this.content=content;
+    }
+
+
 }

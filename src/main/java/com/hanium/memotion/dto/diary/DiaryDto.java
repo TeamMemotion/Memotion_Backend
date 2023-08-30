@@ -19,6 +19,7 @@ public class DiaryDto {
     @NoArgsConstructor
     @Data
     public static class Request{
+        private  Long diaryId;
         private Double longitude;
 
         private Double latitude;
