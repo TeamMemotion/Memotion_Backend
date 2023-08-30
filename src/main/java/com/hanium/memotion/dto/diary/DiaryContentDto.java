@@ -11,7 +11,7 @@ public class DiaryContentDto {
     @NoArgsConstructor
     @Data
     public static class Request{
-
+        private Long diaryContentId;
         private String title;
 
         private String content;
@@ -20,6 +20,7 @@ public class DiaryContentDto {
 
         public DiaryContent toEntity(Member memberId) {
             return DiaryContent.builder()
+                    .diaryContentId(diaryContentId)
                     .title(title)
                     .content(content)
                     .memberId(memberId)
@@ -27,6 +28,7 @@ public class DiaryContentDto {
         }
 
         public Request(DiaryContent diarycontent) {
+            this.diaryContentId=diarycontent.getDiaryContentId();
             this.title= diarycontent.getTitle();
             this.content = diarycontent.getContent();
             this.memberId = diarycontent.getMemberId().getId();

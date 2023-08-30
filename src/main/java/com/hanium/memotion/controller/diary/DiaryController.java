@@ -83,11 +83,18 @@ public class DiaryController {
         return new DiaryContentDto.Response(diaryContent);
     }
 
-    @PostMapping("/update")
-    public Long updatePost(@RequestPart("diaryDto") DiaryDto.Request diaryDto)throws Exception{
-        System.out.println(diaryDto);
 
-        return diaryService.save(diaryDto);
+    @PostMapping("/update-content")
+    public BaseResponse<DiaryContent> updateContent(@RequestPart("diaryContentDto") DiaryContentDto.Request diaryDto)throws Exception{
+        //System.out.println(diaryDto);
+
+        return BaseResponse.onSuccess(diaryService.diaryContentUpdate(diaryDto));
+    }
+    @PostMapping("/update-emotion")
+    public BaseResponse<Diary> updateEmotion(@RequestPart("diaryDto") DiaryDto.Request diaryDto)throws Exception{
+        //System.out.println(diaryDto);
+
+        return BaseResponse.onSuccess(diaryService.diaryEmotionUpdate(diaryDto));
     }
 
 }

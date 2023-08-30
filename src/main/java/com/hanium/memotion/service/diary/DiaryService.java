@@ -55,4 +55,25 @@ public class DiaryService {
     public DiaryContent findByContentDate(Date date, Long memberId) {
         return diaryContentRepository.findDiaryByCreatedDateAndMemberId(date,memberId);
     }
+    @Transactional
+    public Diary diaryEmotionUpdate(DiaryDto.Request diaryDto){
+
+        Diary diary= diaryRepository.findById(diaryDto.getDiaryId()).orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id:"+diaryDto.getDiaryId()));
+        Member user = memberRepository.findById(diaryDto.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diary.getMemberId()));
+        diary.update(diaryDto.getLatitude(),diaryDto.getLongitude(),diaryDto.getEmotion(),diaryDto.getKeyWord(),diaryDto.isShare());
+        diaryRepository.save(diary);
+        return diaryRepository.findById(diary.getDiaryId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diary.getMemberId()));
+    }
+
+    @Transactional
+    public DiaryContent diaryContentUpdate(DiaryContentDto.Request diaryContentDto){
+
+        DiaryContent diaryContent= diaryContentRepository.findById(diaryContentDto.getDiaryContentId()).orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id:"+diaryContentDto.getDiaryContentId()));
+        Member user = memberRepository.findById(diaryContent.getMemberId().getId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryContent.getMemberId().getId()));
+        diaryContent.update(diaryContentDto.getTitle(), diaryContent.getContent());
+        diaryContentRepository.save(diaryContent);
+        return diaryContentRepository.findById(diaryContentDto.getDiaryContentId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryContent.getMemberId().getId()));
+    }
 }

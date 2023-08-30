@@ -53,4 +53,12 @@ public class Diary {
     @ManyToOne
     @JoinColumn(name = "member_Id")
     private Member memberId;
+
+    public void update(Double latitude, Double longitude, String emotion, String keyWord, boolean share){
+        this.latitude=latitude;
+        this.longitude=longitude;
+        this.emotion=emotion;
+        this.keyWord=keyWord;
+        this.share=share;
+    }
 }
