@@ -57,8 +57,8 @@ public class DiaryController {
     }
 
     //날짜별 조회
-    @PostMapping("/date/{memberId}")
-    public List<DiaryDto.Response> localDateList (@RequestParam("Date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
+    @GetMapping("/{date}/{memberId}")
+    public List<DiaryDto.Response> localDateList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
 
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         //Date date1 = (Date) formatter.parse(date);
