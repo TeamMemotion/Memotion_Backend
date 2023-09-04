@@ -15,6 +15,7 @@ import javax.persistence.*;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Builder
@@ -41,10 +42,8 @@ public class Diary {
     private String keyWord;
 
     @Column
-    @CreatedDate
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     //@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
-    private LocalDateTime createdDate;
+    private String createdDate; //= LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));;
 
     @LastModifiedDate
     @Column
