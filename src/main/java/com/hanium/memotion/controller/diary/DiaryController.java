@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Date;
@@ -66,7 +67,7 @@ public class DiaryController {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date1 = format.parse(date);
 
-        System.out.println(date1);
+        //System.out.println(date1);
 
 
         List<Diary> diaryList = diaryService.findByDate(date1,memberId);
@@ -75,7 +76,7 @@ public class DiaryController {
 
         List<DiaryDto.Response> diaryListResponse = null;
         for(Diary diary : diaryList){
-            diaryListResponse.add(new DiaryDto.Response(diary));
+            diaryListResponse.add(new DiaryDto.Response(diary,diary.getMemberId()));
         }
         return diaryList;
     }

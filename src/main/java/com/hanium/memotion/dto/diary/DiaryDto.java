@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.awt.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 @Builder
@@ -63,13 +64,13 @@ public class DiaryDto {
         private Double latitude;
         private String emotion;
         private String keyWord;
-        private Date createdDate;
+        private LocalDateTime createdDate;
         private LocalDateTime updatedDate;
         private boolean share;
         private Long memberId;
 
         @Builder
-        public Response(Diary diary) {
+        public Response(Diary diary,Member member) {
             this.diaryId = diary.getDiaryId();
             this.latitude= diary.getLatitude();
             this.longitude= diary.getLongitude();
@@ -78,7 +79,7 @@ public class DiaryDto {
             this.createdDate = diary.getCreatedDate();
             this.updatedDate = diary.getUpdatedDate();
             this.share = diary.isShare();
-            this.memberId = diary.getMemberId().getId();
+            this.memberId = member.getId();
         }
 
     }
