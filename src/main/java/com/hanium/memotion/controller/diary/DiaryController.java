@@ -58,23 +58,26 @@ public class DiaryController {
 
     //날짜별 조회
     @GetMapping("/{date}/{memberId}")
-    public List<DiaryDto.Response> localDateList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
+    public List<Diary> localDateList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
 
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         //Date date1 = (Date) formatter.parse(date);
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date1 = format.parse(date);
+
         System.out.println(date1);
+
+
         List<Diary> diaryList = diaryService.findByDate(date1,memberId);
 
-        DiaryContent diaryContentList = diaryService.findByContentDate(date1,memberId);
+        //DiaryContent diaryContentList = diaryService.findByContentDate(date1,memberId);
 
         List<DiaryDto.Response> diaryListResponse = null;
         for(Diary diary : diaryList){
             diaryListResponse.add(new DiaryDto.Response(diary));
         }
-        return diaryListResponse;
+        return diaryList;
     }
 
     @PostMapping("/date/content/{memberId}")
