@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -59,26 +60,28 @@ public class DiaryController {
 
     //날짜별 조회
     @GetMapping("/{date}/{memberId}")
-    public List<Diary> localDateList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
+    public BaseResponse<List<Diary>> localDateList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
 
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         //Date date1 = (Date) formatter.parse(date);
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1 = format.parse(date);
+        //SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        //Date date1 = format.parse(date);
 
         //System.out.println(date1);
 
 
-        List<Diary> diaryList = diaryService.findByDate(date1,memberId);
-
+        List<Diary> diaryList = diaryService.findByDate(date,memberId);
+        System.out.println(diaryList.get(0).getCreatedDate());
+        System.out.println(diaryList.get(1).getCreatedDate());
         //DiaryContent diaryContentList = diaryService.findByContentDate(date1,memberId);
 
-        List<DiaryDto.Response> diaryListResponse = null;
-        for(Diary diary : diaryList){
-            diaryListResponse.add(new DiaryDto.Response(diary,diary.getMemberId()));
-        }
-        return diaryList;
+//        List<DiaryDto.Response> diaryListResponse = null;
+//        for(Diary diary : diaryList){
+//            System.out.println(diary.getDiaryId());
+//            diaryListResponse.add(new DiaryDto.Response(diary,diary.getMemberId()));
+//        }
+        return BaseResponse.onSuccess(diaryList);
     }
 
     @PostMapping("/date/content/{memberId}")

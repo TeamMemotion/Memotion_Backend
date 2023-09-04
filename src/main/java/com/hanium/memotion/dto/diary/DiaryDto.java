@@ -29,6 +29,8 @@ public class DiaryDto {
 
         private String keyWord;
 
+        private String createdDate;
+
         private boolean share;
 
         private Long memberId;
@@ -39,6 +41,7 @@ public class DiaryDto {
                     .longitude(longitude)
                     .emotion(emotion)
                     .keyWord(keyWord)
+                    .createdDate(createdDate)
                     .share(share)
                     .memberId(memberId)
                     .build();
@@ -49,6 +52,7 @@ public class DiaryDto {
             this.longitude= diary.getLongitude();
             this.emotion = diary.getEmotion();
             this.keyWord = diary.getKeyWord();
+            this.createdDate = diary.getCreatedDate();
             this.share = diary.isShare();
             //this.memberId = diary.getMemberId();
         }
@@ -64,7 +68,7 @@ public class DiaryDto {
         private Double latitude;
         private String emotion;
         private String keyWord;
-        private LocalDateTime createdDate;
+        private String createdDate;
         private LocalDateTime updatedDate;
         private boolean share;
         private Long memberId;
