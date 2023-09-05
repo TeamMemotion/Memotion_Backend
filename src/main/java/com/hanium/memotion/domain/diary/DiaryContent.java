@@ -31,7 +31,8 @@ public class DiaryContent {
     private String title;
     @Column
     private String content;
-
+    @Column
+    private String keyWord;
     @ManyToOne
     @JoinColumn(name = "member_Id")
     private Member memberId;
