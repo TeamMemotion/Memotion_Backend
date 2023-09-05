@@ -52,8 +52,10 @@ public class DiaryService {
         return diaryRepository.findDiaryByCreatedDateAndMemberId(date,user);
     }
 
-    public DiaryContent findByContentDate(Date date, Long memberId) {
-        return diaryContentRepository.findDiaryByCreatedDateAndMemberId(date,memberId);
+    public DiaryContent findByContentDate(String date, Long memberId) {
+        Member user = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + memberId));
+        return diaryContentRepository.findDiaryContentByCreatedDateAndMemberId(date,user);
     }
     @Transactional
     public Diary diaryEmotionUpdate(DiaryDto.Request diaryDto){
