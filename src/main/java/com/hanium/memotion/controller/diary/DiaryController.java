@@ -110,4 +110,17 @@ public class DiaryController {
         return BaseResponse.onSuccess(diaryService.diaryEmotionUpdate(diaryDto));
     }
 
+    @GetMapping("/month/{date}/{memberId}")
+    public BaseResponse<List<Diary>> MonthDateList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
+        List<Diary> diaryList = diaryService.findByMonthDate(date,memberId);
+        return BaseResponse.onSuccess(diaryList);
+    }
+//    @GetMapping("/content/{date}/{memberId}")
+//    public BaseResponse<DiaryContentDto.Response> MonthDateContentList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
+//
+//        DiaryContent diaryContent = diaryService.findByContentDate(date,memberId);
+//
+//        return BaseResponse.onSuccess(new DiaryContentDto.Response(diaryContent,memberId));
+//
+//    }
 }

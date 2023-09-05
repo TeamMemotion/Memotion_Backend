@@ -9,4 +9,5 @@ import java.util.Date;
 public interface DiaryContentRepository extends JpaRepository<DiaryContent,Long> {
 
     DiaryContent findDiaryContentByCreatedDateAndMemberId(String createdDate, Member memberId);
+
 }
