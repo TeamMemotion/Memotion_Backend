@@ -25,9 +25,8 @@ public class DiaryContent {
     @Column(name = "diary_content_id")
     private Long diaryContentId;
 
-    @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    @Column
+    private String createdDate;
     @Column
     private String title;
     @Column

@@ -2,10 +2,12 @@ package com.hanium.memotion.controller.diary;
 
 import com.hanium.memotion.domain.diary.Diary;
 import com.hanium.memotion.domain.diary.DiaryContent;
+import com.hanium.memotion.domain.member.Member;
 import com.hanium.memotion.dto.diary.DiaryContentDto;
 import com.hanium.memotion.dto.diary.DiaryDto;
 import com.hanium.memotion.service.diary.DiaryService;
 import com.hanium.memotion.exception.base.BaseResponse;
+import com.hanium.memotion.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,8 @@ public class DiaryController {
 
     private final DiaryService diaryService;
     private final ModelMapper modelMapper;
+
+    private final MemberService memberService;
 
     @PostMapping("/save-emotion")
     public BaseResponse<Long> postEmotion(@RequestPart("diaryDto") DiaryDto.Request diaryDto)throws Exception{
@@ -84,12 +88,14 @@ public class DiaryController {
         return BaseResponse.onSuccess(diaryList);
     }
 
-    @PostMapping("/date/content/{memberId}")
-    public DiaryContentDto.Response localDateContentList (@RequestParam("Date") Date date, @PathVariable("memberId") Long memberId) {
-        DiaryContent diaryContent = diaryService.findByContentDate(date,memberId);
-        return new DiaryContentDto.Response(diaryContent);
-    }
+    @GetMapping("/content/{date}/{memberId}")
+    public BaseResponse<DiaryContentDto.Response> localDateContentList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
 
+        DiaryContent diaryContent = diaryService.findByContentDate(date,memberId);
+
+        return BaseResponse.onSuccess(new DiaryContentDto.Response(diaryContent,memberId));
+
+    }
 
     @PostMapping("/update-content")
     public BaseResponse<DiaryContent> updateContent(@RequestPart("diaryContentDto") DiaryContentDto.Request diaryDto)throws Exception{

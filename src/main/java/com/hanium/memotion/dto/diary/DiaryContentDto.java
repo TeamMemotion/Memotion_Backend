@@ -16,6 +16,7 @@ public class DiaryContentDto {
 
         private String content;
 
+        private String createdDate;
         private Long memberId;
 
         public DiaryContent toEntity(Member memberId) {
@@ -23,6 +24,7 @@ public class DiaryContentDto {
                     .diaryContentId(diaryContentId)
                     .title(title)
                     .content(content)
+                    .createdDate(createdDate)
                     .memberId(memberId)
                     .build();
         }
@@ -31,6 +33,7 @@ public class DiaryContentDto {
             this.diaryContentId=diarycontent.getDiaryContentId();
             this.title= diarycontent.getTitle();
             this.content = diarycontent.getContent();
+            this.createdDate = diarycontent.getCreatedDate();
             this.memberId = diarycontent.getMemberId().getId();
         }
     }
@@ -41,20 +44,20 @@ public class DiaryContentDto {
 
         private Long diaryContentId;
 
-        private Date createdDate;
+        private String createdDate;
 
         private String title;
 
         private String content;
 
-        private Member memberId;
+        private Long memberId;
 
-        public Response(DiaryContent diarycontent) {
+        public Response(DiaryContent diarycontent, Long member) {
             this.diaryContentId = diarycontent.getDiaryContentId();
             this.createdDate= diarycontent.getCreatedDate();
             this.title=diarycontent.getTitle();
             this.content=diarycontent.getContent();
-            this.memberId = diarycontent.getMemberId();
+            this.memberId = member;
         }
     }
 }
