@@ -50,6 +50,8 @@ public class DiaryContentDto {
 
         private String content;
 
+        private String keyWord;
+
         private Long memberId;
 
         public Response(DiaryContent diarycontent, Long member) {
@@ -57,6 +59,7 @@ public class DiaryContentDto {
             this.createdDate= diarycontent.getCreatedDate();
             this.title=diarycontent.getTitle();
             this.content=diarycontent.getContent();
+            this.keyWord=diarycontent.getKeyWord();
             this.memberId = member;
         }
     }

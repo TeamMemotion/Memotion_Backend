@@ -64,7 +64,7 @@ public class DiaryController {
 
     //날짜별 조회
     @GetMapping("/{date}/{memberId}")
-    public BaseResponse<List<Diary>> localDateList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
+    public BaseResponse<List<DiaryDto.Response>> localDateList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
 
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         //Date date1 = (Date) formatter.parse(date);
@@ -85,7 +85,11 @@ public class DiaryController {
 //            System.out.println(diary.getDiaryId());
 //            diaryListResponse.add(new DiaryDto.Response(diary,diary.getMemberId()));
 //        }
-        return BaseResponse.onSuccess(diaryList);
+        List<DiaryDto.Response> resultDto = diaryList.stream()
+                .map(data-> modelMapper.map(data, DiaryDto.Response.class))
+                .collect(Collectors.toList());
+
+        return BaseResponse.onSuccess(resultDto);
     }
 
     @GetMapping("/content/{date}/{memberId}")
@@ -111,9 +115,12 @@ public class DiaryController {
     }
 
     @GetMapping("/month/{date}/{memberId}")
-    public BaseResponse<List<Diary>> MonthDateList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
+    public BaseResponse<List<DiaryDto.Response>> MonthDateList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
         List<Diary> diaryList = diaryService.findByMonthDate(date,memberId);
-        return BaseResponse.onSuccess(diaryList);
+        List<DiaryDto.Response> resultDto = diaryList.stream()
+                .map(data-> modelMapper.map(data, DiaryDto.Response.class))
+                .collect(Collectors.toList());
+        return BaseResponse.onSuccess(resultDto);
     }
 //    @GetMapping("/content/{date}/{memberId}")
 //    public BaseResponse<DiaryContentDto.Response> MonthDateContentList (@PathVariable("date") String date, @PathVariable("memberId") Long memberId) throws ParseException {
