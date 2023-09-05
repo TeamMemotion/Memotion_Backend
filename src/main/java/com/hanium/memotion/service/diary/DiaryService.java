@@ -78,4 +78,18 @@ public class DiaryService {
         diaryContentRepository.save(diaryContent);
         return diaryContentRepository.findById(diaryContentDto.getDiaryContentId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryContent.getMemberId().getId()));
     }
+
+    public List<Diary> findByMonthDate(String date,Long memberId) {
+        //System.out.println(date + " "+ memberId);
+        Member user = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + memberId));
+        String sqlDate = "%"+date+"%";
+        return diaryRepository.findByCreatedDateLikeAndMemberId(sqlDate,user);
+    }
+//    public List<DiaryContent> findByMonthDate(String date,Long memberId) {
+//        //System.out.println(date + " "+ memberId);
+//        Member user = memberRepository.findById(memberId)
+//                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + memberId));
+//        return diaryRepository.findByCreatedDateLikeAndMemberId(date,user);
+//    }
 }
