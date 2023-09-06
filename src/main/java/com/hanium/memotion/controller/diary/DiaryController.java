@@ -132,4 +132,7 @@ public class DiaryController {
 //        return BaseResponse.onSuccess(new DiaryContentDto.Response(diaryContent,memberId));
 //
 //    }
+    
+    //혹시 emotion list 필요하다 그러면 만들어주기
+    //user list 여도 충분할 것 같긴 한데
 }
