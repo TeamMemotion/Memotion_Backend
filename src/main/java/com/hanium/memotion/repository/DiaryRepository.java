@@ -16,4 +16,6 @@ public interface DiaryRepository extends JpaRepository<Diary,Long> {
 
     List<Diary> findDiaryByCreatedDateAndMemberId(String createdDate, Member memberId);
     List<Diary> findByCreatedDateLikeAndMemberId(String createdDate, Member member);
+
+    List<Diary> findByMemberId(Member user);
 }
