@@ -48,9 +48,11 @@ public class DiaryController {
 
 
     //전제조회
-    @GetMapping("/list")
-    public BaseResponse<List<DiaryDto.Response>> postList()throws Exception{
-        List<Diary> diaryList = diaryService.findByAll();
+    @GetMapping("/list/{memberId}")
+    public BaseResponse<List<DiaryDto.Response>> postList(@PathVariable("memberId") Long id){
+        System.out.println(id);
+        List<Diary> diaryList = diaryService.findById(id);
+        System.out.println(diaryList.get(0).getEmotion());
         List<DiaryDto.Response> resultDto = diaryList.stream()
                                             .map(data-> modelMapper.map(data, DiaryDto.Response.class))
                                             .collect(Collectors.toList());

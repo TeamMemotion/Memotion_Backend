@@ -45,6 +45,13 @@ public class DiaryService {
     public List<Diary> findByAll() {
         return diaryRepository.findAll();
     }
+
+    public List<Diary> findById(Long id){
+        Member user = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + id));
+        return diaryRepository.findByMemberId(user);
+    }
+
     public List<Diary> findByDate(String date, Long memberId) {
         //System.out.println(date + " "+ memberId);
         Member user = memberRepository.findById(memberId)
