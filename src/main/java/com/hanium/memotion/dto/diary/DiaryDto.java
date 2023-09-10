@@ -22,18 +22,11 @@ public class DiaryDto {
     public static class Request{
         private  Long diaryId;
         private Double longitude;
-
         private Double latitude;
-
         private String emotion;
-
         private String keyWord;
-
         private String createdDate;
-
         private boolean share;
-
-        private Long memberId;
 
         public Diary toEntity(Member memberId) {
             return Diary.builder()

@@ -34,7 +34,7 @@ public class DiaryContent {
     @Column
     private String keyWord;
     @ManyToOne
-    @JoinColumn(name = "member_Id")
+    @JoinColumn(name = "member_id")
     private Member memberId;
 
     public void update(String title,String content){
