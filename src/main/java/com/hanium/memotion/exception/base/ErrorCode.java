@@ -30,6 +30,7 @@ public enum ErrorCode { // BaseResponseStatus와 같은 역할
     ALREADY_LOGOUT(2012, "이미 로그아웃 되었습니다.", BAD_REQUEST),
 
     EMPTY_DIARY(2013, "다이어리 내용이 없습니다.", BAD_REQUEST),
+    INVALID_USER(2014, "다이어리를 작성한 유저가 아닙니다.", BAD_REQUEST),
 
     /**
      * 3000 : Response 오류

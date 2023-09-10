@@ -51,7 +51,7 @@ public class Diary {
     @Column
     private boolean share;
     @ManyToOne
-    @JoinColumn(name = "member_Id")
+    @JoinColumn(name = "member_id")
     private Member memberId;
 
     public void update(Double latitude, Double longitude, String emotion, String keyWord, boolean share){

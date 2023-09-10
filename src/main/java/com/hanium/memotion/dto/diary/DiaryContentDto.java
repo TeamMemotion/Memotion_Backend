@@ -13,11 +13,8 @@ public class DiaryContentDto {
     public static class Request{
         private Long diaryContentId;
         private String title;
-
         private String content;
-
         private String createdDate;
-        private Long memberId;
 
         public DiaryContent toEntity(Member memberId) {
             return DiaryContent.builder()
@@ -34,7 +31,6 @@ public class DiaryContentDto {
             this.title= diarycontent.getTitle();
             this.content = diarycontent.getContent();
             this.createdDate = diarycontent.getCreatedDate();
-            this.memberId = diarycontent.getMemberId().getId();
         }
     }
 

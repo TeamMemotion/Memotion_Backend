@@ -5,6 +5,8 @@ import com.hanium.memotion.domain.diary.DiaryContent;
 import com.hanium.memotion.domain.member.Member;
 import com.hanium.memotion.dto.diary.DiaryContentDto;
 import com.hanium.memotion.dto.diary.DiaryDto;
+import com.hanium.memotion.exception.base.BaseException;
+import com.hanium.memotion.exception.base.ErrorCode;
 import com.hanium.memotion.repository.DiaryContentRepository;
 import com.hanium.memotion.repository.DiaryRepository;
 import com.hanium.memotion.repository.MemberRepository;
@@ -23,75 +25,56 @@ public class DiaryService {
 
     private final DiaryContentRepository diaryContentRepository;
     @Transactional
-    public Long save(DiaryDto.Request diaryDto) {
-        //System.out.println(diaryDto.getMemberId());
-        //Long a = 1L;
-
-        Member user = memberRepository.findById(diaryDto.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryDto.getMemberId()));
-        System.out.println(diaryDto.getMemberId());
-
-        //System.out.println(diaryRepository.save(diaryDto.toEntity(user)).getCreatedDate());
-
-        return diaryRepository.save(diaryDto.toEntity(user)).getDiaryId();
+    public Long save(DiaryDto.Request diaryDto, Member member) {
+        return diaryRepository.save(diaryDto.toEntity(member)).getDiaryId();
     }
 
     @Transactional
-    public Long saveContent(DiaryContentDto.Request diaryDto) {
-        Member user = memberRepository.findById(diaryDto.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryDto.getMemberId()));
-        return diaryContentRepository.save(diaryDto.toEntity(user)).getDiaryContentId();
+    public Long saveContent(DiaryContentDto.Request diaryDto, Member member) {
+        return diaryContentRepository.save(diaryDto.toEntity(member)).getDiaryContentId();
     }
+
     public List<Diary> findByAll() {
         return diaryRepository.findAll();
     }
 
-    public List<Diary> findById(Long id){
-        Member user = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + id));
-        return diaryRepository.findByMemberId(user);
+    public List<Diary> findById(Member member){
+        return diaryRepository.findByMemberId(member);
     }
 
-    public List<Diary> findByDate(String date, Long memberId) {
-        //System.out.println(date + " "+ memberId);
-        Member user = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + memberId));
-        return diaryRepository.findDiaryByCreatedDateAndMemberId(date,user);
+    public List<Diary> findByDate(String date, Member member) {
+        return diaryRepository.findDiaryByCreatedDateAndMemberId(date, member);
     }
 
-    public DiaryContent findByContentDate(String date, Long memberId) {
-        Member user = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + memberId));
-        return diaryContentRepository.findDiaryContentByCreatedDateAndMemberId(date,user);
+    public DiaryContent findByContentDate(String date, Member member) {
+        return diaryContentRepository.findDiaryContentByCreatedDateAndMemberId(date, member);
     }
+
     @Transactional
-    public Diary diaryEmotionUpdate(DiaryDto.Request diaryDto){
+    public Diary diaryEmotionUpdate(DiaryDto.Request diaryDto, Member member) {
+        Diary diary = diaryRepository.findById(diaryDto.getDiaryId()).orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id:"+diaryDto.getDiaryId()));
+        if(!diary.getMemberId().equals(member.getId()))
+           throw new BaseException(ErrorCode.INVALID_USER);
 
-        Diary diary= diaryRepository.findById(diaryDto.getDiaryId()).orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id:"+diaryDto.getDiaryId()));
-        Member user = memberRepository.findById(diaryDto.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diary.getMemberId()));
         diary.update(diaryDto.getLatitude(),diaryDto.getLongitude(),diaryDto.getEmotion(),diaryDto.getKeyWord(),diaryDto.isShare());
         diaryRepository.save(diary);
         return diaryRepository.findById(diary.getDiaryId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diary.getMemberId()));
     }
 
     @Transactional
-    public DiaryContent diaryContentUpdate(DiaryContentDto.Request diaryContentDto){
-
+    public DiaryContent diaryContentUpdate(DiaryContentDto.Request diaryContentDto, Member member){
         DiaryContent diaryContent= diaryContentRepository.findById(diaryContentDto.getDiaryContentId()).orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id:"+diaryContentDto.getDiaryContentId()));
-        Member user = memberRepository.findById(diaryContent.getMemberId().getId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryContent.getMemberId().getId()));
+        if(!diaryContent.getMemberId().equals(member.getId()))
+            throw new BaseException(ErrorCode.INVALID_USER);
+
         diaryContent.update(diaryContentDto.getTitle(), diaryContent.getContent());
         diaryContentRepository.save(diaryContent);
         return diaryContentRepository.findById(diaryContentDto.getDiaryContentId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryContent.getMemberId().getId()));
     }
 
-    public List<Diary> findByMonthDate(String date,Long memberId) {
-        //System.out.println(date + " "+ memberId);
-        Member user = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + memberId));
+    public List<Diary> findByMonthDate(String date, Member member) {
         String sqlDate = "%"+date+"%";
-        return diaryRepository.findByCreatedDateLikeAndMemberId(sqlDate,user);
+        return diaryRepository.findByCreatedDateLikeAndMemberId(sqlDate, member);
     }
 //    public List<DiaryContent> findByMonthDate(String date,Long memberId) {
 //        //System.out.println(date + " "+ memberId);
