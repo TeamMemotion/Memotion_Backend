@@ -42,6 +42,8 @@ public class DiaryController {
 
     @PostMapping("/content")
     public BaseResponse<Long> postContent(@RequestPart("diaryContentDto") DiaryContentDto.Request diaryContentDto, @AuthenticationPrincipal Member member)throws Exception{
+        System.out.println("con");
+        System.out.println("conconcon"+member.getId());
         Long result = diaryService.saveContent(diaryContentDto, member);
         return BaseResponse.onSuccess(result);
     }
@@ -74,13 +76,13 @@ public class DiaryController {
         return BaseResponse.onSuccess(new DiaryContentDto.Response(diaryContent, member.getId()));
     }
 
-    @PatchMapping("/content")
-    public BaseResponse<DiaryContent> updateContent(@RequestPart("diaryContentDto") DiaryContentDto.Request diaryDto, @AuthenticationPrincipal Member member)throws Exception{
-        return BaseResponse.onSuccess(diaryService.diaryContentUpdate(diaryDto, member));
+    @PatchMapping("/content/{diaryId}")
+    public BaseResponse<DiaryContent> updateContent(@RequestPart("diaryContentDto") DiaryContentDto.Request diaryDto, @AuthenticationPrincipal Member member, @PathVariable("diaryId") Long diaryId)throws Exception{
+        return BaseResponse.onSuccess(diaryService.diaryContentUpdate(diaryDto, member, diaryId));
     }
-    @PatchMapping("/emotion")
-    public BaseResponse<Diary> updateEmotion(@RequestPart("diaryDto") DiaryDto.Request diaryDto, @AuthenticationPrincipal Member member) throws BaseException {
-        return BaseResponse.onSuccess(diaryService.diaryEmotionUpdate(diaryDto, member));
+    @PatchMapping("/emotion/{diaryId}")
+    public BaseResponse<Diary> updateEmotion(@RequestPart("diaryDto") DiaryDto.Request diaryDto, @AuthenticationPrincipal Member member, @PathVariable("diaryId") Long diaryId) throws BaseException {
+        return BaseResponse.onSuccess(diaryService.diaryEmotionUpdate(diaryDto, member, diaryId));
     }
 
     @GetMapping("/month/{date}")
