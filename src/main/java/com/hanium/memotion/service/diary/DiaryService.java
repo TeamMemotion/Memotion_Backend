@@ -46,8 +46,9 @@ public class DiaryService {
         return diaryRepository.findDiaryByCreatedDateAndMemberId(date, member);
     }
 
+
     public DiaryContent findByContentDate(String date, Member member) {
-        return diaryContentRepository.findDiaryContentByCreatedDateAndMemberId(date, member);
+        return diaryContentRepository.findDiaryContentByCreatedDateLikeAndMemberId(date, member);
     }
 
     @Transactional
