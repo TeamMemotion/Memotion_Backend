@@ -8,6 +8,6 @@ import java.util.Date;
 
 public interface DiaryContentRepository extends JpaRepository<DiaryContent,Long> {
 
-    DiaryContent findDiaryContentByCreatedDateAndMemberId(String createdDate, Member memberId);
+    DiaryContent findDiaryContentByCreatedDateLikeAndMemberId(String createdDate, Member memberId);
 
 }
