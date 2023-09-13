@@ -21,7 +21,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     private JwtProvider jwtProvider;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtProvider jwtService) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
         super(authenticationManager);
         this.jwtProvider = jwtProvider;
     }

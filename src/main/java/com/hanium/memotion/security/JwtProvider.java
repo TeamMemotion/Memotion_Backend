@@ -70,12 +70,16 @@ public class JwtProvider {
 
     // JWT 토큰 으로부터 memberId 추출
     public Long getMemberIdFromJwtToken(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
-                        StandardCharsets.UTF_8)))
-                .parseClaimsJws(token)
-                .getBody();
-        return Long.parseLong(claims.getSubject());
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
+                            StandardCharsets.UTF_8)))
+                    .parseClaimsJws(token)
+                    .getBody();
+            return Long.parseLong(claims.getSubject());
+        } catch(Exception e) {
+            throw new UnauthorizedException("유효하지 않거나 만료된 토큰입니다");
+        }
     }
 
     // JWT 토큰 인증 정보 조회 (토큰 복호화)
@@ -86,25 +90,21 @@ public class JwtProvider {
 
     // 토큰 유효성 + 만료일자 확인
     public Boolean validateToken(String token) {
+        Date now = new Date();
+
         try {
             Jws<Claims> claims = Jwts.parser()
                     .setSigningKey(Base64.getEncoder().encodeToString(("" + JWT_SECRET).getBytes(
                             StandardCharsets.UTF_8))).parseClaimsJws(token);
-            Long memberId = claims.getBody().get("memberId", Long.class);
-            log.info("validateToken ------- memberId : " + memberId);
-            return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            throw new UnauthorizedException("잘못된 JWT 서명입니다.");
-        } catch (TokenExpiredException e) {
-            throw new TokenExpiredException("만료된 JWT 토큰입니다.");
-        } catch (UnsupportedJwtException e) {
-            throw new UnsupportedJwtException("지원되지 않는 JWT 토큰입니다.");
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("JWT 토큰이 잘못되었습니다.");
+//            Long memberId = claims.getBody().get("memberId", Long.class);
+//            log.info("validateToken ------- memberId : " + memberId);
+            return !claims.getBody().getExpiration().before(new Date(now.getTime()));
+        } catch (Exception e) {
+            throw new UnauthorizedException("유효하지 않거나 만료된 토큰입니다.");
         }
     }
 
-    // Authorization : Bearer에서 token 추출 (refreshToken, accessToken 포함)
+    // Autorization : Bearer에서 token 추출 (refreshToken, accessToken 포함)
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(JwtAuthenticationFilter.AUTHORIZATION_HEADER);
 
@@ -117,8 +117,8 @@ public class JwtProvider {
     }
 
     // 토큰 유효 시간 확인
-    public Long getExpiration(String token) {
-        Date expiration = Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody().getExpiration();
+    public Long getExpiration(String accessToken) {
+        Date expiration = Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(accessToken).getBody().getExpiration();
         Long now = new Date().getTime();
 
         return (expiration.getTime() - now);

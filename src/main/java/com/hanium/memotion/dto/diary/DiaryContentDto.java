@@ -11,7 +11,6 @@ public class DiaryContentDto {
     @NoArgsConstructor
     @Data
     public static class Request{
-
         private String title;
         private String content;
         private String createdDate;

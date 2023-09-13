@@ -35,13 +35,13 @@ public class DiaryController {
     private final MemberService memberService;
 
     @PostMapping("/emotion")
-    public BaseResponse<Long> postEmotion(@RequestPart("diaryDto") DiaryDto.Request diaryDto, @AuthenticationPrincipal Member member)throws Exception{
+    public BaseResponse<Long> postEmotion(@RequestBody DiaryDto.Request diaryDto, @AuthenticationPrincipal Member member)throws Exception{
         Long result = diaryService.save(diaryDto, member);
         return BaseResponse.onSuccess(result);
     }
 
     @PostMapping("/content")
-    public BaseResponse<Long> postContent(@RequestPart("diaryContentDto") DiaryContentDto.Request diaryContentDto, @AuthenticationPrincipal Member member)throws Exception{
+    public BaseResponse<Long> postContent(@RequestBody DiaryContentDto.Request diaryContentDto, @AuthenticationPrincipal Member member) throws Exception{
         System.out.println("con");
         System.out.println("conconcon"+member.getId());
         Long result = diaryService.saveContent(diaryContentDto, member);
@@ -77,11 +77,11 @@ public class DiaryController {
     }
 
     @PatchMapping("/content/{diaryId}")
-    public BaseResponse<DiaryContent> updateContent(@RequestPart("diaryContentDto") DiaryContentDto.Request diaryDto, @AuthenticationPrincipal Member member, @PathVariable("diaryId") Long diaryId)throws Exception{
+    public BaseResponse<DiaryContent> updateContent(@RequestBody DiaryContentDto.Request diaryDto, @AuthenticationPrincipal Member member, @PathVariable("diaryId") Long diaryId) throws Exception{
         return BaseResponse.onSuccess(diaryService.diaryContentUpdate(diaryDto, member, diaryId));
     }
     @PatchMapping("/emotion/{diaryId}")
-    public BaseResponse<Diary> updateEmotion(@RequestPart("diaryDto") DiaryDto.Request diaryDto, @AuthenticationPrincipal Member member, @PathVariable("diaryId") Long diaryId) throws BaseException {
+    public BaseResponse<Diary> updateEmotion(@RequestBody DiaryDto.Request diaryDto, @AuthenticationPrincipal Member member, @PathVariable("diaryId") Long diaryId) throws BaseException {
         return BaseResponse.onSuccess(diaryService.diaryEmotionUpdate(diaryDto, member, diaryId));
     }
 
