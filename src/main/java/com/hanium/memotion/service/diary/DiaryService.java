@@ -76,9 +76,9 @@ public class DiaryService {
         return diaryContentRepository.findById(diaryId).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryContent.getMemberId().getId()));
     }
 
-    public List<Diary> findByMonthDate(String date, Member member) {
+    public List<Diary> findByMonthDate(String date, Member member, String emotion) {
         String sqlDate = "%"+date+"%";
-        return diaryRepository.findByCreatedDateLikeAndMemberId(sqlDate, member);
+        return diaryRepository.findByCreatedDateLikeAndMemberIdAndEmotion(sqlDate, member,emotion);
     }
 //    public List<DiaryContent> findByMonthDate(String date,Long memberId) {
 //        //System.out.println(date + " "+ memberId);
