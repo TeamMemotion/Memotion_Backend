@@ -86,4 +86,9 @@ public class DiaryService {
 //                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + memberId));
 //        return diaryRepository.findByCreatedDateLikeAndMemberId(date,user);
 //    }
+
+    public Long delete(Long id){
+        diaryRepository.delete(diaryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 다이어리가 존재하지 않습니다. id=" + id)));
+        return  id;
+    }
 }
