@@ -16,5 +16,5 @@ public interface DiaryContentRepository extends JpaRepository<DiaryContent,Long>
 
 
 
-    
+
 }

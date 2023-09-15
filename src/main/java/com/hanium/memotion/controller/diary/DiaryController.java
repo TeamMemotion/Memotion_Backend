@@ -85,13 +85,18 @@ public class DiaryController {
         return BaseResponse.onSuccess(diaryService.diaryEmotionUpdate(diaryDto, member, diaryId));
     }
 
-    @GetMapping("/month/{date}")
-    public BaseResponse<List<DiaryDto.Response>> MonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member) throws ParseException {
-        List<Diary> diaryList = diaryService.findByMonthDate(date, member);
+    @GetMapping("/month/{date}/{emotion}")
+    public BaseResponse<List<DiaryDto.Response>> MonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member,@PathVariable("emotion") String emotion) throws ParseException {
+        List<Diary> diaryList = diaryService.findByMonthDate(date, member,emotion);
         List<DiaryDto.Response> resultDto = diaryList.stream()
                 .map(data-> modelMapper.map(data, DiaryDto.Response.class))
                 .collect(Collectors.toList());
         return BaseResponse.onSuccess(resultDto);
+    }
+
+    @DeleteMapping("/emotion/{diaryId}")
+    public BaseResponse<Long> delete (@PathVariable("diaryId") Long id) throws ParseException {
+        return BaseResponse.onSuccess(diaryService.delete(id));
     }
 
     //혹시 emotion list 필요하다 그러면 만들어주기
