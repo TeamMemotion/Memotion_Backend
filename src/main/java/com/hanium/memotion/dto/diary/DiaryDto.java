@@ -75,7 +75,7 @@ public class DiaryDto {
             this.createdDate = diary.getCreatedDate();
             this.updatedDate = diary.getUpdatedDate();
             this.share = diary.isShare();
-            this.memberId = member.getId();
+            this.memberId = getMemberId();
         }
 
     }
