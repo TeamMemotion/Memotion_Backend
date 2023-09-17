@@ -44,7 +44,14 @@ public class DiaryController {
     public BaseResponse<Long> postContent(@RequestBody DiaryContentDto.Request diaryContentDto, @AuthenticationPrincipal Member member) throws Exception{
         System.out.println("con");
         System.out.println("conconcon"+member.getId());
+        //DiaryContent diaryContent=diaryService.findByContentDate(diaryContentDto.getCreatedDate(),member);
+        if( diaryService.findByContentDate(diaryContentDto.getCreatedDate(),member) != null )
+            diaryService.diaryContentUpdate(diaryContentDto, member, diaryService.findByContentDate(diaryContentDto.getCreatedDate(),member).getDiaryContentId());
+
+
         Long result = diaryService.saveContent(diaryContentDto, member);
+
+
         return BaseResponse.onSuccess(result);
     }
 

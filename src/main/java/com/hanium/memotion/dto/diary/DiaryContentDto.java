@@ -15,6 +15,8 @@ public class DiaryContentDto {
         private String content;
         private String createdDate;
 
+        private Long memberId;
+
         public DiaryContent toEntity(Member memberId) {
             return DiaryContent.builder()
                     .title(title)
@@ -28,6 +30,7 @@ public class DiaryContentDto {
             this.title= diarycontent.getTitle();
             this.content = diarycontent.getContent();
             this.createdDate = diarycontent.getCreatedDate();
+            this.memberId = diarycontent.getMemberId().getId();
         }
     }
 
