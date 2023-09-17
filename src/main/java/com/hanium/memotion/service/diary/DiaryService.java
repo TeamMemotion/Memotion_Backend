@@ -68,13 +68,14 @@ public class DiaryService {
     @Transactional
     public DiaryContent diaryContentUpdate(DiaryContentDto.Request diaryContentDto, Member member, Long diaryId){
         DiaryContent diaryContent= diaryContentRepository.findById(diaryId).orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id:"+diaryId));
-        if(!diaryContent.getMemberId().equals(member.getId()))
-            throw new BaseException(ErrorCode.INVALID_USER);
+        //if(!diaryContent.getMemberId().equals(member.getId()))
+          //  throw new BaseException(ErrorCode.INVALID_USER);
 
         diaryContent.update(diaryContentDto.getTitle(), diaryContent.getContent());
         diaryContentRepository.save(diaryContent);
         return diaryContentRepository.findById(diaryId).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryContent.getMemberId().getId()));
     }
+
 
     public List<Diary> findByMonthDate(String date, Member member, String emotion) {
         String sqlDate = "%"+date+"%";

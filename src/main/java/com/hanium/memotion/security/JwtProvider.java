@@ -33,7 +33,7 @@ public class JwtProvider {
     private final MemberRepository memberRepository;
     private final UserDetailServiceImpl userDetailService;
 
-    private Long tokenValidTime = 1000L * 60 * 3; // 3m
+    private Long tokenValidTime = 1000L * 60 * 1; // 3m
     private Long refreshTokenValidTime = 1000L * 60 * 60 * 24; // 1d
 
     // access token 생성
