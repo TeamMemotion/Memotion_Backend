@@ -75,7 +75,8 @@ public class DiaryService {
           //  throw new BaseException(ErrorCode.INVALID_USER);
         System.out.println("3" + diaryContent.getContent());
         diaryContentDto.setKeyword(emotionAnalyzeController.sentiment(diaryContentDto.getContent()));
-        diaryContent.update(diaryContent.getDiaryContentId(),diaryContent.getCreatedDate(),diaryContentDto.getTitle(), diaryContentDto.getContent(),diaryContent.getKeyWord(),diaryContent.getMemberId().getId());
+        String keyword = emotionAnalyzeController.sentiment(diaryContentDto.getContent();
+        diaryContent.update(diaryContent.getDiaryContentId(),diaryContent.getCreatedDate(),diaryContentDto.getTitle(), diaryContentDto.getContent(),keyword,diaryContent.getMemberId().getId());
 
         diaryContentRepository.save(diaryContent);
         return diaryContentRepository.findById(diaryId).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryContent.getMemberId().getId()));
