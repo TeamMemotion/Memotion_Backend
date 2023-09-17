@@ -37,9 +37,13 @@ public class DiaryContent {
     @JoinColumn(name = "member_id")
     private Member memberId;
 
-    public void update(String title,String content){
+    public void update(Long diaryContentId, String createdDate, String title,String content, String keyWord, Long MemberId){
+        this.diaryContentId=diaryContentId;
+        this.createdDate=createdDate;
         this.title=title;
         this.content=content;
+        this.keyWord=keyWord;
+        this.memberId=memberId;
     }
 
 

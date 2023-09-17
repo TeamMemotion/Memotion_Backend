@@ -42,17 +42,21 @@ public class DiaryController {
 
     @PostMapping("/content")
     public BaseResponse<Long> postContent(@RequestBody DiaryContentDto.Request diaryContentDto, @AuthenticationPrincipal Member member) throws Exception{
-        System.out.println("con");
-        System.out.println("conconcon"+member.getId());
-        //DiaryContent diaryContent=diaryService.findByContentDate(diaryContentDto.getCreatedDate(),member);
-        if( diaryService.findByContentDate(diaryContentDto.getCreatedDate(),member) != null )
-            diaryService.diaryContentUpdate(diaryContentDto, member, diaryService.findByContentDate(diaryContentDto.getCreatedDate(),member).getDiaryContentId());
+        //System.out.println("con");
+        //System.out.println("conconcon"+member.getId());
+        Long result=0L;
+        System.out.println(diaryService.findByContentDate(diaryContentDto.getCreatedDate(),member));
+        DiaryContent diaryContent=diaryService.findByContentDate(diaryContentDto.getCreatedDate(),member);
+        if( diaryContent != null ){
+            System.out.println("1" + diaryContent.getDiaryContentId());
+            System.out.println("2" + diaryContentDto.getContent());
+            return BaseResponse.onSuccess(diaryService.diaryContentUpdate(diaryContentDto, member, diaryContent.getDiaryContentId()).getDiaryContentId());
+        }
+
+        else
+            return BaseResponse.onSuccess(diaryService.saveContent(diaryContentDto, member));
 
 
-        Long result = diaryService.saveContent(diaryContentDto, member);
-
-
-        return BaseResponse.onSuccess(result);
     }
 
 
