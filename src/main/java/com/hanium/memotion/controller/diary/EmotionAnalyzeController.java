@@ -16,14 +16,14 @@ public class EmotionAnalyzeController {
     private final EmotionAnalyzeService emotionAnalyzeService;
 
     // 다이어리 작성 내용을 바탕으로 감정분석 (네이버 감정 분석 -> GPT 분석)
-    @PostMapping("/sentiment")
-    public BaseResponse<String> sentiment(@RequestBody String content) {
+
+    public String sentiment(String content) {
         if(content.isEmpty())
             throw new BaseException(ErrorCode.EMPTY_DIARY);
         // 1. Naver CLOVA Sentiment를 활용한 감정 분석
         String sentimentResult = emotionAnalyzeService.createSentiment(content);
         // 2. ChatGPT를 활용한 감정 분석
         String gptResult = emotionAnalyzeService.createGptComment(sentimentResult);
-        return BaseResponse.onSuccess(gptResult);
+        return gptResult;
     }
 }

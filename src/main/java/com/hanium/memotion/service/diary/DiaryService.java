@@ -1,5 +1,6 @@
 package com.hanium.memotion.service.diary;
 
+import com.hanium.memotion.controller.diary.EmotionAnalyzeController;
 import com.hanium.memotion.domain.diary.Diary;
 import com.hanium.memotion.domain.diary.DiaryContent;
 import com.hanium.memotion.domain.member.Member;
@@ -21,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class DiaryService {
+    private final EmotionAnalyzeController emotionAnalyzeController;
     private final DiaryRepository diaryRepository;
     private final MemberRepository memberRepository;
 
@@ -34,6 +36,7 @@ public class DiaryService {
     public Long saveContent(DiaryContentDto.Request diaryDto, Member member) {
         System.out.println("con");
         System.out.println("ser"+member.getId());
+        diaryDto.setKeyword(emotionAnalyzeController.sentiment(diaryDto.getContent()));
         return diaryContentRepository.save(diaryDto.toEntity(member)).getDiaryContentId();
     }
 
@@ -71,7 +74,7 @@ public class DiaryService {
         //if(!diaryContent.getMemberId().equals(member.getId()))
           //  throw new BaseException(ErrorCode.INVALID_USER);
         System.out.println("3" + diaryContent.getContent());
-
+        diaryContentDto.setKeyword(emotionAnalyzeController.sentiment(diaryContentDto.getContent()));
         diaryContent.update(diaryContent.getDiaryContentId(),diaryContent.getCreatedDate(),diaryContentDto.getTitle(), diaryContentDto.getContent(),diaryContent.getKeyWord(),diaryContent.getMemberId().getId());
 
         diaryContentRepository.save(diaryContent);
