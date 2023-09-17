@@ -70,8 +70,10 @@ public class DiaryService {
         DiaryContent diaryContent= diaryContentRepository.findById(diaryId).orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id:"+diaryId));
         //if(!diaryContent.getMemberId().equals(member.getId()))
           //  throw new BaseException(ErrorCode.INVALID_USER);
+        System.out.println("3" + diaryContent.getContent());
 
-        diaryContent.update(diaryContentDto.getTitle(), diaryContent.getContent());
+        diaryContent.update(diaryContent.getDiaryContentId(),diaryContent.getCreatedDate(),diaryContentDto.getTitle(), diaryContentDto.getContent(),diaryContent.getKeyWord(),diaryContent.getMemberId().getId());
+
         diaryContentRepository.save(diaryContent);
         return diaryContentRepository.findById(diaryId).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diaryContent.getMemberId().getId()));
     }
