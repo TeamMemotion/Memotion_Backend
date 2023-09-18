@@ -27,7 +27,6 @@ public class DiaryDto {
         private String createdDate;
         private boolean share;
 
-        private Long memberId;
 
         public Diary toEntity(Member member) {
             return Diary.builder()
