@@ -15,7 +15,7 @@ public interface DiaryContentRepository extends JpaRepository<DiaryContent,Long>
 
     List<DiaryContent> findByCreatedDateLikeAndMemberId(String date, Member memberId);
 
-
+    List<DiaryContent> findByKeyWord(String keyword);
 
 
 }
