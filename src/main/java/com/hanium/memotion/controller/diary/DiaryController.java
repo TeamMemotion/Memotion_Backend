@@ -61,9 +61,9 @@ public class DiaryController {
 
 
     //전제조회
-    @GetMapping("/list")
-    public BaseResponse<List<DiaryDto.Response>> postList(@AuthenticationPrincipal Member member){
-        List<Diary> diaryList = diaryService.findById(member);
+    @GetMapping("/list/{emotion}")
+    public BaseResponse<List<DiaryDto.Response>> postList(@PathVariable("emotion") String emotion,@AuthenticationPrincipal Member member){
+        List<Diary> diaryList = diaryService.findByEmotion(emotion);
         List<DiaryDto.Response> resultDto = diaryList.stream()
                                             .map(data-> modelMapper.map(data, DiaryDto.Response.class))
                                             .collect(Collectors.toList());
