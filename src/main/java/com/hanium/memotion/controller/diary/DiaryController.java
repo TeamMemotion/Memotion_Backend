@@ -122,6 +122,8 @@ public class DiaryController {
     @GetMapping("/content/month/{date}")
     public BaseResponse<List<DiaryEmotionDto>> DiaryContentMonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member) throws ParseException {
         List<DiaryContent> diaryContent = diaryService.findByDiaryContentMonthDate(date, member);
+        System.out.println(diaryContent.get(0).getKeyWord());
+
         List<DiaryEmotionDto> resultDto = diaryContent.stream()
                 .map(data-> modelMapper.map(data, DiaryEmotionDto.class))
                 .collect(Collectors.toList());

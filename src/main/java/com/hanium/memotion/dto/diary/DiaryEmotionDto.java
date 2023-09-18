@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 @Data
 public class DiaryEmotionDto {
 
-    private String emotion;
+    private String keyword;
     private String createdDate;
     private Long memberId;
     @Builder
     public DiaryEmotionDto(DiaryContent diary) {
-        this.emotion = diary.getKeyWord();
+        this.keyword = diary.getKeyWord();
         this.createdDate = diary.getCreatedDate();
         this.memberId = diary.getMemberId().getId();
     }
