@@ -98,20 +98,33 @@ public class DiaryController {
         return BaseResponse.onSuccess(new DiaryDto.Response(diaryService.diaryEmotionUpdate(diaryDto, member, diaryId),member));
     }
 
-    @GetMapping("/month/{date}")
-    public BaseResponse<List<DiaryEmotionDto>> MonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member) throws ParseException {
-        List<Diary> diaryList = diaryService.findByMonthDate(date, member);
-        List<DiaryEmotionDto> resultDto = diaryList.stream()
-                .map(data-> modelMapper.map(data, DiaryEmotionDto.class))
-                .collect(Collectors.toList());
-        return BaseResponse.onSuccess(resultDto);
-    }
-
+//    @GetMapping("/month/{date}")
+//    public BaseResponse<List<DiaryEmotionDto>> MonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member) throws ParseException {
+//        List<Diary> diaryList = diaryService.findByMonthDate(date, member);
+//        List<DiaryEmotionDto> resultDto = diaryList.stream()
+//                .map(data-> modelMapper.map(data, DiaryEmotionDto.class))
+//                .collect(Collectors.toList());
+//        return BaseResponse.onSuccess(resultDto);
+//    }
+//    @GetMapping("/month/{date}")
+//    public BaseResponse<List<DiaryEmotionDto>> MonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member) throws ParseException {
+//        List<Diary> diaryList = diaryService.findByMonthDate(date, member);
+//        List<DiaryEmotionDto> resultDto = diaryList.stream()
+//                .map(data-> modelMapper.map(data, DiaryEmotionDto.class))
+//                .collect(Collectors.toList());
+//        return BaseResponse.onSuccess(resultDto);
+//    }
     @DeleteMapping("/emotion/{diaryId}")
     public BaseResponse<Long> delete (@PathVariable("diaryId") Long id) throws ParseException {
         return BaseResponse.onSuccess(diaryService.delete(id));
     }
 
+    @GetMapping("/content/month/{date}")
+    public BaseResponse<DiaryEmotionDto> DiaryContentMonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member) throws ParseException {
+        DiaryContent diaryContent = diaryService.findByDiaryContentMonthDate(date, member);
+
+        return BaseResponse.onSuccess(new DiaryEmotionDto(diaryContent));
+    }
     //혹시 emotion list 필요하다 그러면 만들어주기
     //user list 여도 충분할 것 같긴 한데
 }

@@ -107,4 +107,9 @@ public class DiaryService {
     public List<Diary> findByEmotion(String emotion){
         return diaryRepository.findByEmotion(emotion);
     }
+    public DiaryContent findByDiaryContentMonthDate(String date, Member member) {
+        String sqlDate = "%"+date+"%";
+        return diaryContentRepository.findByCreatedDateLikeAndMemberId(sqlDate, member);
+    }
+
 }
