@@ -63,10 +63,10 @@ public class DiaryController {
 
     //전제조회
     @GetMapping("/list/{emotion}")
-    public BaseResponse<List<DiaryDto.Response>> postList(@PathVariable("emotion") String emotion,@AuthenticationPrincipal Member member){
-        List<Diary> diaryList = diaryService.findByEmotion(emotion);
-        List<DiaryDto.Response> resultDto = diaryList.stream()
-                                            .map(data-> modelMapper.map(data, DiaryDto.Response.class))
+    public BaseResponse<List<DiaryContentDto.Response>> postList(@PathVariable("emotion") String emotion,@AuthenticationPrincipal Member member){
+        List<DiaryContent> diaryList = diaryService.findByEmotion(emotion);
+        List<DiaryContentDto.Response> resultDto = diaryList.stream()
+                                            .map(data-> modelMapper.map(data, DiaryContentDto.Response.class))
                                             .collect(Collectors.toList());
         return BaseResponse.onSuccess(resultDto);
     }

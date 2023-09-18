@@ -21,5 +21,5 @@ public interface DiaryRepository extends JpaRepository<Diary,Long> {
 
     Diary findByDiaryId(Long DiaryId);
 
-    List<Diary> findByEmotion(String emotion);
+
 }
