@@ -60,11 +60,13 @@ public class DiaryService {
     @Transactional
     public Diary diaryEmotionUpdate(DiaryDto.Request diaryDto, Member member, Long diaryId) {
         Diary diary = diaryRepository.findByDiaryId(diaryId);
-        System.out.println("test" + "  " + member.getId()+ "  " + diaryDto.getMemberId());
-        if(diaryDto.getMemberId() != member.getId())
-            throw new BaseException(ErrorCode.INVALID_USER);
+        System.out.println("test" + "  " + member.getId()+ "  " );
         if(diary == null)
             throw new BaseException(ErrorCode.EMPTY_DIARY);
+
+        if(diary.getMemberId().getId() != member.getId())
+            throw new BaseException(ErrorCode.INVALID_USER);
+
 
         diary.update(diaryDto.getLatitude(),diaryDto.getLongitude(),diaryDto.getEmotion(),diaryDto.getKeyWord(),diaryDto.isShare());
         diaryRepository.save(diary);
