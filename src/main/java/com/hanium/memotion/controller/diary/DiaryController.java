@@ -5,6 +5,7 @@ import com.hanium.memotion.domain.diary.DiaryContent;
 import com.hanium.memotion.domain.member.Member;
 import com.hanium.memotion.dto.diary.DiaryContentDto;
 import com.hanium.memotion.dto.diary.DiaryDto;
+import com.hanium.memotion.dto.diary.DiaryEmotionDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.service.diary.DiaryService;
 import com.hanium.memotion.exception.base.BaseResponse;
@@ -97,11 +98,11 @@ public class DiaryController {
         return BaseResponse.onSuccess(new DiaryDto.Response(diaryService.diaryEmotionUpdate(diaryDto, member, diaryId),member));
     }
 
-    @GetMapping("/month/{date}/{emotion}")
-    public BaseResponse<List<DiaryDto.Response>> MonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member,@PathVariable("emotion") String emotion) throws ParseException {
-        List<Diary> diaryList = diaryService.findByMonthDate(date, member,emotion);
-        List<DiaryDto.Response> resultDto = diaryList.stream()
-                .map(data-> modelMapper.map(data, DiaryDto.Response.class))
+    @GetMapping("/month/{date}")
+    public BaseResponse<List<DiaryEmotionDto>> MonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member) throws ParseException {
+        List<Diary> diaryList = diaryService.findByMonthDate(date, member);
+        List<DiaryEmotionDto> resultDto = diaryList.stream()
+                .map(data-> modelMapper.map(data, DiaryEmotionDto.class))
                 .collect(Collectors.toList());
         return BaseResponse.onSuccess(resultDto);
     }

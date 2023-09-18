@@ -88,9 +88,9 @@ public class DiaryService {
     }
 
 
-    public List<Diary> findByMonthDate(String date, Member member, String emotion) {
+    public List<Diary> findByMonthDate(String date, Member member) {
         String sqlDate = "%"+date+"%";
-        return diaryRepository.findByCreatedDateLikeAndMemberIdAndEmotion(sqlDate, member,emotion);
+        return diaryRepository.findByCreatedDateLikeAndMemberId(sqlDate, member);
     }
 //    public List<DiaryContent> findByMonthDate(String date,Long memberId) {
 //        //System.out.println(date + " "+ memberId);
