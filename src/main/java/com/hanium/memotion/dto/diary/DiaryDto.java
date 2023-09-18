@@ -78,6 +78,5 @@ public class DiaryDto {
             this.share = diary.isShare();
             this.memberId = member.getId();
         }
-
     }
 }

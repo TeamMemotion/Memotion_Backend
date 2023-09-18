@@ -88,9 +88,9 @@ public class DiaryService {
     }
 
 
-    public List<Diary> findByMonthDate(String date, Member member, String emotion) {
+    public List<Diary> findByMonthDate(String date, Member member) {
         String sqlDate = "%"+date+"%";
-        return diaryRepository.findByCreatedDateLikeAndMemberIdAndEmotion(sqlDate, member,emotion);
+        return diaryRepository.findByCreatedDateLikeAndMemberId(sqlDate, member);
     }
 //    public List<DiaryContent> findByMonthDate(String date,Long memberId) {
 //        //System.out.println(date + " "+ memberId);
@@ -102,5 +102,9 @@ public class DiaryService {
     public Long delete(Long id){
         diaryRepository.delete(diaryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 다이어리가 존재하지 않습니다. id=" + id)));
         return  id;
+    }
+
+    public List<Diary> findByEmotion(String emotion){
+        return diaryRepository.findByEmotion(emotion);
     }
 }
