@@ -92,8 +92,9 @@ public class DiaryController {
         return BaseResponse.onSuccess(diaryService.diaryContentUpdate(diaryDto, member, diaryId));
     }
     @PatchMapping("/emotion/{diaryId}")
-    public BaseResponse<Diary> updateEmotion(@RequestBody DiaryDto.Request diaryDto, @AuthenticationPrincipal Member member, @PathVariable("diaryId") Long diaryId) throws BaseException {
-        return BaseResponse.onSuccess(diaryService.diaryEmotionUpdate(diaryDto, member, diaryId));
+    public BaseResponse<DiaryDto.Response> updateEmotion(@RequestBody DiaryDto.Request diaryDto, @AuthenticationPrincipal Member member, @PathVariable("diaryId") Long diaryId) throws BaseException {
+
+        return BaseResponse.onSuccess(new DiaryDto.Response(diaryService.diaryEmotionUpdate(diaryDto, member, diaryId),member));
     }
 
     @GetMapping("/month/{date}/{emotion}")
