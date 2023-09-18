@@ -120,10 +120,12 @@ public class DiaryController {
     }
 
     @GetMapping("/content/month/{date}")
-    public BaseResponse<DiaryEmotionDto> DiaryContentMonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member) throws ParseException {
-        DiaryContent diaryContent = diaryService.findByDiaryContentMonthDate(date, member);
-
-        return BaseResponse.onSuccess(new DiaryEmotionDto(diaryContent));
+    public BaseResponse<List<DiaryEmotionDto>> DiaryContentMonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member) throws ParseException {
+        List<DiaryContent> diaryContent = diaryService.findByDiaryContentMonthDate(date, member);
+        List<DiaryEmotionDto> resultDto = diaryContent.stream()
+                .map(data-> modelMapper.map(data, DiaryEmotionDto.class))
+                .collect(Collectors.toList());
+        return BaseResponse.onSuccess(resultDto);
     }
     //혹시 emotion list 필요하다 그러면 만들어주기
     //user list 여도 충분할 것 같긴 한데
