@@ -6,6 +6,7 @@ import com.hanium.memotion.dto.member.TokenDto;
 import com.hanium.memotion.dto.member.request.LoginReqDto;
 import com.hanium.memotion.dto.member.request.SignupReqDto;
 import com.hanium.memotion.dto.member.response.LoginResDto;
+import com.hanium.memotion.dto.member.response.ProfileResDto;
 import com.hanium.memotion.dto.member.response.SignupResDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.ErrorCode;
@@ -121,6 +122,16 @@ public class MemberService {
         memberRepository.save(member);
 
         return "로그아웃 성공";
+    }
+
+    // 프로필 조회
+    public ProfileResDto getProfile(Long memberId) {
+        Optional<Member> getMember = memberRepository.findById(memberId);
+        if(getMember.isEmpty())
+            throw new BaseException(MEMBER_NOT_FOUND);
+
+        Member member = getMember.get();
+        return new ProfileResDto(member);
     }
 
     public Long getMemberId(String username) {
