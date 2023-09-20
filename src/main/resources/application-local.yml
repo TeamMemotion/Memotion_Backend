@@ -38,9 +38,3 @@ sentiment:
 
 chatgpt:
   key: ${GPT_SECRET}
-
-
-
-
-
-
