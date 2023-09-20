@@ -1,9 +1,11 @@
 package com.hanium.memotion.controller.member;
 
+import com.hanium.memotion.domain.member.Member;
 import com.hanium.memotion.dto.member.request.EmailDto;
 import com.hanium.memotion.dto.member.request.LoginReqDto;
 import com.hanium.memotion.dto.member.request.SignupReqDto;
 import com.hanium.memotion.dto.member.response.LoginResDto;
+import com.hanium.memotion.dto.member.response.ProfileResDto;
 import com.hanium.memotion.dto.member.response.SignupResDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.BaseResponse;
@@ -11,6 +13,7 @@ import com.hanium.memotion.exception.custom.UnauthorizedException;
 import com.hanium.memotion.service.member.MailService;
 import com.hanium.memotion.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -72,5 +75,12 @@ public class MemberController {
     public BaseResponse<String> checkEmail(@RequestBody EmailDto emailDto) throws BaseException {
         String code = mailService.sendCodeMail(emailDto.getEmail());
         return BaseResponse.onSuccess(code);
+    }
+
+    // 프로필 조회
+    @GetMapping("/profile")
+    public BaseResponse<ProfileResDto> getProfile(@AuthenticationPrincipal Member member) {
+        ProfileResDto profileResDto = memberService.getProfile(member.getId());
+        return BaseResponse.onSuccess(profileResDto);
     }
 }
