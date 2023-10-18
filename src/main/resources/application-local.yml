@@ -18,7 +18,9 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
         default_batch_fetch_size: 1000
     show-sql: true
-
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   #  redis:
   #    host: localhost
   #    port: 6379
@@ -38,3 +40,10 @@ sentiment:
 
 chatgpt:
   key: ${GPT_SECRET}
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
