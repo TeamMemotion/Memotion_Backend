@@ -31,9 +31,9 @@ public class AWSS3Controller {
     public BaseResponse<String> modifyFile(@RequestParam("fileUrl") String fileUrl, @RequestPart MultipartFile multipartFile) throws IOException {
         if(fileUrl != null) {
             String[] url = fileUrl.split("/");
-            boolean result = awsS3Service.deleteImage(url[3]);   // https~ 경로 뺴고 파일명으로 삭제
+            awsS3Service.deleteImage(url[3]);   // https~ 경로 뺴고 파일명으로 삭제
 
-            if(result && multipartFile != null && !multipartFile.isEmpty()){
+            if(multipartFile != null && !multipartFile.isEmpty()){
                 String fileName = awsS3Service.uploadFile(multipartFile);
                 return BaseResponse.onSuccess(fileName);
             }
