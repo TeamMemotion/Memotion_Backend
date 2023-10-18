@@ -43,8 +43,8 @@ public enum ErrorCode { // BaseResponseStatus와 같은 역할
      * 4000 : Database, Server 오류
      */
     DATABASE_ERROR(4000, "데이터베이스 연결에 실패하였습니다.", INTERNAL_SERVER_ERROR),
-    SERVER_ERROR(4001, "서버와의 연결에 실패하였습니다.", INTERNAL_SERVER_ERROR);
-
+    SERVER_ERROR(4001, "서버와의 연결에 실패하였습니다.", INTERNAL_SERVER_ERROR),
+    AWS_S3_ERROR(4002, "AWS S3 이미지 수정에 실패하였습니다.", INTERNAL_SERVER_ERROR);
 
     /**
      * 5000 : 필요시 만들어서 쓰세요
