@@ -9,6 +9,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AWSS3Service {
@@ -26,7 +28,7 @@ public class AWSS3Service {
     private String bucket;
     private final AmazonS3 amazonS3;
 
-    // S3 서버에 파일 업로드
+    // MultipartFile을 전달받아 File로 전환 후 S3 서버에 파일 업로드
     public String uploadFile(MultipartFile file) throws IOException {
         String fileName = createFileName(file.getOriginalFilename());
 
@@ -36,20 +38,17 @@ public class AWSS3Service {
             objectMetadata.setContentType(file.getContentType());
 
             InputStream inputStream = file.getInputStream();
-            amazonS3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            amazonS3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata));
         } catch(AmazonServiceException e){
-            e.printStackTrace();
-        } catch(SdkClientException e){
-            e.printStackTrace();
-        } catch(AmazonClientException e) {
             e.printStackTrace();
         } catch (IOException e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 업로드에 실패했습니다.");
         }
 
-        // S3 이미지 서버에 등록한 파일명을 반환
-        return fileName;
+        log.info("서버에 등록한 파일명: " + fileName);
+
+        // S3 이미지 서버에 등록한 URL을 반환
+        return amazonS3.getUrl(bucket, fileName).toString();
     }
 
     // S3 서버에서 파일 삭제
