@@ -19,6 +19,7 @@ import java.util.List;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "Route")
+@Entity
 public class Route extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,5 +49,5 @@ public class Route extends BaseTime {
     private Member member;
 
     @OneToMany(mappedBy = "route")
-    private List<RouteDetail> records = new ArrayList<>();
+    private List<RouteDetail> route = new ArrayList<>();
 }
