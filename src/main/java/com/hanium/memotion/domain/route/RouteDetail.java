@@ -60,4 +60,16 @@ public class RouteDetail extends BaseTime {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id")
     private Route route;
+
+    public void update(RouteDetail routeDetail){
+        this.title=routeDetail.getTitle();
+        this.start_time= routeDetail.getStart_time();
+        this.end_time= routeDetail.getEnd_time();
+        this.select_date=routeDetail.getSelect_date();
+        this.content=routeDetail.getContent();
+        this.place=routeDetail.getPlace();
+        this.latitude=routeDetail.getLatitude();
+        this.longitude=routeDetail.getLongitude();
+        this.url=routeDetail.getUrl();
+    }
 }
