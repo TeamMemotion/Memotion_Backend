@@ -1,4 +1,4 @@
-package com.hanium.memotion.service.RouteDetail;
+package com.hanium.memotion.service.route;
 
 import com.hanium.memotion.domain.route.Route;
 import com.hanium.memotion.domain.route.RouteDetail;

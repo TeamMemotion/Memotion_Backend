@@ -1,11 +1,10 @@
-package com.hanium.memotion.controller.RouteDetail;
+package com.hanium.memotion.controller.route;
 
 import com.hanium.memotion.domain.member.Member;
 import com.hanium.memotion.domain.route.RouteDetail;
 import com.hanium.memotion.dto.routedetail.RouteDetailDto;
 import com.hanium.memotion.exception.base.BaseResponse;
-import com.hanium.memotion.service.RouteDetail.RouteDetailService;
-import com.sun.xml.bind.v2.TODO;
+import com.hanium.memotion.service.route.RouteDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
