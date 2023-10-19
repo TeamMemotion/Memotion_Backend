@@ -1,15 +1,22 @@
 package com.hanium.memotion.controller.RouteDetail;
 
+import com.hanium.memotion.domain.member.Member;
+import com.hanium.memotion.domain.route.RouteDetail;
+import com.hanium.memotion.dto.routedetail.RouteDetailDto;
+import com.hanium.memotion.exception.base.BaseResponse;
+import com.hanium.memotion.service.RouteDetail.RouteDetailService;
 import com.sun.xml.bind.v2.TODO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/route")
 @RequiredArgsConstructor
 public class RouteDetailController {
 
+    private final RouteDetailService routeDetailService;
+    //private final RouteSer
     //TODO
     // - 루트기록 상세
     //    - 제목, 좋아요, 여행 기간 및 날짜들 조회 api 1개
@@ -18,5 +25,15 @@ public class RouteDetailController {
     //    - 저장 api 1개(날짜, 제목, 시작시간, 종료시간, 메모, 장소, 사진)
     //    - 수정 api 1개
     //    - 삭제 api 1개
+    @PostMapping("/save")
+    public BaseResponse<RouteDetailDto.Response> save(@RequestBody RouteDetailDto.Request request, @AuthenticationPrincipal Member member){
 
+        RouteDetail routeDetail = routeDetailService.save(request);
+        return BaseResponse.onSuccess(new RouteDetailDto.Response(routeDetail));
+    }
+//    @PatchMapping("/update")
+//    public BaseResponse<RouteDetailDto.Response> update(@RequestBody RouteDetailDto.Request request, @AuthenticationPrincipal Member member){
+//        RouteDetail routeDetail = routeDetailService.update(request.toEntity(route));
+//        return BaseResponse.onSuccess(new RouteDetailDto.Response(routeDetail));
+//    }
 }
