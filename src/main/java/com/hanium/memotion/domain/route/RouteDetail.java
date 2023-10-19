@@ -1,9 +1,7 @@
 package com.hanium.memotion.domain.route;
 
 import com.hanium.memotion.domain.core.BaseTime;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -11,12 +9,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-@Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@Getter
 @Table(name = "RouteDetail")
+@Entity
 public class RouteDetail extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
