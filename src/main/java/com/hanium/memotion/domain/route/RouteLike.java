@@ -15,6 +15,7 @@ import javax.persistence.*;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "RouteLike")
+@Entity
 public class RouteLike extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
