@@ -10,6 +10,7 @@ import com.hanium.memotion.exception.base.ErrorCode;
 import com.hanium.memotion.repository.RouteLikeRepository;
 import com.hanium.memotion.repository.RouteRepository;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,16 @@ public class RouteService {
 
     public List<LocalGuideResDto> getLocalGuideList() {
         List<Route> routeList = routeRepository.findTop8ByOrderByCreatedAtDesc();
+        if(routeList.isEmpty())
+            throw new BaseException(ErrorCode.EMPTY_ROUTE);
+
+        return routeList.stream()
+                .map(r -> new LocalGuideResDto(r))
+                .collect(Collectors.toList());
+    }
+
+    public List<LocalGuideResDto> getLocalGuideListByRegion(String region) {
+        List<Route> routeList = routeRepository.findAllByRegion(region);
         if(routeList.isEmpty())
             throw new BaseException(ErrorCode.EMPTY_ROUTE);
 
@@ -51,6 +62,7 @@ public class RouteService {
                         .name(routeReqDto.getName())
                         .startDate(routeReqDto.getStartDate())
                         .endDate(routeReqDto.getEndDate())
+                        .region(routeReqDto.getRegion())
                         .build();
 
         return routeRepository.save(route).getRouteId();

@@ -21,11 +21,9 @@ public class SearchController {
     private final SearchService searchService;
 
     @GetMapping("")
-    public BaseResponse<List<SearchResDto>> getSearchList(@AuthenticationPrincipal Member member, @RequestBody SearchReqDto searchReqDto) {
-        Double latitude = searchReqDto.getLatitude();
-        Double longitude = searchReqDto.getLongitude();
-        String filter = searchReqDto.getFilter();
+    public BaseResponse<List<SearchResDto>> getSearchList(@RequestBody SearchReqDto searchReqDto) {
+        List<SearchResDto> searchResDto = searchService.getSearchList(searchReqDto);
 
-        return BaseResponse.onSuccess(searchService.getSearchList(latitude, longitude, filter));
+        return BaseResponse.onSuccess(searchResDto);
     }
 }
