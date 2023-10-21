@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class RouteDetail extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recordDetail_id")
+    @Column(name = "record_detail_id")
     private Long recordDetailId;
 
     @Column(name = "title")
@@ -54,7 +54,7 @@ public class RouteDetail extends BaseTime {
     @NotNull
     private Double longitude;
 
-    @Column(name = "url", length = 500, unique = true)
+    @Column(name = "url", length = 500)
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)

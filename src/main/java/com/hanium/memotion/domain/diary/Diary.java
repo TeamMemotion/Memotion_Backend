@@ -41,12 +41,12 @@ public class Diary {
     @Column
     private String keyWord;
 
-    @Column
+    @Column(name = "created_date")
     //@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
     private String createdDate; //= LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));;
 
     @LastModifiedDate
-    @Column
+    @Column(name = "updated_date")
     private LocalDateTime updatedDate;
     @Column
     private boolean share;
