@@ -23,9 +23,19 @@ public class RouteDetailService {
         return routeDetailRepository.save(request.toEntity(route));
     }
     @Transactional
-    public RouteDetail update(RouteDetail routeDetail){
-
-        return routeDetailRepository.save(routeDetail);
+    public RouteDetail update(RouteDetailDto.Request request, Long id){
+        RouteDetail routedetail = routeDetailRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 루트 기록이 존재하지 않습니다. id=" + id));
+        return routeDetailRepository.save(routedetail.builder()
+                        .title(request.getTitle())
+                        .start_time(request.getStart_time())
+                        .end_time(request.getEnd_time())
+                        .select_date(request.getSelect_date())
+                        .content(request.getContent())
+                        .place(request.getPlace())
+                        .latitude(request.getLatitude())
+                        .longitude(request.getLongitude())
+                        .url(request.getUrl())
+                        .build());
     }
 
 
