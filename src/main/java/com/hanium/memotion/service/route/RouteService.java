@@ -2,6 +2,7 @@ package com.hanium.memotion.service.route;
 
 import com.hanium.memotion.domain.member.Member;
 import com.hanium.memotion.domain.route.Route;
+import com.hanium.memotion.domain.route.RouteLike;
 import com.hanium.memotion.dto.route.request.RouteReqDto;
 import com.hanium.memotion.dto.route.response.LocalGuideResDto;
 import com.hanium.memotion.dto.route.response.RouteResDto;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,23 +25,41 @@ public class RouteService {
     private final RouteRepository routeRepository;
     private final RouteLikeRepository routeLikeRepository;
 
-    public List<LocalGuideResDto> getLocalGuideList() {
+    public List<LocalGuideResDto> getLocalGuideList(Member member) {
         List<Route> routeList = routeRepository.findTop8ByOrderByCreatedAtDesc();
         if(routeList.isEmpty())
             throw new BaseException(ErrorCode.EMPTY_ROUTE);
 
         return routeList.stream()
-                .map(r -> new LocalGuideResDto(r))
+                .map(r -> {
+                    boolean isLiked = false;
+                    Optional<RouteLike> getRouteLike = routeLikeRepository.findByRouteAndMember(r, member);
+                    Long likeCount = routeLikeRepository.countByRoute(r);
+
+                    if(!getRouteLike.isEmpty())
+                        isLiked = true;
+
+                    return new LocalGuideResDto(r, isLiked, likeCount);
+                })
                 .collect(Collectors.toList());
     }
 
-    public List<LocalGuideResDto> getLocalGuideListByRegion(String region) {
+    public List<LocalGuideResDto> getLocalGuideListByRegion(Member member, String region) {
         List<Route> routeList = routeRepository.findAllByRegion(region);
         if(routeList.isEmpty())
             throw new BaseException(ErrorCode.EMPTY_ROUTE);
 
         return routeList.stream()
-                .map(r -> new LocalGuideResDto(r))
+                .map(r -> {
+                    boolean isLiked = false;
+                    Optional<RouteLike> getRouteLike = routeLikeRepository.findByRouteAndMember(r, member);
+                    Long likeCount = routeLikeRepository.countByRoute(r);
+
+                    if(!getRouteLike.isEmpty())
+                        isLiked = true;
+
+                    return new LocalGuideResDto(r, isLiked, likeCount);
+                })
                 .collect(Collectors.toList());
     }
 
@@ -50,8 +70,14 @@ public class RouteService {
 
         return routeList.stream()
                 .map(r -> {
+                    boolean isLiked = false;
+                    Optional<RouteLike> getRouteLike = routeLikeRepository.findByRouteAndMember(r, member);
                     Long likeCount = routeLikeRepository.countByRoute(r);
-                    return new RouteResDto(r, likeCount);
+
+                    if(!getRouteLike.isEmpty())
+                        isLiked = true;
+
+                    return new RouteResDto(r, isLiked, likeCount);
                 })
                 .collect(Collectors.toList());
     }

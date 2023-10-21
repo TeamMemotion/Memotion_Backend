@@ -20,6 +20,7 @@ import java.util.List;
 public class SearchController {
     private final SearchService searchService;
 
+    // 검색 (default or 검색어 + 최신순 or 검색어 + 오래된순)
     @GetMapping("")
     public BaseResponse<List<SearchResDto>> getSearchList(@RequestBody SearchReqDto searchReqDto) {
         List<SearchResDto> searchResDto = searchService.getSearchList(searchReqDto);

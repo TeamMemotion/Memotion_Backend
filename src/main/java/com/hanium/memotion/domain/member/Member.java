@@ -46,6 +46,10 @@ public class Member extends BaseTime implements UserDetails {
     @Column(name = "image", length = 255, nullable = true)
     private String image;
 
+    @Column(name = "status", nullable = false)
+    @ColumnDefault("'active'")
+    private String status;
+
     @Column(name = "refresh_token", nullable = false)
     private String refreshToken;
 

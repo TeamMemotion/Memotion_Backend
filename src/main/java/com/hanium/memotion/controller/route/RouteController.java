@@ -21,15 +21,15 @@ public class RouteController {
 
     // 루트기록 메인 화면 - 로컬 가이드 조회 (최신순)
     @GetMapping("/localGuide")
-    public BaseResponse<List<LocalGuideResDto>> getLocalGuideList() {
-        List<LocalGuideResDto> localGuideResDto = routeService.getLocalGuideList();
+    public BaseResponse<List<LocalGuideResDto>> getLocalGuideList(@AuthenticationPrincipal Member member) {
+        List<LocalGuideResDto> localGuideResDto = routeService.getLocalGuideList(member);
         return BaseResponse.onSuccess(localGuideResDto);
     }
 
     // 로컬가이드 조회 (지역)
     @GetMapping("/localGuide/")
-    public BaseResponse<List<LocalGuideResDto>> getLocalGuideListByRegion(@PathVariable("region") String region) {
-        List<LocalGuideResDto> localGuideResDto = routeService.getLocalGuideListByRegion(region);
+    public BaseResponse<List<LocalGuideResDto>> getLocalGuideListByRegion(@AuthenticationPrincipal Member member, @PathVariable("region") String region) {
+        List<LocalGuideResDto> localGuideResDto = routeService.getLocalGuideListByRegion(member, region);
         return BaseResponse.onSuccess(localGuideResDto);
     }
 

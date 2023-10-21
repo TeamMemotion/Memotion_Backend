@@ -17,9 +17,10 @@ public class RouteResDto {
     private String profileImg;
     private String username;
     private Long likeCount;
+    private boolean isLiked;
 
     @Builder
-    public RouteResDto(Route r, Long likeCount) {
+    public RouteResDto(Route r, boolean isLiked, Long likeCount) {
         this.routeId = r.getRouteId();
         this.routeImg = r.getUrl();
         this.startDate = r.getStartDate();
@@ -28,5 +29,6 @@ public class RouteResDto {
         this.profileImg = r.getMember().getImage();
         this.username = r.getMember().getUsername();
         this.likeCount = likeCount;
+        this.isLiked = isLiked;
     }
 }
