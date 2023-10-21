@@ -23,7 +23,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name="Diary")
+@Table(name="diary")
 @EntityListeners(AuditingEntityListener.class)
 public class Diary {
     @Id

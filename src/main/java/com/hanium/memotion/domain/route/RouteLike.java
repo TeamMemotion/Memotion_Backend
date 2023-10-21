@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "RouteLike")
+@Table(name = "route_like")
 @Entity
 public class RouteLike extends BaseTime {
     @Id

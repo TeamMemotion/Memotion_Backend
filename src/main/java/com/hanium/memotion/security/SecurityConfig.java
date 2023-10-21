@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/member/signup", "/member/login" , "/member/check-password",
                 "/member/check-email", "/member/logout", "/h2-console/**",
                 "/sample", "/sentiment", "/gpt-sentiment", "/s3" , "/v2/api-docs", "/swagger-resources/**",
-                "/swagger-ui.html", "/webjars/**", "/swagger/**");
+                "/swagger-ui.html", "/webjars/**", "/swagger/**" , "/route/**");
     }
 
     // 스프링시큐리티 설정
@@ -65,6 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/swagger/**").permitAll()
+                .antMatchers("/route/**").permitAll()
                 //.antMatchers("/diary/**").permitAll()
                 //.antMatchers("/**").permitAll()     // 로그인 개발 끝나면 삭제
                 .anyRequest().authenticated()

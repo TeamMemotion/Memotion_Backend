@@ -8,6 +8,7 @@ import com.hanium.memotion.repository.RouteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -36,6 +37,12 @@ public class RouteDetailService {
                         .longitude(request.getLongitude())
                         .url(request.getUrl())
                         .build());
+    }
+    public List<RouteDetail> findById(Long id){
+        return routeDetailRepository.findByRouteId(id);
+    }
+    public RouteDetail findByDetailId(Long id){
+        return routeDetailRepository.findByRecordDetailId(id);
     }
 
 

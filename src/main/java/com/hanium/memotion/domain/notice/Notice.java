@@ -15,7 +15,7 @@ import javax.persistence.*;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name = "Notice")
+@Table(name = "notice")
 public class Notice extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
