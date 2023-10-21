@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "Route")
+@Table(name = "route")
 @Entity
 public class Route extends BaseTime {
     @Id

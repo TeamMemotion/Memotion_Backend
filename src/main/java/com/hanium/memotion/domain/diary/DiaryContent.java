@@ -17,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name="DiaryContent")
+@Table(name="diary_content")
 @EntityListeners(AuditingEntityListener.class)
 public class DiaryContent {
     @Id

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @DynamicUpdate
 @Getter
-@Table(name = "RouteDetail")
+@Table(name = "route_detail")
 @Entity
 public class RouteDetail extends BaseTime {
     @Id
