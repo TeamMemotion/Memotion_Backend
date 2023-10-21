@@ -50,7 +50,7 @@ public class NoticeController {
     }
 
     // 공지사항 상세 조회
-    @GetMapping("/")
+    @GetMapping("/{noticeId}")
     public BaseResponse<NoticeResDto> getNotice(@PathVariable Long noticeId) {
         return BaseResponse.onSuccess(noticeService.getNotice(noticeId));
     }
