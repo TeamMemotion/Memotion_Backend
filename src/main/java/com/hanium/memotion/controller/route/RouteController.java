@@ -27,7 +27,7 @@ public class RouteController {
     }
 
     // 로컬가이드 조회 (지역)
-    @GetMapping("/localGuide/")
+    @GetMapping("/localGuide/{region}")
     public BaseResponse<List<LocalGuideResDto>> getLocalGuideListByRegion(@AuthenticationPrincipal Member member, @PathVariable("region") String region) {
         List<LocalGuideResDto> localGuideResDto = routeService.getLocalGuideListByRegion(member, region);
         return BaseResponse.onSuccess(localGuideResDto);
