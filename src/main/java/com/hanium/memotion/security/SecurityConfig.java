@@ -34,8 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 로그인 개발 끝나면 "/**" 경로에서 삭제
         web.ignoring().antMatchers("/member/signup", "/member/login" , "/member/check-password",
                 "/member/check-email", "/member/logout", "/h2-console/**",
-                "/sample", "/sentiment", "/gpt-sentiment", "/s3" , "/v2/api-docs", "/swagger-resources/**",
-                "/swagger-ui.html", "/webjars/**", "/swagger/**" , "/route/**");
+                "/sample", "/sentiment", "/gpt-sentiment", "/s3" , "/v3/api-docs", "/swagger-resources/**",
+                "/swagger-ui/**", "/webjars/**", "/swagger/**" , "/route/**");
     }
 
     // 스프링시큐리티 설정
@@ -60,9 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/sentiment").permitAll()
                 .antMatchers("/gpt-sentiment").permitAll()
                 .antMatchers("/s3").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
+                .antMatchers("/v3/api-docs").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/swagger/**").permitAll()
                 .antMatchers("/route/**").permitAll()
@@ -85,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private CorsConfiguration getDefaultCorsConfiguration() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(
-                Arrays.asList("http://localhost:8080"));
+                Arrays.asList("http://localhost:9000"));
         configuration.setAllowedHeaders(Arrays.asList("*")); // 모든 header 에 응답을 허용
         configuration.setAllowedMethods(Arrays.asList("*")); // 모든 get,post,patch,put,delete 요청 허용
         configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 ip 응답을 허용
