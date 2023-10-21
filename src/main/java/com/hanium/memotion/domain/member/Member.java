@@ -66,6 +66,13 @@ public class Member extends BaseTime implements UserDetails {
         this.refreshTokenExpiresAt = LocalDateTime.now();
     }
 
+    public Member(String email, String username, String image) {
+        this.email = email;
+        this.username = username;
+        this.image = image;
+        this.type = Provider.KAKAO;
+    }
+
     // refreshToken 재발급
     public void renewRefreshToken(String refreshToken) {
         Assert.notNull(Member.this.refreshToken, "refreshToken 은 null 일 수 없습니다.");
@@ -84,6 +91,13 @@ public class Member extends BaseTime implements UserDetails {
         this.password = password;
     }
 
+    public void updateStatus(String status) {
+        this.status = status;
+    }
+
+    public void updateImage(String fileName) {
+        this.image = fileName;
+    }
 
     /* implements UserDetails 시 구현해야하는 메소드 */
     // UserDetails = 사용자 정보를 담는 인터페이스

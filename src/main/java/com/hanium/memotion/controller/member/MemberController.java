@@ -1,15 +1,15 @@
 package com.hanium.memotion.controller.member;
 
 import com.hanium.memotion.domain.member.Member;
-import com.hanium.memotion.dto.member.request.EmailDto;
-import com.hanium.memotion.dto.member.request.LoginReqDto;
-import com.hanium.memotion.dto.member.request.SignupReqDto;
+import com.hanium.memotion.dto.member.request.*;
 import com.hanium.memotion.dto.member.response.LoginResDto;
 import com.hanium.memotion.dto.member.response.ProfileResDto;
 import com.hanium.memotion.dto.member.response.SignupResDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.BaseResponse;
+import com.hanium.memotion.exception.base.ErrorCode;
 import com.hanium.memotion.exception.custom.UnauthorizedException;
+import com.hanium.memotion.service.global.AWSS3Service;
 import com.hanium.memotion.service.member.MailService;
 import com.hanium.memotion.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 public class MemberController {
     private final MemberService memberService;
     private final MailService mailService;
+    private final AWSS3Service awsS3Service;
 
     // 회원가입
     @PostMapping("/signup")
@@ -82,5 +85,37 @@ public class MemberController {
     public BaseResponse<ProfileResDto> getProfile(@AuthenticationPrincipal Member member) {
         ProfileResDto profileResDto = memberService.getProfile(member.getId());
         return BaseResponse.onSuccess(profileResDto);
+    }
+
+    // 계정 탈퇴
+    @PatchMapping("/withdraw")
+    public BaseResponse<String> withdraw(@AuthenticationPrincipal Member member) {
+        String result = memberService.withdraw(member);
+        return BaseResponse.onSuccess(result);
+    }
+
+    // 프로필 수정
+    @PatchMapping("/profile")
+    public BaseResponse<String> patchProfile(@AuthenticationPrincipal Member member, @RequestPart MultipartFile multipartFile, @RequestBody PasswordDto passwordDto) throws IOException {
+        String fileUrl = member.getImage();
+
+        if(fileUrl != null) {
+            String[] url = fileUrl.split("/");
+            awsS3Service.deleteImage(url[3]);   // https~ 경로 뺴고 파일명으로 삭제
+
+            if(multipartFile != null && !multipartFile.isEmpty()){
+                String fileName = awsS3Service.uploadFile(multipartFile);
+                String result = memberService.patchProfile(member, fileName, passwordDto.getPassword());
+                return BaseResponse.onSuccess(result);
+            }
+        }
+
+        throw new BaseException(ErrorCode.AWS_S3_ERROR);
+    }
+
+    // 카카오 로그인
+    @PostMapping("/kakao")
+    public BaseResponse<LoginResDto> kakaoLogin(@RequestBody KakaoLoginDto kakaoLoginDto) {
+        return BaseResponse.onSuccess(memberService.kakaoLogin(kakaoLoginDto));
     }
 }
