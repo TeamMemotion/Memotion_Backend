@@ -12,4 +12,6 @@ public class RouteReqDto {
     private String startDate;
     @NotNull
     private String endDate;
+    @NotNull
+    private String region;
 }

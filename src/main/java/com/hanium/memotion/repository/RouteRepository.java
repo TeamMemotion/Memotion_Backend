@@ -12,4 +12,6 @@ public interface RouteRepository extends JpaRepository<Route, Long> {
     List<Route> findTop8ByOrderByCreatedAtDesc();
 
     List<Route> findAllByMember(Member member);
+
+    List<Route> findAllByRegion(String region);
 }

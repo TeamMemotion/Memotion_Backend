@@ -1,6 +1,7 @@
 package com.hanium.memotion.service.search;
 
 import com.hanium.memotion.domain.diary.Diary;
+import com.hanium.memotion.dto.search.request.SearchReqDto;
 import com.hanium.memotion.dto.search.response.SearchResDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.ErrorCode;
@@ -16,8 +17,12 @@ import java.util.stream.Collectors;
 public class SearchService {
     private final DiaryRepository diaryRepository;
 
-    public List<SearchResDto> getSearchList(Double latitude, Double longitude, String filter) {
+    public List<SearchResDto> getSearchList(SearchReqDto searchReqDto) {
         List<Diary> diaryList = null;
+
+        Double latitude = searchReqDto.getLatitude();
+        Double longitude = searchReqDto.getLongitude();
+        String filter = searchReqDto.getFilter();
 
         if(filter.equals("default")) {      // 1. 검색어 없을 때 default 결과
             // 공개 설정되어있는 것중에 최신순으로 orderby한 것들
