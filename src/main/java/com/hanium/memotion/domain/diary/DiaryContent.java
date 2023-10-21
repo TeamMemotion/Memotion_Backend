@@ -25,7 +25,7 @@ public class DiaryContent {
     @Column(name = "diary_content_id")
     private Long diaryContentId;
 
-    @Column
+    @Column(name = "created_date")
     private String createdDate;
     @Column
     private String title;
