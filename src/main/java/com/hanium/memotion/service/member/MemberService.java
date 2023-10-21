@@ -2,13 +2,16 @@ package com.hanium.memotion.service.member;
 
 import com.hanium.memotion.domain.member.Member;
 
+import com.hanium.memotion.domain.member.Provider;
 import com.hanium.memotion.dto.member.TokenDto;
+import com.hanium.memotion.dto.member.request.KakaoLoginDto;
 import com.hanium.memotion.dto.member.request.LoginReqDto;
 import com.hanium.memotion.dto.member.request.SignupReqDto;
 import com.hanium.memotion.dto.member.response.LoginResDto;
 import com.hanium.memotion.dto.member.response.ProfileResDto;
 import com.hanium.memotion.dto.member.response.SignupResDto;
 import com.hanium.memotion.exception.base.BaseException;
+import com.hanium.memotion.exception.base.BaseResponse;
 import com.hanium.memotion.exception.base.ErrorCode;
 import com.hanium.memotion.exception.custom.BadRequestException;
 import com.hanium.memotion.exception.custom.InvalidTokenException;
@@ -20,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -69,6 +73,11 @@ public class MemberService {
             throw new BadRequestException("잘못된 이메일 입니다.");
 
         Member member = getMember.get();
+
+        // 탈퇴한 회원이 재로그인 하는 경우 -> 프론트에서 처리할 화면 아직 안만들어서 일단 에러 처리
+        if(member.getStatus().equals("inactive"))
+            throw new BaseException(ErrorCode.INVALID_USER_JWT);
+
         if(!passwordEncoder.matches(loginReqDto.getPassword(), member.getPassword()))
             throw new BadRequestException("잘못된 비밀번호 입니다.");
 
@@ -141,5 +150,53 @@ public class MemberService {
     private Member getMemberByUsername(String username) {
         return memberRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("Member username=" + username));
+    }
+
+    // 회원탈퇴
+    @Transactional
+    public String withdraw(Member member) {
+        if(!member.getStatus().equals("active"))
+            throw new BaseException(ErrorCode.INVALID_USER_JWT);
+
+        member.updateStatus("inactive");
+        return "회원탈퇴 성공";
+    }
+
+    // 프로필 수정
+    @Transactional
+    public String patchProfile(Member member, String fileName, String password) {
+        member.updateImage(fileName);
+        member.updatePassword(passwordEncoder.encode(password));
+        return "프로필 수정 성공";
+    }
+
+    // 카카오 로그인
+    @Transactional
+    public LoginResDto kakaoLogin(KakaoLoginDto kakaoLoginDto) {
+        String email = kakaoLoginDto.getEmail();
+
+        Optional<Member> getMember = memberRepository.findByEmail(email);
+        if(getMember.isEmpty()) {
+            Member member = Member.builder()
+                    .email(email)
+                    .username(kakaoLoginDto.getUsername())
+                    .image(kakaoLoginDto.getImage())
+                    .build();
+
+            memberRepository.save(member);
+        }
+
+        getMember = memberRepository.findByEmail(email);
+        Member member = getMember.get();
+        if(member.getStatus().equals("active")) {
+            String newAccessToken = jwtService.encodeJwtToken(new TokenDto(member.getId()));
+            String newRefreshToken = jwtService.encodeJwtRefreshToken(member.getId());
+
+            member.renewRefreshToken(newRefreshToken);
+            memberRepository.save(member);
+            return new LoginResDto(newAccessToken, newRefreshToken);
+        }
+
+        throw new BaseException(MEMBER_NOT_FOUND);
     }
 }
