@@ -89,6 +89,7 @@ public class RouteService {
                         .startDate(routeReqDto.getStartDate())
                         .endDate(routeReqDto.getEndDate())
                         .region(routeReqDto.getRegion())
+                        .member(member)
                         .build();
 
         return routeRepository.save(route).getRouteId();
