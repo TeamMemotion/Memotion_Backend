@@ -166,7 +166,8 @@ public class MemberService {
     @Transactional
     public String patchProfile(Member member, String fileName, String password) {
         member.updateImage(fileName);
-        member.updatePassword(passwordEncoder.encode(password));
+        if(password != null)
+            member.updatePassword(passwordEncoder.encode(password));
         return "프로필 수정 성공";
     }
 

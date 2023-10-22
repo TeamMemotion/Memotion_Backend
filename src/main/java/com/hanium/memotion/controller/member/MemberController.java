@@ -8,6 +8,7 @@ import com.hanium.memotion.dto.member.response.SignupResDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.BaseResponse;
 import com.hanium.memotion.exception.base.ErrorCode;
+import com.hanium.memotion.exception.custom.BadRequestException;
 import com.hanium.memotion.exception.custom.UnauthorizedException;
 import com.hanium.memotion.service.global.AWSS3Service;
 import com.hanium.memotion.service.member.MailService;
@@ -94,23 +95,27 @@ public class MemberController {
         return BaseResponse.onSuccess(result);
     }
 
-    // 프로필 수정
+
+    // 프로필 수정 (이미지는 필수)
     @PatchMapping("/profile")
     public BaseResponse<String> patchProfile(@AuthenticationPrincipal Member member, @RequestPart MultipartFile multipartFile, @RequestBody PasswordDto passwordDto) throws IOException {
         String fileUrl = member.getImage();
 
-        if(fileUrl != null) {
-            String[] url = fileUrl.split("/");
-            awsS3Service.deleteImage(url[3]);   // https~ 경로 뺴고 파일명으로 삭제
+        if(multipartFile == null || multipartFile.isEmpty())
+            throw new BadRequestException("이미지가 첨부되지 않았습니다.");
 
-            if(multipartFile != null && !multipartFile.isEmpty()){
-                String fileName = awsS3Service.uploadFile(multipartFile);
-                String result = memberService.patchProfile(member, fileName, passwordDto.getPassword());
-                return BaseResponse.onSuccess(result);
+        try {
+            if (fileUrl != null) {
+                String[] url = fileUrl.split("/");
+                awsS3Service.deleteImage(url[3]);   // https~ 경로 뺴고 파일명으로 삭제
             }
-        }
 
-        throw new BaseException(ErrorCode.AWS_S3_ERROR);
+            String fileName = awsS3Service.uploadFile(multipartFile);
+            String result = memberService.patchProfile(member, fileName, passwordDto.getPassword());
+            return BaseResponse.onSuccess(result);
+        } catch(Exception e) {
+            throw new BaseException(ErrorCode.AWS_S3_ERROR);
+        }
     }
 
     // 카카오 로그인
