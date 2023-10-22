@@ -13,4 +13,5 @@ public interface RouteLikeRepository extends JpaRepository<RouteLike, Long> {
     Long countByRoute(Route route);
 
     Optional<RouteLike> findByRouteAndMember(Route route, Member member);
+
 }
