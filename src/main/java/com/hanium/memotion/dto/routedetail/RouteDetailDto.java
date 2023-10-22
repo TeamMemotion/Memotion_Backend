@@ -72,6 +72,7 @@ public class RouteDetailDto {
             this.latitude=routeDetail.getLatitude();
             this.longitude=routeDetail.getLongitude();
             this.url=routeDetail.getUrl();
+            this.routeId=routeDetail.getRoute().getRouteId();
         }
     }
     @NoArgsConstructor
@@ -108,6 +109,7 @@ public class RouteDetailDto {
             this.latitude=routeDetail.getLatitude();
             this.longitude=routeDetail.getLongitude();
             this.url=routeDetail.getUrl();
+            this.routeId=routeDetail.getRoute().getRouteId();
         }
     }
 

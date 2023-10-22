@@ -25,8 +25,11 @@ public class RouteDetailService {
     }
     @Transactional
     public RouteDetail update(RouteDetailDto.Request request, Long id){
+        Route route = routeRepository.findById(request.getRouteId()).orElseThrow(() -> new IllegalArgumentException("해당 루트 기록이 존재하지 않습니다. id=" + request.getRouteId()));
         RouteDetail routedetail = routeDetailRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 루트 기록이 존재하지 않습니다. id=" + id));
+
         return routeDetailRepository.save(routedetail.builder()
+                        .recordDetailId(id)
                         .title(request.getTitle())
                         .start_time(request.getStart_time())
                         .end_time(request.getEnd_time())
@@ -36,13 +39,14 @@ public class RouteDetailService {
                         .latitude(request.getLatitude())
                         .longitude(request.getLongitude())
                         .url(request.getUrl())
+                        .route(route)
                         .build());
     }
     public List<RouteDetail> findById(Long id){
         return routeDetailRepository.findByRouteId(id);
     }
     public RouteDetail findByDetailId(Long id){
-        return routeDetailRepository.findByRecordDetailId(id);
+        return routeDetailRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 루트 기록이 존재하지 않습니다. id=" + id));
     }
 
 
