@@ -48,6 +48,9 @@ public class RouteDetailService {
     public RouteDetail findByDetailId(Long id){
         return routeDetailRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 루트 기록이 존재하지 않습니다. id=" + id));
     }
-
+    public Long delete(Long id){
+        routeDetailRepository.delete(routeDetailRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 다이어리가 존재하지 않습니다. id=" + id)));
+        return  id;
+    }
 
 }
