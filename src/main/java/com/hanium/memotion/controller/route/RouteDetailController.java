@@ -70,4 +70,8 @@ public class RouteDetailController {
         RouteDetail routeDetail =routeDetailService.findByDetailId(id);
         return BaseResponse.onSuccess(new RouteDetailDto.Response(routeDetail));
     }
+    @DeleteMapping("/route-detail/{route-detailId}")
+    public BaseResponse<Long> delete (@PathVariable("route-detailId") Long id) throws ParseException {
+        return BaseResponse.onSuccess(routeDetailService.delete(id));
+    }
 }
