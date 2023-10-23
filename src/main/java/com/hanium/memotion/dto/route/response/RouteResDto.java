@@ -31,4 +31,5 @@ public class RouteResDto {
         this.likeCount = likeCount;
         this.isLiked = isLiked;
     }
+
 }

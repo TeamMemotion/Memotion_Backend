@@ -61,6 +61,9 @@ public class DiaryController {
     }
 
 
+
+
+
     //전제조회
     @GetMapping("/list/{emotion}")
     public BaseResponse<List<DiaryContentDto.Response>> postList(@PathVariable("emotion") String emotion,@AuthenticationPrincipal Member member){

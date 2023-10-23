@@ -2,8 +2,10 @@ package com.hanium.memotion.controller.route;
 
 import com.hanium.memotion.domain.diary.DiaryContent;
 import com.hanium.memotion.domain.member.Member;
+import com.hanium.memotion.domain.route.Route;
 import com.hanium.memotion.domain.route.RouteDetail;
 import com.hanium.memotion.dto.diary.DiaryEmotionDto;
+import com.hanium.memotion.dto.route.response.RouteResDto;
 import com.hanium.memotion.dto.routedetail.RouteDetailDto;
 import com.hanium.memotion.exception.base.BaseResponse;
 import com.hanium.memotion.service.route.RouteDetailService;
@@ -73,5 +75,14 @@ public class RouteDetailController {
     @DeleteMapping("/route-detail/{route-detailId}")
     public BaseResponse<Long> delete (@PathVariable("route-detailId") Long id) throws ParseException {
         return BaseResponse.onSuccess(routeDetailService.delete(id));
+    }
+
+    @ApiOperation(
+            value = "route 세부정보"
+            , notes = "route 세부 내용 가져와")
+    @GetMapping("/route-detail/{routeId}")
+    public BaseResponse<RouteResDto> RouteDetailInfo (@PathVariable("routeId") Long id, @AuthenticationPrincipal Member member) throws ParseException {
+        RouteResDto route =routeDetailService.findByRouteId(id,member);
+        return BaseResponse.onSuccess(route);
     }
 }

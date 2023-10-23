@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 8000
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -9,8 +9,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         format_sql: true
