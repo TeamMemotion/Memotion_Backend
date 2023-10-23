@@ -26,7 +26,7 @@ public class RouteService {
     private final RouteLikeRepository routeLikeRepository;
 
     public List<LocalGuideResDto> getLocalGuideList(Member member) {
-        List<Route> routeList = routeRepository.findTop8ByOrderByCreatedAtDesc();
+        List<Route> routeList = routeRepository.findAllByOrderByCreatedAtDesc();
         if(routeList.isEmpty())
             throw new BaseException(ErrorCode.EMPTY_ROUTE);
 
@@ -44,8 +44,29 @@ public class RouteService {
                 .collect(Collectors.toList());
     }
 
-    public List<LocalGuideResDto> getLocalGuideListByRegion(Member member, String region) {
-        List<Route> routeList = routeRepository.findAllByRegion(region);
+    // 인기 지역으로 로컬 가이드 조회
+    public List<LocalGuideResDto> getLocalGuideListByPopularRegion(Member member, Double latitude, Double longitude) {
+        List<Route> routeList = routeRepository.findAllByPopularRegion(latitude, longitude);
+        if(routeList.isEmpty())
+            throw new BaseException(ErrorCode.EMPTY_ROUTE);
+
+        return routeList.stream()
+                .map(r -> {
+                    boolean isLiked = false;
+                    Optional<RouteLike> getRouteLike = routeLikeRepository.findByRouteAndMember(r, member);
+                    Long likeCount = routeLikeRepository.countByRoute(r);
+
+                    if(!getRouteLike.isEmpty())
+                        isLiked = true;
+
+                    return new LocalGuideResDto(r, isLiked, likeCount);
+                })
+                .collect(Collectors.toList());
+    }
+
+    // 검색어로 로컬 가이드 조회 + 정렬 : 인기순
+    public List<LocalGuideResDto> getLocalGuideListByRegion(Member member, Double latitude, Double longitude) {
+        List<Route> routeList = routeRepository.findAllByRegion(latitude, longitude);
         if(routeList.isEmpty())
             throw new BaseException(ErrorCode.EMPTY_ROUTE);
 
@@ -64,7 +85,7 @@ public class RouteService {
     }
 
     public List<RouteResDto> getRouteList(Member member) {
-        List<Route> routeList = routeRepository.findAllByMember(member);
+        List<Route> routeList = routeRepository.findAllByMemberOrderByCreatedAtDesc(member);
         if(routeList.isEmpty())
             throw new BaseException(ErrorCode.EMPTY_ROUTE);
 
@@ -88,7 +109,6 @@ public class RouteService {
                         .name(routeReqDto.getName())
                         .startDate(routeReqDto.getStartDate())
                         .endDate(routeReqDto.getEndDate())
-                        .region(routeReqDto.getRegion())
                         .member(member)
                         .build();
 

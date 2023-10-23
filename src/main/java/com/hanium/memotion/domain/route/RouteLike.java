@@ -18,6 +18,7 @@ import javax.persistence.*;
 public class RouteLike extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "record_like_id")
     private Long routeLikeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
