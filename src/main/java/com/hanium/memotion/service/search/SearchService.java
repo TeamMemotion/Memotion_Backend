@@ -22,7 +22,7 @@ public class SearchService {
 
         if(filter.equals("latest") && latitude == null && longitude == null) {      // 1. 검색어 없을 때 최신순 조회 결과
             diaryList = diaryRepository.findAllByShareOrderByCreatedDateDesc(true);
-        } else if (filter.equals("latest") && latitude == null && longitude == null) {  // 2. 검색어 없을 때 오래된 순 조회 결과
+        } else if (filter.equals("earliest") && latitude == null && longitude == null) {  // 2. 검색어 없을 때 오래된 순 조회 결과
             diaryList = diaryRepository.findAllByShareOrderByCreatedDate(true);
         } else if(filter.equals("latest")) {            // 3. 검색어 있을 때 최신순 조회 결과
             diaryList = diaryRepository.findAllLatestNearByPlace(latitude, longitude);
