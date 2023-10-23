@@ -42,10 +42,6 @@ public class Route extends BaseTime {
     @Column(name = "url", length = 500, unique = true)
     private String url;
 
-    @Column(name = "region")
-    @NotNull
-    private String region;
-
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
@@ -54,13 +50,12 @@ public class Route extends BaseTime {
     private List<RouteDetail> routeDetails = new ArrayList<>();
 
     @Builder
-    public Route(String name, String startDate, String endDate, String region, Member member) {
+    public Route(String name, String startDate, String endDate, Member member) {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
 
         this.name = name;
         this.startDate = LocalDate.parse(startDate, formatter);
         this.endDate = LocalDate.parse(endDate, formatter);
-        this.region = region;
         this.member = member;
     }
 }

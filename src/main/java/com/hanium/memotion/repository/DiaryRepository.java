@@ -24,6 +24,8 @@ public interface DiaryRepository extends JpaRepository<Diary,Long> {
 
     List<Diary> findAllByShareOrderByCreatedDateDesc(boolean share);
 
+    List<Diary> findAllByShareOrderByCreatedDate(boolean share);
+
     @Query(value = "SELECT\n" +
             "    * , (\n" +
             "       6371 * acos ( cos ( radians(:lat) ) * cos( radians(latitude) ) * cos( radians(longitude) - radians(:lon) )\n" +

@@ -20,12 +20,13 @@ public class SearchService {
     public List<SearchResDto> getSearchList(Double latitude, Double longitude, String filter) {
         List<Diary> diaryList = null;
 
-        if(filter.equals("default")) {      // 1. 검색어 없을 때 default 결과
-            // 공개 설정되어있는 것중에 최신순으로 orderby한 것들
+        if(filter.equals("latest") && latitude == null && longitude == null) {      // 1. 검색어 없을 때 최신순 조회 결과
             diaryList = diaryRepository.findAllByShareOrderByCreatedDateDesc(true);
-        } else if(filter.equals("latest")) {            // 2. 검색어 있을 때 최신순 조회 결과
+        } else if (filter.equals("latest") && latitude == null && longitude == null) {  // 2. 검색어 없을 때 오래된 순 조회 결과
+            diaryList = diaryRepository.findAllByShareOrderByCreatedDate(true);
+        } else if(filter.equals("latest")) {            // 3. 검색어 있을 때 최신순 조회 결과
             diaryList = diaryRepository.findAllLatestNearByPlace(latitude, longitude);
-        } else if(filter.equals("earliest")) {          // 3. 검색어 있을 때 오래된 순 조회 결과
+        } else if(filter.equals("earliest")) {          // 4. 검색어 있을 때 오래된 순 조회 결과
             diaryList = diaryRepository.findAllEarliestNearByPlace(latitude, longitude);
         }
 
