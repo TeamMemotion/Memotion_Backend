@@ -104,7 +104,7 @@ public class RouteService {
     }
 
     @Transactional
-    public RouteResDto.PostResponse postRoute(Member member, RouteReqDto routeReqDto) {
+    public Long postRoute(Member member, RouteReqDto routeReqDto) {
         Route route = Route.builder()
                         .name(routeReqDto.getName())
                         .startDate(routeReqDto.getStartDate())
@@ -112,6 +112,6 @@ public class RouteService {
                         .member(member)
                         .build();
 
-        return new RouteResDto.PostResponse(routeRepository.save(route));
+        return routeRepository.save(route).getRouteId();
     }
 }
