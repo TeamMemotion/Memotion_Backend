@@ -38,7 +38,7 @@ public class Diary {
     @Column
     private String emotion;
 
-    @Column
+    @Column(name = "key_word")
     private String keyWord;
 
     @Column(name = "created_date")
