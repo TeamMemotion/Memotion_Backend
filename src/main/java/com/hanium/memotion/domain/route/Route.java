@@ -39,7 +39,7 @@ public class Route extends BaseTime {
     @NotNull
     private LocalDate endDate;
 
-    @Column(name = "url", length = 500, unique = true)
+    @Column(name = "url", length = 500)
     private String url;
 
     @ManyToOne
