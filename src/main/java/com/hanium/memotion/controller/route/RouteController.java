@@ -57,7 +57,7 @@ public class RouteController {
             @ApiImplicitParam(name = "latitude", value = "조회하고자 하는 지역의 위도를 RequestParam 형태로 작성"),
             @ApiImplicitParam(name = "longitude", value = "조회하고자 하는 지역의 경도를 RequestParam 형태로 작성"),
     })
-    @GetMapping("/localGuide/popular/")
+    @GetMapping("/localGuide/popular")
     public BaseResponse<List<LocalGuideResDto>> getLocalGuideListByPopularRegion(@AuthenticationPrincipal Member member, @RequestParam Double latitude, @RequestParam Double longitude) {
         List<LocalGuideResDto> localGuideResDto = routeService.getLocalGuideListByPopularRegion(member, latitude, longitude);
         return BaseResponse.onSuccess(localGuideResDto);
@@ -69,7 +69,7 @@ public class RouteController {
             @ApiImplicitParam(name = "latitude", value = "조회하고자 하는 지역의 위도를 RequestParam 형태로 작성"),
             @ApiImplicitParam(name = "longitude", value = "조회하고자 하는 지역의 경도를 RequestParam 형태로 작성"),
     })
-    @GetMapping("/localGuide/")
+    @GetMapping("/localGuide")
     public BaseResponse<List<LocalGuideResDto>> getLocalGuideListByRegion(@AuthenticationPrincipal Member member, @RequestParam Double latitude, @RequestParam Double longitude) {
         List<LocalGuideResDto> localGuideResDto = routeService.getLocalGuideListByRegion(member, latitude, longitude);
         return BaseResponse.onSuccess(localGuideResDto);
