@@ -38,9 +38,9 @@ public class RouteController {
             @ApiImplicitParam(name = "routeReqDto", value = "이름, 시작일, 종료일, 지역을 RequestBody 형태로 작성")
     })
     @PostMapping("")
-    public BaseResponse<Long>  postRoute(@AuthenticationPrincipal Member member, @RequestBody @Valid RouteReqDto routeReqDto) {
-        Long routeId = routeService.postRoute(member, routeReqDto);
-        return BaseResponse.onSuccess(routeId);
+    public BaseResponse<RouteResDto.PostResponse>  postRoute(@AuthenticationPrincipal Member member, @RequestBody @Valid RouteReqDto routeReqDto) {
+        RouteResDto.PostResponse postResponse = routeService.postRoute(member, routeReqDto);
+        return BaseResponse.onSuccess(postResponse);
     }
 
     // 로컬 가이드 조회 (최신순) -> 루트기록 + 로컬 가이드 메인 화면 and 로컬 가이드 화면
