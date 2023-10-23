@@ -27,12 +27,16 @@ public class DiaryContent {
 
     @Column(name = "created_date")
     private String createdDate;
+
     @Column
     private String title;
+
     @Column
     private String content;
-    @Column
+
+    @Column(name = "key_word")
     private String keyWord;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member memberId;
