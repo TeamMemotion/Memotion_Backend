@@ -4,6 +4,7 @@ import com.hanium.memotion.domain.member.Member;
 import com.hanium.memotion.domain.route.Route;
 import com.hanium.memotion.domain.route.RouteDetail;
 import com.hanium.memotion.domain.route.RouteLike;
+import com.hanium.memotion.dto.route.response.RouteResDto;
 import com.hanium.memotion.dto.routedetail.RouteDetailDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.ErrorCode;
@@ -13,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -45,4 +48,16 @@ public class RouteLikeService {
         }
     }
 
+    public List<RouteResDto> getRouteLikeList(Member member) {
+        List<RouteLike> routeLikeList = routeLikeRepository.findAllByMember(member);
+        if(routeLikeList.isEmpty())
+            throw new BaseException(ErrorCode.EMPTY_ROUTE_LIKE);
+
+        return routeLikeList.stream()
+                .map(r -> {
+                    Long likeCount = routeLikeRepository.countByRoute(r.getRoute());
+                    return new RouteResDto(r.getRoute(), true, likeCount);
+                })
+                .collect(Collectors.toList());
+    }
 }
