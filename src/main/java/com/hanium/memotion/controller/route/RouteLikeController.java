@@ -4,6 +4,7 @@ import com.hanium.memotion.domain.member.Member;
 import com.hanium.memotion.domain.route.Route;
 import com.hanium.memotion.domain.route.RouteDetail;
 import com.hanium.memotion.domain.route.RouteLike;
+import com.hanium.memotion.dto.route.response.RouteResDto;
 import com.hanium.memotion.dto.routedetail.RouteDetailDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.BaseResponse;
@@ -49,12 +50,12 @@ public class RouteLikeController {
     }
 
     @ApiOperation(
-            value = "마이페이지에서 내가 누른 좋아요 리스트 API"
-    )
-    @GetMapping("/route-like/list")
-    public BaseResponse<List<Route>> likedRouteList(@AuthenticationPrincipal Member member){
-            List<Route> result = routeLikeService.findByUserRouteLike(member);
-            return BaseResponse.onSuccess(result);
+            value = "좋아요 전체 조회 api"
+            , notes = "로그인 한 유저가 좋아요 눌러둔 모든 루트 반환.")
+    @GetMapping("")
+    public BaseResponse<List<RouteResDto>> getRouteLikeList(@AuthenticationPrincipal Member member) {
+        List<RouteResDto> routeResDto = routeLikeService.getRouteLikeList(member);
+        return BaseResponse.onSuccess(routeResDto);
     }
 
 }

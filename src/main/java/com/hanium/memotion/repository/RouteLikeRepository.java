@@ -15,6 +15,6 @@ public interface RouteLikeRepository extends JpaRepository<RouteLike, Long> {
 
     Optional<RouteLike> findByRouteAndMember(Route route, Member member);
 
-    Long[] findRouteIdByMember(Member member);
+    List<RouteLike> findAllByMember(Member member);
 
 }

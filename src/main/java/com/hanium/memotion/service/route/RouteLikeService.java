@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -61,4 +62,16 @@ public class RouteLikeService {
         return route;
     }
 
+    public List<RouteResDto> getRouteLikeList(Member member) {
+        List<RouteLike> routeLikeList = routeLikeRepository.findAllByMember(member);
+        if(routeLikeList.isEmpty())
+            throw new BaseException(ErrorCode.EMPTY_ROUTE_LIKE);
+
+        return routeLikeList.stream()
+                .map(r -> {
+                    Long likeCount = routeLikeRepository.countByRoute(r.getRoute());
+                    return new RouteResDto(r.getRoute(), true, likeCount);
+                })
+                .collect(Collectors.toList());
+    }
 }
