@@ -78,6 +78,7 @@ public class RouteDetailDto {
     @NoArgsConstructor
     @Data
     public static class Response {
+        private Long recordDetailId;
         private String title;
 
         private String start_time;
@@ -100,6 +101,7 @@ public class RouteDetailDto {
 
 
         public Response(RouteDetail routeDetail){
+            this.recordDetailId = routeDetail.getRecordDetailId();
             this.title=routeDetail.getTitle();
             this.start_time= routeDetail.getStart_time();
             this.end_time= routeDetail.getEnd_time();

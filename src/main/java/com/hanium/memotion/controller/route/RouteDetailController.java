@@ -7,13 +7,18 @@ import com.hanium.memotion.domain.route.RouteDetail;
 import com.hanium.memotion.dto.diary.DiaryEmotionDto;
 import com.hanium.memotion.dto.route.response.RouteResDto;
 import com.hanium.memotion.dto.routedetail.RouteDetailDto;
+import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.BaseResponse;
+import com.hanium.memotion.exception.base.ErrorCode;
+import com.hanium.memotion.exception.custom.BadRequestException;
+import com.hanium.memotion.service.global.AWSS3Service;
 import com.hanium.memotion.service.route.RouteDetailService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.List;
@@ -27,6 +32,8 @@ public class RouteDetailController {
     private final RouteDetailService routeDetailService;
 
     private final ModelMapper modelMapper;
+
+    private final AWSS3Service awsS3Service;
     //TODO
     // - 루트기록 상세
     //    - 제목, 좋아요, 여행 기간 및 날짜들 조회 api 1개 O
@@ -39,10 +46,24 @@ public class RouteDetailController {
             value = "루트 디테일 저장 api"
             , notes = "날짜, 제목, 시작시간, 종료시간, 메모, 장소, 사진 저장.")
     @PostMapping("/save")
-    public BaseResponse<RouteDetailDto.Response> save(@RequestBody RouteDetailDto.Request request, @AuthenticationPrincipal Member member){
+    public BaseResponse<RouteDetailDto.Response> save(@RequestBody RouteDetailDto.Request request, @RequestPart MultipartFile multipartFile, @AuthenticationPrincipal Member member){
+          String fileUrl = request.getUrl();
 
-        RouteDetail routeDetail = routeDetailService.save(request);
-        return BaseResponse.onSuccess(new RouteDetailDto.Response(routeDetail));
+//        if(multipartFile == null || multipartFile.isEmpty())
+//            throw new BadRequestException("이미지가 첨부되지 않았습니다.");
+
+        try {
+            if (fileUrl != null) {
+                String[] url = fileUrl.split("/");
+                awsS3Service.deleteImage(url[3]);   // https~ 경로 뺴고 파일명으로 삭제
+            }
+            String fileName = awsS3Service.uploadFile(multipartFile);
+            request.setUrl(fileName);
+            RouteDetail routeDetail = routeDetailService.save(request);
+            return BaseResponse.onSuccess(new RouteDetailDto.Response(routeDetail));
+        }catch(Exception e) {
+                throw new BaseException(ErrorCode.AWS_S3_ERROR);
+        }
     }
     @ApiOperation(
             value = "루트 디테일 수정 api"
