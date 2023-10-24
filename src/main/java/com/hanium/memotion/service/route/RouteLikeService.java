@@ -56,11 +56,11 @@ public class RouteLikeService {
             throw new BaseException(ErrorCode.LIKED_DELETE);
         }
     }
-    public List<Route> findByUserRouteLike(Member member){
-        Long[] routeLikes = routeLikeRepository.findRouteIdByMember(member);
-        List<Route> route = routeRepository.getRouteLikeMembers(routeLikes);
-        return route;
-    }
+//    public List<Route> findByUserRouteLike(Member member){
+//        Long[] routeLikes = routeLikeRepository.findRouteIdByMember(member);
+//        List<Route> route = routeRepository.getRouteLikeMembers(routeLikes);
+//        return route;
+//    }
 
     public List<RouteResDto> getRouteLikeList(Member member) {
         List<RouteLike> routeLikeList = routeLikeRepository.findAllByMember(member);
