@@ -28,11 +28,11 @@ public class RouteDetailDto {
     public static class Request {
         private String title;
 
-        private LocalDateTime start_time;
+        private String start_time;
 
-        private LocalDateTime end_time;
+        private String end_time;
 
-        private LocalDate select_date;
+        private String select_date;
 
         private String content;
 
@@ -80,11 +80,11 @@ public class RouteDetailDto {
     public static class Response {
         private String title;
 
-        private LocalDateTime start_time;
+        private String start_time;
 
-        private LocalDateTime end_time;
+        private String end_time;
 
-        private LocalDate select_date;
+        private String select_date;
 
         private String content;
 
