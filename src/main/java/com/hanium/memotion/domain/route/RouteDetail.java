@@ -29,15 +29,15 @@ public class RouteDetail extends BaseTime {
 
     @Column(name = "start_time")
     @NotNull
-    private LocalDateTime start_time;
+    private String start_time;
 
     @Column(name = "end_time")
     @NotNull
-    private LocalDateTime end_time;
+    private String end_time;
 
     @Column(name = "select_date")
     @NotNull
-    private LocalDate select_date;
+    private String select_date;
 
     @Column(name = "content", length = 500)
     private String content;
