@@ -33,7 +33,10 @@ public enum ErrorCode { // BaseResponseStatus와 같은 역할
     INVALID_USER(2014, "다이어리를 작성한 유저가 아닙니다.", BAD_REQUEST),
     INVALID_SEARCH_KEYWORD(2015, "일치하는 검색 결과를 찾을 수 없습니다.", BAD_REQUEST),
     EMPTY_ROUTE(2016, "작성된 루트 기록이 없습니다.", BAD_REQUEST),
+    LIKED_ROUTE(2019, "이미 누른 좋아요 입니다.", BAD_REQUEST),
+    LIKED_DELETE(2018, "이미 삭제한 좋아요 입니다.", BAD_REQUEST),
     EMPTY_ROUTE_LIKE(2017, "좋아요를 누른 루트 기록이 없습니다.", BAD_REQUEST),
+
 
     /**
      * 3000 : Response 오류
