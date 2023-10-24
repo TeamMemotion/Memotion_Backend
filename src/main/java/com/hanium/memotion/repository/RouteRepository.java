@@ -40,4 +40,6 @@ public interface RouteRepository extends JpaRepository<Route, Long> {
             "\tORDER BY d.distance, d.created_at DESC\n" +
             ");", nativeQuery = true)
     List<Route> findAllByRegion(@Param("lat") Double lat, @Param("lon") Double lon);
+
+    List<Route> getRouteLikeMembers(Long[] ids);
 }
