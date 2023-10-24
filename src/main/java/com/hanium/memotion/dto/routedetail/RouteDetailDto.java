@@ -99,6 +99,7 @@ public class RouteDetailDto {
 
         private Long routeId;
 
+        private Long memberId;
 
         public Response(RouteDetail routeDetail){
             this.recordDetailId = routeDetail.getRecordDetailId();

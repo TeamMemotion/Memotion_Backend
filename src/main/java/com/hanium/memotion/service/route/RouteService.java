@@ -114,4 +114,9 @@ public class RouteService {
 
         return routeRepository.save(route).getRouteId();
     }
+
+    public Long findByRoute(Long id){
+        Route route=routeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 루트 기록이 존재하지 않습니다. id=" + id));
+        return route.getMember().getId();
+    }
 }
