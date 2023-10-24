@@ -46,12 +46,11 @@ public class RouteDetailController {
             value = "루트 디테일 저장 api"
             , notes = "날짜, 제목, 시작시간, 종료시간, 메모, 장소, 사진 저장.")
     @PostMapping("/save")
-    public BaseResponse<RouteDetailDto.Response> save(@RequestBody RouteDetailDto.Request request, @RequestPart MultipartFile multipartFile, @AuthenticationPrincipal Member member){
+    public BaseResponse<RouteDetailDto.Response> save(@RequestPart MultipartFile multipartFile, @RequestPart RouteDetailDto.Request request,  @AuthenticationPrincipal Member member){
           String fileUrl = request.getUrl();
 
 //        if(multipartFile == null || multipartFile.isEmpty())
 //            throw new BadRequestException("이미지가 첨부되지 않았습니다.");
-
         try {
             if (fileUrl != null) {
                 String[] url = fileUrl.split("/");
