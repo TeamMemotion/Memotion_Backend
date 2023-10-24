@@ -7,12 +7,14 @@ import com.hanium.memotion.domain.route.RouteDetail;
 import com.hanium.memotion.dto.diary.DiaryEmotionDto;
 import com.hanium.memotion.dto.route.response.RouteResDto;
 import com.hanium.memotion.dto.routedetail.RouteDetailDto;
+import com.hanium.memotion.dto.routedetail.RouteDetailUserDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.BaseResponse;
 import com.hanium.memotion.exception.base.ErrorCode;
 import com.hanium.memotion.exception.custom.BadRequestException;
 import com.hanium.memotion.service.global.AWSS3Service;
 import com.hanium.memotion.service.route.RouteDetailService;
+import com.hanium.memotion.service.route.RouteService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 public class RouteDetailController {
 
     private final RouteDetailService routeDetailService;
+    private final RouteService routeService;
 
     private final ModelMapper modelMapper;
 
@@ -88,9 +91,10 @@ public class RouteDetailController {
             value = "각 날짜별 첫 등록 사진, 제목, 장소, 시작시간, 종료 시간 조회 리스트"
             , notes = "각 리스트 세부 내용 가져와")
     @GetMapping("/route-detail/list/{detailId}")
-    public BaseResponse<RouteDetailDto.Response> RouteDetail (@PathVariable("detailId") Long id, @AuthenticationPrincipal Member member) throws ParseException {
+    public BaseResponse<RouteDetailUserDto> RouteDetail (@PathVariable("detailId") Long id, @AuthenticationPrincipal Member member) throws ParseException {
         RouteDetail routeDetail =routeDetailService.findByDetailId(id);
-        return BaseResponse.onSuccess(new RouteDetailDto.Response(routeDetail));
+        Long memberId = routeService.findByRoute(routeDetail.getRoute().getRouteId());
+        return BaseResponse.onSuccess(new RouteDetailUserDto(routeDetail,memberId));
     }
     @DeleteMapping("/route-detail/{route-detailId}")
     public BaseResponse<Long> delete (@PathVariable("route-detailId") Long id) throws ParseException {
