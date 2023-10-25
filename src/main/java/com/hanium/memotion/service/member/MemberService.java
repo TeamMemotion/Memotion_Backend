@@ -19,6 +19,7 @@ import com.hanium.memotion.exception.custom.InvalidTokenException;
 import com.hanium.memotion.exception.custom.UnauthorizedException;
 import com.hanium.memotion.repository.MemberRepository;
 import com.hanium.memotion.security.JwtProvider;
+import com.hanium.memotion.service.global.AWSS3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.Optional;
 
 import static com.hanium.memotion.exception.base.ErrorCode.ALREADY_LOGOUT;
@@ -37,20 +39,26 @@ import static com.hanium.memotion.exception.base.ErrorCode.MEMBER_NOT_FOUND;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final AWSS3Service awss3Service;
     private final JwtProvider jwtService;
     private final PasswordEncoder passwordEncoder;
 
     // 회원가입
     @Transactional
-    public SignupResDto signup(SignupReqDto signupReqDto) {
+    public SignupResDto signup(MultipartFile multipartFile, SignupReqDto signupReqDto) throws IOException {
         if(!checkEmail(signupReqDto.getEmail()))
             throw new BaseException(ErrorCode.DUPLICATED_EMAIL);
+
+        String imageUrl = null;
+
+        if(multipartFile != null || !multipartFile.isEmpty())
+            imageUrl = awss3Service.uploadFile(multipartFile);
 
         Member newMember = Member.builder()
                 .email(signupReqDto.getEmail())
                 .username(signupReqDto.getUsername())
                 .password(passwordEncoder.encode(signupReqDto.getPassword()))
-                .image(signupReqDto.getImage())
+                .image(imageUrl)
                 .build();
 
         return new SignupResDto(memberRepository.save(newMember));
