@@ -33,8 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         // 로그인 개발 끝나면 "/**" 경로에서 삭제
         web.ignoring().antMatchers("/member/signup", "/member/login" , "/member/check-password",
-                "/member/check-email", "/member/logout", "/h2-console/**",
-                "/sample", "/sentiment", "/gpt-sentiment", "/s3" , "/v3/api-docs", "/swagger-resources/**",
+                "/member/check-email", "/member/logout", "/member/kakao",
+                "/h2-console/**", "/sample", "/sentiment",
+                "/gpt-sentiment", "/s3" , "/v3/api-docs", "/swagger-resources/**",
                 "/swagger-ui/**", "/webjars/**", "/swagger/**");
     }
 
@@ -55,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/member/check-password").permitAll()
                 .antMatchers("/member/check-email").permitAll()
                 .antMatchers("/member/logout").permitAll()
+                .antMatchers("/member/kakao").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/sample").permitAll()
                 .antMatchers("/sentiment").permitAll()

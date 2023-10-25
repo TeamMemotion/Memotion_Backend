@@ -33,8 +33,8 @@ public class MemberController {
 
     // 회원가입
     @PostMapping("/signup")
-    public BaseResponse<SignupResDto> signup(@RequestBody @Validated SignupReqDto signupReqDto) throws BaseException {
-        SignupResDto signupResDto = memberService.signup(signupReqDto);
+    public BaseResponse<SignupResDto> signup(@RequestPart(required = false) MultipartFile multipartFile, @RequestPart @Validated SignupReqDto signupReqDto) throws BaseException, IOException {
+        SignupResDto signupResDto = memberService.signup(multipartFile, signupReqDto);
         return BaseResponse.onSuccess(signupResDto);
     }
 
@@ -98,7 +98,7 @@ public class MemberController {
 
     // 프로필 수정 (이미지는 필수)
     @PatchMapping("/profile")
-    public BaseResponse<String> patchProfile(@AuthenticationPrincipal Member member, @RequestPart MultipartFile multipartFile, @RequestBody PasswordDto passwordDto) throws IOException {
+    public BaseResponse<String> patchProfile(@AuthenticationPrincipal Member member, @RequestPart MultipartFile multipartFile, @RequestPart PasswordDto passwordDto) throws IOException {
         String fileUrl = member.getImage();
 
         if(multipartFile == null || multipartFile.isEmpty())
