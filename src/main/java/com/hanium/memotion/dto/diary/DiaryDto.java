@@ -26,7 +26,7 @@ public class DiaryDto {
         private String keyWord;
         private String createdDate;
         private boolean share;
-
+        private String place;
 
         public Diary toEntity(Member member) {
             return Diary.builder()
@@ -36,6 +36,7 @@ public class DiaryDto {
                     .keyWord(keyWord)
                     .createdDate(createdDate)
                     .share(share)
+                    .place(place)
                     .memberId(member)
                     .build();
         }
@@ -47,6 +48,7 @@ public class DiaryDto {
             this.keyWord = diary.getKeyWord();
             this.createdDate = diary.getCreatedDate();
             this.share = diary.isShare();
+            this.place = diary.getPlace();
             //this.memberId = diary.getMemberId();
         }
     }
@@ -57,10 +59,10 @@ public class DiaryDto {
 
         private Long diaryId;
         private Double longitude;
-
         private Double latitude;
         private String emotion;
         private String keyWord;
+        private String place;
         private String createdDate;
         private LocalDateTime updatedDate;
         private boolean share;
@@ -73,6 +75,7 @@ public class DiaryDto {
             this.longitude= diary.getLongitude();
             this.emotion = diary.getEmotion();
             this.keyWord = diary.getKeyWord();
+            this.place = diary.getPlace();
             this.createdDate = diary.getCreatedDate();
             this.updatedDate = diary.getUpdatedDate();
             this.share = diary.isShare();
