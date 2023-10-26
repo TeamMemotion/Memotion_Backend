@@ -1,23 +1,24 @@
+server:
+  port: 9090
 spring:
-  h2:
-    console:
-      enabled: true
   datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
-    driver-class-name: org.h2.Driver
     username: sa
     password:
-    # Connection Pool 설정 추가
-    hikari:
-      maximum-pool-size: 20
   jpa:
     hibernate:
       ddl-auto: update
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         default_batch_fetch_size: 1000
-    show-sql: true
+        show-sql: true
+
+    # Initial Data config
+    defer-datasource-initialization: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

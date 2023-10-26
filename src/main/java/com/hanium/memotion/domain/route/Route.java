@@ -2,23 +2,25 @@ package com.hanium.memotion.domain.route;
 
 import com.hanium.memotion.domain.core.BaseTime;
 import com.hanium.memotion.domain.member.Member;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "Route")
+@Table(name = "route")
+@Entity
 public class Route extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,16 +33,13 @@ public class Route extends BaseTime {
 
     @Column(name = "start_date")
     @NotNull
-    private LocalDateTime start_date;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
     @NotNull
-    private LocalDateTime end_date;
+    private LocalDate endDate;
 
-    @Column(name = "content", length = 500)
-    private String content;
-
-    @Column(name = "url", length = 500, unique = true)
+    @Column(name = "url", length = 500)
     private String url;
 
     @ManyToOne
@@ -48,5 +47,15 @@ public class Route extends BaseTime {
     private Member member;
 
     @OneToMany(mappedBy = "route")
-    private List<RouteDetail> records = new ArrayList<>();
+    private List<RouteDetail> routeDetails = new ArrayList<>();
+
+    @Builder
+    public Route(String name, String startDate, String endDate, Member member) {
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+
+        this.name = name;
+        this.startDate = LocalDate.parse(startDate, formatter);
+        this.endDate = LocalDate.parse(endDate, formatter);
+        this.member = member;
+    }
 }

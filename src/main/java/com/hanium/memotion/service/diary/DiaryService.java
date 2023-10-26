@@ -68,7 +68,7 @@ public class DiaryService {
             throw new BaseException(ErrorCode.INVALID_USER);
 
 
-        diary.update(diaryDto.getLatitude(),diaryDto.getLongitude(),diaryDto.getEmotion(),diaryDto.getKeyWord(),diaryDto.isShare());
+        diary.update(diaryDto.getLatitude(),diaryDto.getLongitude(),diaryDto.getEmotion(),diaryDto.getKeyWord(),diaryDto.isShare(),diaryDto.getPlace());
         diaryRepository.save(diary);
         return diaryRepository.findById(diary.getDiaryId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id=" + diary.getMemberId()));
     }

@@ -23,6 +23,7 @@ public class AWSS3Controller {
         if(multipartFile != null && !multipartFile.isEmpty()) {
             fileName = awsS3Service.uploadFile(multipartFile);
         }
+
         return BaseResponse.onSuccess(fileName);
     }
 

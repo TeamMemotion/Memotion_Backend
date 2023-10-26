@@ -46,6 +46,10 @@ public class Member extends BaseTime implements UserDetails {
     @Column(name = "image", length = 255, nullable = true)
     private String image;
 
+    @Column(name = "status", nullable = false)
+    @ColumnDefault("'active'")
+    private String status;
+
     @Column(name = "refresh_token", nullable = false)
     private String refreshToken;
 
@@ -58,6 +62,15 @@ public class Member extends BaseTime implements UserDetails {
         this.username = username;
         this.password = password;
         this.image = image;
+        this.refreshToken = "";
+        this.refreshTokenExpiresAt = LocalDateTime.now();
+    }
+
+    public Member(String email, String username, String image) {
+        this.email = email;
+        this.username = username;
+        this.image = image;
+        this.type = Provider.KAKAO;
         this.refreshToken = "";
         this.refreshTokenExpiresAt = LocalDateTime.now();
     }
@@ -80,6 +93,13 @@ public class Member extends BaseTime implements UserDetails {
         this.password = password;
     }
 
+    public void updateStatus(String status) {
+        this.status = status;
+    }
+
+    public void updateImage(String fileName) {
+        this.image = fileName;
+    }
 
     /* implements UserDetails 시 구현해야하는 메소드 */
     // UserDetails = 사용자 정보를 담는 인터페이스

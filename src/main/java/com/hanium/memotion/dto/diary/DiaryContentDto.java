@@ -14,9 +14,7 @@ public class DiaryContentDto {
         private String title;
         private String content;
         private String createdDate;
-
         private String keyword;
-
         private Long memberId;
 
         public DiaryContent toEntity(Member memberId) {
@@ -41,17 +39,11 @@ public class DiaryContentDto {
     @NoArgsConstructor
     @Data
     public static class Response{
-
         private Long diaryContentId;
-
         private String createdDate;
-
         private String title;
-
         private String content;
-
         private String keyWord;
-
         private Long memberId;
 
         public Response(DiaryContent diarycontent, Long member) {

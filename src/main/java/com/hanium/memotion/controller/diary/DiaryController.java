@@ -33,33 +33,21 @@ public class DiaryController {
     private final DiaryService diaryService;
     private final ModelMapper modelMapper;
 
-    private final MemberService memberService;
-
     @PostMapping("/emotion")
-    public BaseResponse<Long> postEmotion(@RequestBody DiaryDto.Request diaryDto, @AuthenticationPrincipal Member member)throws Exception{
+    public BaseResponse<Long> postEmotion(@RequestBody DiaryDto.Request diaryDto, @AuthenticationPrincipal Member member) {
         Long result = diaryService.save(diaryDto, member);
         return BaseResponse.onSuccess(result);
     }
 
     @PostMapping("/content")
-    public BaseResponse<Long> postContent(@RequestBody DiaryContentDto.Request diaryContentDto, @AuthenticationPrincipal Member member) throws Exception{
-        //System.out.println("con");
-        //System.out.println("conconcon"+member.getId());
-        Long result=0L;
-        System.out.println(diaryService.findByContentDate(diaryContentDto.getCreatedDate(),member));
-        DiaryContent diaryContent=diaryService.findByContentDate(diaryContentDto.getCreatedDate(),member);
-        if( diaryContent != null ){
-            System.out.println("1" + diaryContent.getDiaryContentId());
-            System.out.println("2" + diaryContentDto.getContent());
-            return BaseResponse.onSuccess(diaryService.diaryContentUpdate(diaryContentDto, member, diaryContent.getDiaryContentId()).getDiaryContentId());
-        }
+    public BaseResponse<Long> postContent(@RequestBody DiaryContentDto.Request diaryContentDto, @AuthenticationPrincipal Member member) {
+        DiaryContent diaryContent = diaryService.findByContentDate(diaryContentDto.getCreatedDate(),member);
 
+        if(diaryContent != null)
+            return BaseResponse.onSuccess(diaryService.diaryContentUpdate(diaryContentDto, member, diaryContent.getDiaryContentId()).getDiaryContentId());
         else
             return BaseResponse.onSuccess(diaryService.saveContent(diaryContentDto, member));
-
-
     }
-
 
     //전제조회
     @GetMapping("/list/{emotion}")
@@ -89,9 +77,10 @@ public class DiaryController {
     }
 
     @PatchMapping("/content/{diaryId}")
-    public BaseResponse<DiaryContent> updateContent(@RequestBody DiaryContentDto.Request diaryDto, @AuthenticationPrincipal Member member, @PathVariable("diaryId") Long diaryId) throws Exception{
+    public BaseResponse<DiaryContent> updateContent(@RequestBody DiaryContentDto.Request diaryDto, @AuthenticationPrincipal Member member, @PathVariable("diaryId") Long diaryId) {
         return BaseResponse.onSuccess(diaryService.diaryContentUpdate(diaryDto, member, diaryId));
     }
+
     @PatchMapping("/emotion/{diaryId}")
     public BaseResponse<DiaryDto.Response> updateEmotion(@RequestBody DiaryDto.Request diaryDto, @AuthenticationPrincipal Member member, @PathVariable("diaryId") Long diaryId) throws BaseException {
 
@@ -115,15 +104,13 @@ public class DiaryController {
 //        return BaseResponse.onSuccess(resultDto);
 //    }
     @DeleteMapping("/emotion/{diaryId}")
-    public BaseResponse<Long> delete (@PathVariable("diaryId") Long id) throws ParseException {
+    public BaseResponse<Long> delete (@PathVariable("diaryId") Long id) {
         return BaseResponse.onSuccess(diaryService.delete(id));
     }
 
     @GetMapping("/content/month/{date}")
-    public BaseResponse<List<DiaryEmotionDto>> DiaryContentMonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member) throws ParseException {
+    public BaseResponse<List<DiaryEmotionDto>> DiaryContentMonthDateList (@PathVariable("date") String date, @AuthenticationPrincipal Member member) {
         List<DiaryContent> diaryContent = diaryService.findByDiaryContentMonthDate(date, member);
-        System.out.println(diaryContent.get(0).getKeyWord());
-
         List<DiaryEmotionDto> resultDto = diaryContent.stream()
                 .map(data-> modelMapper.map(data, DiaryEmotionDto.class))
                 .collect(Collectors.toList());

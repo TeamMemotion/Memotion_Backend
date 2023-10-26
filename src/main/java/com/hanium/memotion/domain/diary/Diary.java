@@ -23,7 +23,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name="Diary")
+@Table(name="diary")
 @EntityListeners(AuditingEntityListener.class)
 public class Diary {
     @Id
@@ -38,15 +38,18 @@ public class Diary {
     @Column
     private String emotion;
 
-    @Column
+    @Column(name = "key_word")
     private String keyWord;
 
-    @Column
+    @Column(name = "place", length = 500)
+    private String place;
+
+    @Column(name = "created_date")
     //@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
     private String createdDate; //= LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));;
 
     @LastModifiedDate
-    @Column
+    @Column(name = "updated_date")
     private LocalDateTime updatedDate;
     @Column
     private boolean share;
@@ -54,11 +57,12 @@ public class Diary {
     @JoinColumn(name = "member_id")
     private Member memberId;
 
-    public void update(Double latitude, Double longitude, String emotion, String keyWord, boolean share){
+    public void update(Double latitude, Double longitude, String emotion, String keyWord, boolean share, String place){
         this.latitude=latitude;
         this.longitude=longitude;
         this.emotion=emotion;
         this.keyWord=keyWord;
         this.share=share;
+        this.place = place;
     }
 }

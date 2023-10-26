@@ -17,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name="DiaryContent")
+@Table(name="diary_content")
 @EntityListeners(AuditingEntityListener.class)
 public class DiaryContent {
     @Id
@@ -25,14 +25,18 @@ public class DiaryContent {
     @Column(name = "diary_content_id")
     private Long diaryContentId;
 
-    @Column
+    @Column(name = "created_date")
     private String createdDate;
+
     @Column
     private String title;
+
     @Column
     private String content;
-    @Column
+
+    @Column(name = "key_word")
     private String keyWord;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member memberId;
