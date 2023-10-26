@@ -89,12 +89,7 @@ public class MemberService {
         if(!passwordEncoder.matches(loginReqDto.getPassword(), member.getPassword()))
             throw new BadRequestException("잘못된 비밀번호 입니다.");
 
-        String newAccessToken = jwtService.encodeJwtToken(new TokenDto(member.getId()));
-        String newRefreshToken = jwtService.encodeJwtRefreshToken(member.getId());
-
-        member.renewRefreshToken(newRefreshToken);
-        memberRepository.save(member);
-        return new LoginResDto(newAccessToken, newRefreshToken);
+        return generateAllToken(member);
     }
 
     // 액세스 토큰 재발급
@@ -185,27 +180,29 @@ public class MemberService {
         String email = kakaoLoginDto.getEmail();
 
         Optional<Member> getMember = memberRepository.findByEmail(email);
-        if(getMember.isEmpty()) {
-            Member member = Member.builder()
-                    .email(email)
-                    .username(kakaoLoginDto.getUsername())
-                    .image(kakaoLoginDto.getImage())
-                    .build();
+        Member member;
 
-            memberRepository.save(member);
+        if(getMember.isPresent()) {
+            member = getMember.get();
+            if(member.getStatus().equals("status") && member.getType().equals(Provider.KAKAO))
+                return generateAllToken(member);
+            else
+                throw new BaseException(MEMBER_NOT_FOUND);
+        } else {
+            member = memberRepository.save(new Member(email, kakaoLoginDto.getUsername(), kakaoLoginDto.getImage()));
+            return generateAllToken(member);
         }
+    }
 
-        getMember = memberRepository.findByEmail(email);
-        Member member = getMember.get();
-        if(member.getStatus().equals("active")) {
-            String newAccessToken = jwtService.encodeJwtToken(new TokenDto(member.getId()));
-            String newRefreshToken = jwtService.encodeJwtRefreshToken(member.getId());
+    // 로그인 후 토큰 발급
+    @Transactional
+    public LoginResDto generateAllToken(Member member) {
+        // accessToken, refreshToken 발급
+        String newAccessToken = jwtService.encodeJwtToken(new TokenDto(member.getId()));
+        String newRefreshToken = jwtService.encodeJwtRefreshToken(member.getId());
 
-            member.renewRefreshToken(newRefreshToken);
-            memberRepository.save(member);
-            return new LoginResDto(newAccessToken, newRefreshToken);
-        }
-
-        throw new BaseException(MEMBER_NOT_FOUND);
+        member.renewRefreshToken(newRefreshToken);     // DB에 refreshToken 저장
+        memberRepository.save(member);
+        return new LoginResDto(newAccessToken, newRefreshToken);
     }
 }
