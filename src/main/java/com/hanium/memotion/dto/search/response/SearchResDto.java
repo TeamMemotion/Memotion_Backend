@@ -9,6 +9,7 @@ public class SearchResDto {
     private String keyWord;
     private Double latitude;
     private Double longitude;
+    private String place;
     private String emotion;
     private String createdDate;
 
@@ -17,6 +18,7 @@ public class SearchResDto {
         this.keyWord = d.getKeyWord();
         this.latitude = d.getLatitude();
         this.longitude = d.getLongitude();
+        this.place = d.getPlace();
         this.emotion = d.getEmotion();
         this.createdDate = d.getCreatedDate();
     }
