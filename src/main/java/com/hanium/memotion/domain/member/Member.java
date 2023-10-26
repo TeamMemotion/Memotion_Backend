@@ -71,6 +71,8 @@ public class Member extends BaseTime implements UserDetails {
         this.username = username;
         this.image = image;
         this.type = Provider.KAKAO;
+        this.refreshToken = "";
+        this.refreshTokenExpiresAt = LocalDateTime.now();
     }
 
     // refreshToken 재발급
