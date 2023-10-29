@@ -10,6 +10,7 @@ public class SearchResDto {
     private Double latitude;
     private Double longitude;
     private String place;
+    private boolean share;
     private String emotion;
     private String createdDate;
 
@@ -19,6 +20,7 @@ public class SearchResDto {
         this.latitude = d.getLatitude();
         this.longitude = d.getLongitude();
         this.place = d.getPlace();
+        this.share = d.isShare();
         this.emotion = d.getEmotion();
         this.createdDate = d.getCreatedDate();
     }
