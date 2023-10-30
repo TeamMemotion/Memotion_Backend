@@ -17,9 +17,9 @@ public class RouteDetailMemberDto {
     private Long loginMemberId;
 
     private Long routeMemberId;
-    List<RouteDetailDto.Response> routeDetail;
+    List<RouteDetailRes.Response> routeDetail;
 
-    public RouteDetailMemberDto(Member member, Route route, List<RouteDetailDto.Response> routeDetailList) {
+    public RouteDetailMemberDto(Member member, Route route, List<RouteDetailRes.Response> routeDetailList) {
         this.loginMemberId = member.getId();
         this.routeMemberId = route.getMember().getId();
         this.routeDetail = routeDetailList;
