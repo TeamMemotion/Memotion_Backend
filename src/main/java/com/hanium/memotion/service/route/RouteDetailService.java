@@ -71,4 +71,7 @@ public class RouteDetailService {
 
         return new RouteResDto(route, isLiked, likeCount);
     }
+    public List<RouteDetail> findBySelectDate(Long id, String selectDate){
+        return routeDetailRepository.findBySelect_dateAndRoute_Id(selectDate,id);
+    }
 }

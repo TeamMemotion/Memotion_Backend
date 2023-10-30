@@ -109,4 +109,16 @@ public class RouteDetailController {
         RouteResDto route =routeDetailService.findByRouteId(id,member);
         return BaseResponse.onSuccess(route);
     }
+    @ApiOperation(
+            value = "채원이의 API"
+            , notes = "route 세부 내용 가져오는데 selecr-date도 준당")
+    @GetMapping("/route-detail/{routeId}/{select-date}")
+    public BaseResponse<List<RouteDetailDto.Response>> selectDateRouteId(@PathVariable("routeId") Long id, @PathVariable("select-date") String selectDate , @AuthenticationPrincipal Member member){
+        List<RouteDetail> routeDetail =routeDetailService.findById(id);
+        List<RouteDetailDto.Response> resultDto = routeDetail.stream()
+                .map(data-> modelMapper.map(data, RouteDetailDto.Response.class))
+                .collect(Collectors.toList());
+        return BaseResponse.onSuccess(resultDto);
+    }
+
 }
