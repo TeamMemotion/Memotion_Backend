@@ -72,6 +72,12 @@ public class RouteDetailService {
         return new RouteResDto(route, isLiked, likeCount);
     }
     public List<RouteDetail> findBySelectDate(Long id, String selectDate){
+        Route route = routeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 루트 기록이 존재하지 않습니다. id=" + id));
         return routeDetailRepository.findBySelectDateAndRouteId(selectDate,id);
     }
+    public Route findByRoute(Long id){
+        Route route = routeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 루트 기록이 존재하지 않습니다. id=" + id));
+        return route;
+    }
+
 }
