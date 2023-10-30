@@ -8,6 +8,7 @@ import com.hanium.memotion.dto.diary.DiaryEmotionDto;
 import com.hanium.memotion.dto.route.response.RouteResDto;
 import com.hanium.memotion.dto.routedetail.RouteDetailDto;
 import com.hanium.memotion.dto.routedetail.RouteDetailMemberDto;
+import com.hanium.memotion.dto.routedetail.RouteDetailRes;
 import com.hanium.memotion.dto.routedetail.RouteDetailUserDto;
 import com.hanium.memotion.exception.base.BaseException;
 import com.hanium.memotion.exception.base.BaseResponse;
@@ -116,8 +117,8 @@ public class RouteDetailController {
     @GetMapping("/route-detail/{routeId}/{select-date}")
     public BaseResponse<RouteDetailMemberDto> selectDateRouteId(@PathVariable("routeId") Long id, @PathVariable("select-date") String selectDate , @AuthenticationPrincipal Member member){
         List<RouteDetail> routeDetail =routeDetailService.findBySelectDate(id,selectDate);
-        List<RouteDetailDto.Response> resultDto = routeDetail.stream()
-                .map(data-> modelMapper.map(data, RouteDetailDto.Response.class))
+        List<RouteDetailRes.Response> resultDto = routeDetail.stream()
+                .map(data-> modelMapper.map(data, RouteDetailRes.Response.class))
                 .collect(Collectors.toList());
         Route route = routeDetailService.findByRoute(id);
 
