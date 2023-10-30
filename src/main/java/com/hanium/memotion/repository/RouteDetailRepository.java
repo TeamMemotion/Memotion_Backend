@@ -11,5 +11,5 @@ public interface RouteDetailRepository extends JpaRepository<RouteDetail,Long> {
     RouteDetail findByRecordDetailId(Long id);
     List<RouteDetail> findByRouteId(Long id);
 
-    List<RouteDetail> findBySelect_dateAndRoute_Id(String selectDate, Long id);
+    List<RouteDetail> findBySelectDateAndRouteId(String selectDate, Long id);
 }
