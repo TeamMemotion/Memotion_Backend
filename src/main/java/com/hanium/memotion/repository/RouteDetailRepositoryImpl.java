@@ -2,6 +2,7 @@ package com.hanium.memotion.repository;
 
 import com.hanium.memotion.domain.route.QRouteDetail;
 import com.hanium.memotion.domain.route.RouteDetail;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
@@ -37,6 +38,19 @@ public class RouteDetailRepositoryImpl extends QuerydslRepositorySupport{
                 .selectFrom(routeDetail)
                 .where(routeDetail.route.routeId.eq(id))
                 .fetch();
+    }
+
+    public List<RouteDetail> findBySelectDateAndRouteId(String selectDate, Long id) {
+        QRouteDetail routeDetail = QRouteDetail.routeDetail; // Q클래스 생성
+
+        JPAQuery<RouteDetail>query = jpaQueryFactory
+                .selectFrom(routeDetail)
+                .where(
+                        routeDetail.select_date.eq(selectDate),
+                        routeDetail.route.routeId.eq(id)
+                );
+        return query.fetch();
+
     }
 
 }

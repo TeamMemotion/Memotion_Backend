@@ -1,22 +1,21 @@
 server:
-  port: 9090
+  port: 9000
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
-    username: sa
-    password:
+    url: jdbc:mysql://memotiondb.c9xq9wterpoj.ap-northeast-2.rds.amazonaws.com:3306/memotionDB?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: rootroot
   jpa:
     hibernate:
       ddl-auto: update
-#      naming:
-#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    #      naming:
+    #        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-        default_batch_fetch_size: 1000
-        show-sql: true
-
+        format_sql: true
+    show-sql: true
+    database: mysql
     # Initial Data config
     defer-datasource-initialization: true
   mvc:
