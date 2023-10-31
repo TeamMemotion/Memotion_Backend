@@ -52,5 +52,23 @@ public class RouteDetailRepositoryImpl extends QuerydslRepositorySupport{
         return query.fetch();
 
     }
+    public String findLatestImageUrlByRouteId(Long id) {
+        QRouteDetail routeDetail = QRouteDetail.routeDetail;
+
+        RouteDetail latestImage = jpaQueryFactory
+                .selectFrom(routeDetail)
+                .where(
+                        routeDetail.route.routeId.eq(id),
+                        routeDetail.url.isNotNull()
+                )
+                .orderBy(routeDetail.start_time.asc())
+                .fetchFirst();
+
+        if (latestImage != null) {
+            return latestImage.getUrl();
+        } else {
+            return null;
+        }
+    }
 
 }

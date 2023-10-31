@@ -58,4 +58,8 @@ public class Route extends BaseTime {
         this.endDate = LocalDate.parse(endDate, formatter);
         this.member = member;
     }
+    public void update(String imgUrl){
+        this.url=imgUrl;
+    }
+
 }

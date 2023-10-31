@@ -79,5 +79,14 @@ public class RouteDetailService {
         Route route = routeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 루트 기록이 존재하지 않습니다. id=" + id));
         return route;
     }
+    public String findByLastUrl(Long id){
+        Route route = routeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 루트 기록이 존재하지 않습니다. id=" + id));
+        String imgUrl = routeDetailRepository.findLatestImageUrlByRouteId(id);
+        route.update(imgUrl);
+        routeRepository.save(route);
+        return imgUrl;
+    }
+
+
 
 }
