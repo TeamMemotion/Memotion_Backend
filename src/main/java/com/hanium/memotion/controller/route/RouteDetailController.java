@@ -64,6 +64,7 @@ public class RouteDetailController {
             String fileName = awsS3Service.uploadFile(multipartFile);
             request.setUrl(fileName);
             RouteDetail routeDetail = routeDetailService.save(request);
+            routeDetailService.findByLastUrl(request.getRouteId());
             return BaseResponse.onSuccess(new RouteDetailDto.Response(routeDetail));
         }catch(Exception e) {
                 throw new BaseException(ErrorCode.AWS_S3_ERROR);
