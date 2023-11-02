@@ -3,6 +3,7 @@ package com.hanium.memotion.controller.diary;
 import com.hanium.memotion.domain.diary.Diary;
 import com.hanium.memotion.domain.diary.DiaryContent;
 import com.hanium.memotion.domain.member.Member;
+import com.hanium.memotion.dto.diary.ARResDto;
 import com.hanium.memotion.dto.diary.DiaryContentDto;
 import com.hanium.memotion.dto.diary.DiaryDto;
 import com.hanium.memotion.dto.diary.DiaryEmotionDto;
@@ -116,6 +117,10 @@ public class DiaryController {
                 .collect(Collectors.toList());
         return BaseResponse.onSuccess(resultDto);
     }
-    //혹시 emotion list 필요하다 그러면 만들어주기
-    //user list 여도 충분할 것 같긴 한데
+
+    @GetMapping("/list")
+    public BaseResponse<List<ARResDto>> getARResult(@RequestParam Double latitude, @RequestParam Double longitude) {
+        List<ARResDto> arResDto = diaryService.getARResult(latitude, longitude);
+        return BaseResponse.onSuccess(arResDto);
+    }
 }

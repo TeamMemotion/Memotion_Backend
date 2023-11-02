@@ -4,6 +4,7 @@ import com.hanium.memotion.controller.diary.EmotionAnalyzeController;
 import com.hanium.memotion.domain.diary.Diary;
 import com.hanium.memotion.domain.diary.DiaryContent;
 import com.hanium.memotion.domain.member.Member;
+import com.hanium.memotion.dto.diary.ARResDto;
 import com.hanium.memotion.dto.diary.DiaryContentDto;
 import com.hanium.memotion.dto.diary.DiaryDto;
 import com.hanium.memotion.exception.base.BaseException;
@@ -18,6 +19,7 @@ import javax.transaction.Transactional;
 import java.sql.SQLOutput;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -62,7 +64,7 @@ public class DiaryService {
         Diary diary = diaryRepository.findByDiaryId(diaryId);
         System.out.println("test" + "  " + member.getId()+ "  " );
         if(diary == null)
-            throw new BaseException(ErrorCode.EMPTY_DIARY);
+            throw new BaseException(ErrorCode.EMPTY_DIARY_CONTENT);
 
         if(diary.getMemberId().getId() != member.getId())
             throw new BaseException(ErrorCode.INVALID_USER);
@@ -107,9 +109,19 @@ public class DiaryService {
     public List<DiaryContent> findByEmotion(String emotion){
         return diaryContentRepository.findByKeyWord(emotion);
     }
+
     public List<DiaryContent> findByDiaryContentMonthDate(String date, Member member) {
         String sqlDate = "%"+date+"%";
         return diaryContentRepository.findByCreatedDateLikeAndMemberId(sqlDate, member);
     }
 
+    public List<ARResDto> getARResult(Double latitude, Double longitude) {
+        List<DiaryRepository.ARResult> arResult = diaryRepository.findAllNearByPlace(latitude, longitude);
+        if(arResult.isEmpty())
+            throw new BaseException(ErrorCode.EMPTY_DIARY);
+
+        return arResult.stream()
+                .map(a -> new ARResDto(a.getKeyword(), a.getCount()))
+                .collect(Collectors.toList());
+    }
 }
