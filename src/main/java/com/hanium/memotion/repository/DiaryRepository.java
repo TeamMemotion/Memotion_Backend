@@ -50,7 +50,7 @@ public interface DiaryRepository extends JpaRepository<Diary,Long> {
             "ORDER BY distance, d.created_date", nativeQuery = true)
     List<Diary> findAllEarliestNearByPlace(@Param("lat") Double lat, @Param("lon") Double lon);
 
-    @Query(value = "SELECT d.key_word, count(*)\n" +
+    @Query(value = "SELECT d.key_word as keyword, count(*) as count\n" +
             "FROM (SELECT *, ( \n" +
             "6371 * acos ( cos ( radians(:lat) ) * cos( radians(latitude) ) * cos( radians(longitude) - radians(:lon))\n" +
             "+ sin ( radians(:lat) ) * sin( radians(latitude) )\n" +
@@ -60,7 +60,7 @@ public interface DiaryRepository extends JpaRepository<Diary,Long> {
             "HAVING distance <= 0.005\n" +
             ") as d\n" +
             "GROUP BY d.key_word", nativeQuery = true)
-    List<ARResult> findAllNearByPlace(@Param("lat") Double lat, @Param("lon") Double lon);
+    List<DiaryRepository.ARResult> findAllNearByPlace(@Param("lat") Double lat, @Param("lon") Double lon);
     interface ARResult {
         String getKeyword();
         Long getCount();
