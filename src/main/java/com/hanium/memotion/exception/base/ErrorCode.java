@@ -29,13 +29,14 @@ public enum ErrorCode { // BaseResponseStatus와 같은 역할
     TOKEN_EXPIRED(2011, "토큰 유효시간이 만료되었습니다.", BAD_REQUEST),
     ALREADY_LOGOUT(2012, "이미 로그아웃 되었습니다.", BAD_REQUEST),
 
-    EMPTY_DIARY(2013, "다이어리 내용이 없습니다.", BAD_REQUEST),
+    EMPTY_DIARY_CONTENT(2013, "다이어리 내용이 없습니다.", BAD_REQUEST),
     INVALID_USER(2014, "다이어리를 작성한 유저가 아닙니다.", BAD_REQUEST),
     INVALID_SEARCH_KEYWORD(2015, "일치하는 검색 결과를 찾을 수 없습니다.", BAD_REQUEST),
     EMPTY_ROUTE(2016, "작성된 루트 기록이 없습니다.", BAD_REQUEST),
     LIKED_ROUTE(2019, "이미 누른 좋아요 입니다.", BAD_REQUEST),
     LIKED_DELETE(2018, "이미 삭제한 좋아요 입니다.", BAD_REQUEST),
     EMPTY_ROUTE_LIKE(2017, "좋아요를 누른 루트 기록이 없습니다.", BAD_REQUEST),
+    EMPTY_DIARY(2018, "작성된 다이어리가 없습니다.", BAD_REQUEST),
 
 
     /**
